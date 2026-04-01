@@ -2,48 +2,66 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Admin - Update Data</title>
+    <title>Admin Blog</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 p-10">
-    <div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-md">
-        <h2 class="text-2xl font-bold mb-6 text-gray-800">Tambah Artikel Baru</h2>
+<body class="bg-slate-100 p-6 md:p-12">
+    <div class="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-xl">
+        <h2 class="text-3xl font-bold mb-6 text-blue-600">Tambah Artikel Baru</h2>
         
-        <input type="text" id="title" class="w-full border p-3 rounded mb-4" placeholder="Judul Artikel">
-        <textarea id="content" class="w-full border p-3 rounded mb-4 h-48" placeholder="Paste konten dari Word..."></textarea>
-        
-        <button onclick="generateJSON()" class="bg-blue-600 text-white px-6 py-2 rounded font-bold hover:bg-blue-700">
-            Generate Kode JSON
-        </button>
-
-        <div id="output-area" class="hidden mt-8">
-            <p class="text-sm text-red-600 mb-2 font-semibold">Copy semua kode di bawah ini dan paste ke file data.json di GitHub:</p>
-            <textarea id="json-result" class="w-full bg-gray-900 text-green-400 p-4 rounded font-mono text-xs h-64" readonly></textarea>
+        <div class="space-y-4">
+            <input type="text" id="judul" placeholder="Judul Artikel" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none">
+            
+            <input type="text" id="gambar" placeholder="Link Gambar (Google Drive/Lainnya)" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none">
+            
+            <textarea id="konten" rows="10" placeholder="Paste konten dari Word di sini..." class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"></textarea>
+            
+            <button onclick="kirimKeSheets()" id="btnSimpan" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition">
+                Terbitkan ke Blog
+            </button>
+            <p id="pesan" class="text-center font-semibold mt-4"></p>
         </div>
     </div>
 
     <script>
-        async function generateJSON() {
-            const title = document.getElementById('title').value;
-            const content = document.getElementById('content').value;
-            const date = new Date().toLocaleDateString('id-ID');
+        const API_URL = "https://script.google.com/macros/s/AKfycbxmTs1IwzKO5yirj2zN3IIGSMl1UzuBaNnsSHaJ__yhqzlMPAgCuslCL92G1Zuw5AjBrw/exec"; // Masukkan URL Deploy baru di sini
 
-            // 1. Ambil data lama dari file data.json yang ada di server/github
+        async function kirimKeSheets() {
+            const btn = document.getElementById('btnSimpan');
+            const pesan = document.getElementById('pesan');
+            
+            const data = {
+                judul: document.getElementById('judul').value,
+                gambar: document.getElementById('gambar').value,
+                konten: document.getElementById('konten').value,
+                tanggal: new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'})
+            };
+
+            if(!data.judul || !data.konten) return alert("Judul dan Konten wajib diisi!");
+
+            btn.disabled = true;
+            btn.innerText = "Sedang Mengirim...";
+            pesan.innerText = "";
+
             try {
-                const response = await fetch('data.json');
-                const oldPosts = await response.json();
+                // Mengirim data ke Google Sheets via Apps Script
+                await fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(data)
+                });
                 
-                // 2. Tambah data baru ke dalam list
-                const newPost = { title, date, content };
-                oldPosts.push(newPost);
-
-                // 3. Tampilkan hasil JSON yang sudah digabung
-                document.getElementById('json-result').value = JSON.stringify(oldPosts, null, 2);
-                document.getElementById('output-area').classList.remove('hidden');
-                
-                alert("Berhasil! Silakan copy kode JSON di bawah.");
-            } catch (e) {
-                alert("Gagal mengambil data.json. Pastikan file data.json sudah diupload ke GitHub.");
+                pesan.className = "text-center font-semibold mt-4 text-green-600";
+                pesan.innerText = "Berhasil! Artikel sudah masuk ke Spreadsheet dan Blog.";
+                // Kosongkan form
+                document.getElementById('judul').value = "";
+                document.getElementById('gambar').value = "";
+                document.getElementById('konten').value = "";
+            } catch (error) {
+                pesan.className = "text-center font-semibold mt-4 text-red-600";
+                pesan.innerText = "Gagal mengirim. Cek koneksi atau URL API.";
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "Terbitkan ke Blog";
             }
         }
     </script>
