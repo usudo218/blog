@@ -32,7 +32,7 @@ function renderDaftar(data) {
         // Perbaikan Cuplikan Teks
         let isiKonten = post.konten || "";
         let teksBersih = isiKonten.replace(/<[^>]*>?/gm, ''); // Hapus tag HTML
-        let ringkasan = teksBersih.substring(0, 130) + "...";
+        let ringkasan = teksBersih.substring(0, 250) + "...";
 
         // Perbaikan Format Tanggal
         let tgl = post.tanggal || "";
