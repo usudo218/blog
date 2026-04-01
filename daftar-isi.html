@@ -1,17 +1,80 @@
-<div id="list-container" class="bg-white p-6 rounded shadow"></div>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Isi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 font-sans text-slate-900">
 
-<script>
-    const posts = JSON.parse(localStorage.getItem('my_blog_posts')) || [];
-    const container = document.getElementById('list-container');
-    
-    if(posts.length === 0) {
-        container.innerHTML = "<li>Belum ada daftar isi.</li>";
-    } else {
-        let list = "<ul class='list-disc pl-5 space-y-2'>";
-        posts.forEach(p => {
-            list += `<li><a href="#" class="text-blue-600 hover:underline">${p.title}</a> (${p.date})</li>`;
-        });
-        list += "</ul>";
-        container.innerHTML = list;
-    }
-</script>
+    <nav class="bg-blue-600 text-white shadow-lg sticky top-0 z-40">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-tight">Peulis Pemula</h1>
+            <div class="space-x-6">
+                <a href="index.html" class="hover:text-blue-100 transition text-sm md:text-base">Blog</a>
+                <a href="daftar-isi.html" class="font-bold border-b-2 border-white pb-1 text-sm md:text-base">Daftar Isi</a>
+                <a href="about.html" class="hover:text-blue-100 transition text-sm md:text-base">About Me</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 py-12 max-w-4xl">
+        <div class="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-slate-100">
+            <h2 class="text-3xl font-extrabold text-slate-900 mb-8 border-b pb-4">Indeks Artikel</h2>
+            
+            <div id="loading-isi" class="text-slate-500 animate-pulse italic">Memuat daftar isi...</div>
+            
+            <ul id="list-indeks" class="space-y-4">
+                </ul>
+        </div>
+    </main>
+
+    <script>
+        // MASUKKAN URL WEB APP APPS SCRIPT PAK COKRO DI SINI
+        const API_URL = "URL_APPS_SCRIPT_ANDA_DI_SINI"; 
+
+        async function muatDaftarIsi() {
+            const listContainer = document.getElementById('list-indeks');
+            const loading = document.getElementById('loading-isi');
+
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                
+                // Urutkan dari yang paling lama ke terbaru (urutan kronologis)
+                // Jika ingin yang terbaru di atas, hapus baris .reverse() ini
+                // data.reverse(); 
+
+                loading.classList.add('hidden');
+
+                if (data.length === 0) {
+                    listContainer.innerHTML = "<li class='text-slate-400 italic'>Belum ada artikel yang diterbitkan.</li>";
+                    return;
+                }
+
+                data.forEach((post, index) => {
+                    const item = `
+                        <li class="flex items-start group border-b border-slate-50 pb-4 last:border-0">
+                            <span class="text-blue-400 font-mono mr-4 mt-1 text-sm">${String(index + 1).padStart(2, '0')}.</span>
+                            <div class="flex-1">
+                                <a href="index.html" class="text-lg font-semibold text-slate-800 hover:text-blue-600 transition-colors block">
+                                    ${post.judul}
+                                </a>
+                                <span class="text-xs text-slate-400 uppercase tracking-wider">${post.tanggal || ''}</span>
+                            </div>
+                        </li>
+                    `;
+                    listContainer.innerHTML += item;
+                });
+
+            } catch (error) {
+                loading.innerText = "Gagal memuat daftar isi. Periksa koneksi internet.";
+                console.error(error);
+            }
+        }
+
+        window.onload = muatDaftarIsi;
+    </script>
+</body>
+</html>
