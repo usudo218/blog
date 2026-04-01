@@ -8,18 +8,45 @@
     <style>
         .fade-in { animation: fadeIn 0.4s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        #content-body { line-height: 1.8; font-size: 1.1rem; }
+        
+        /* Gaya Konten Artikel */
+        #content-body { line-height: 1.8; font-size: 1.1rem; color: #1e293b; }
         #content-body p { margin-bottom: 1.5rem; }
-        #content-body b, #content-body strong { font-weight: 800; color: #000; }
-        img { max-width: 100%; height: auto; }
+        
+        /* GAYA KUTIPAN (BLOCKQUOTE) */
+        #content-body blockquote {
+            margin: 2rem 0;
+            padding: 1.5rem 2rem;
+            border-left: 6px solid #2563eb;
+            background-color: #f1f5f9;
+            font-style: italic;
+            color: #475569;
+            position: relative;
+            border-radius: 0 1rem 1rem 0;
+        }
+        #content-body blockquote::before {
+            content: "\201C";
+            font-size: 4rem;
+            color: #cbd5e1;
+            position: absolute;
+            left: 10px;
+            top: -10px;
+            font-family: serif;
+            opacity: 0.5;
+        }
+
+        #content-body img { 
+            max-width: 100%; height: auto; border-radius: 1rem; 
+            margin: 2rem 0; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); 
+        }
     </style>
 </head>
 <body class="bg-slate-50 font-sans text-slate-900">
 
     <nav class="bg-blue-600 text-white shadow-lg sticky top-0 z-50">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <h1 class="text-xl md:text-2xl font-bold tracking-tight">Catatan Penulis Pemula</h1>
-            <div class="flex space-x-4 text-xs font-bold tracking-widest">
+            <h1 class="text-xl md:text-2xl font-bold tracking-tight uppercase">Catatan Agus Tjakra</h1>
+            <div class="flex space-x-4 text-xs font-bold uppercase tracking-widest">
                 <a href="index.html" class="border-b-2 border-white pb-1">Blog</a>
                 <a href="daftar-isi.html">Daftar Isi</a>
                 <a href="about.html">About</a>
@@ -32,18 +59,18 @@
             
             <div class="lg:col-span-2">
                 <div id="view-list" class="fade-in">
-                    <h2 id="section-title" class="text-2xl font-extrabold mb-6 border-b pb-2 text-slate-400 uppercase tracking-tighter">Coretan saya :</h2>
+                    <h2 id="section-title" class="text-2xl font-extrabold mb-6 border-b pb-2 text-slate-800 uppercase">Catatan Terbaru</h2>
                     <div id="blog-container" class="space-y-6">
-                        <p class="text-center py-10 animate-pulse text-slate-500 italic">Membuka lembaran catatan...</p>
+                        <p class="text-center py-10 animate-pulse text-slate-500">Membuka catatan...</p>
                     </div>
                 </div>
 
-                <div id="view-detail" class="hidden fade-in bg-white p-5 md:p-10 rounded-3xl shadow-xl border border-slate-100">
+                <div id="view-detail" class="hidden fade-in bg-white p-6 md:p-10 rounded-3xl shadow-xl border border-slate-100">
                     <button onclick="kembaliKeDaftar()" class="mb-6 flex items-center text-blue-600 font-bold hover:underline">
-                        ← Kembali ke Blog
+                        ← Kembali
                     </button>
                     <article>
-                        <header class="mb-8 border-b pb-4">
+                        <header class="mb-8 border-b pb-4 text-left">
                             <h1 id="content-title" class="text-3xl md:text-4xl font-black text-slate-950 leading-tight"></h1>
                             <p id="content-date" class="text-blue-600 text-xs font-bold mt-3 uppercase tracking-widest"></p>
                         </header>
@@ -56,13 +83,13 @@
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
                     <h4 class="font-bold text-lg mb-4 border-b pb-2">Penulis</h4>
                     <img src="https://ui-avatars.com/api/?name=Agus+Suyatno&background=2563eb&color=fff" class="w-16 h-16 rounded-full mb-3">
-                    <p class="text-sm text-slate-600 leading-relaxed"><strong>Agus Tjakra</strong>. Menulis untuk sekadar merawat ingatan.</p>
+                    <p class="text-sm text-slate-600"><strong>Agus Tjakra</strong>. Menulis untuk merawat ingatan.</p>
                 </div>
 
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 text-center md:text-left">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
                     <h4 class="font-bold text-lg mb-4 border-b pb-2 uppercase text-xs tracking-widest">Kategori</h4>
                     <div class="flex flex-wrap gap-2">
-                        <button onclick="filterKategori('Semua')" class="bg-blue-600 text-white px-3 py-1.5 rounded-full text-[10px] font-bold uppercase shadow-sm">Semua</button>
+                        <button onclick="filterKategori('Semua')" class="bg-blue-600 text-white px-3 py-1.5 rounded-full text-[10px] font-bold uppercase">Semua</button>
                         <button onclick="filterKategori('Rasan-rasan')" class="bg-slate-100 hover:bg-blue-100 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase transition">Rasan-rasan</button>
                         <button onclick="filterKategori('Fiksiana')" class="bg-slate-100 hover:bg-blue-100 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase transition">Fiksiana</button>
                         <button onclick="filterKategori('Asal nulis')" class="bg-slate-100 hover:bg-blue-100 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase transition">Asal Nulis</button>
