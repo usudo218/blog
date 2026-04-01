@@ -3,30 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Blog</title>
+    <title>Admin - Posting Artikel</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-100 p-6 md:p-12">
-    <div class="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-xl border border-slate-200">
-        <h2 class="text-3xl font-bold mb-6 text-blue-600">Tambah Artikel Baru</h2>
+<body class="bg-slate-100 p-4 md:p-12">
+    <div class="max-w-3xl mx-auto bg-white p-6 md:p-10 rounded-2xl shadow-xl border border-slate-200">
+        <h2 class="text-3xl font-bold mb-8 text-blue-600 border-b pb-4 text-center">Tulis Artikel Baru</h2>
         
         <div class="space-y-5">
             <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-1">Judul Artikel</label>
+                <label class="block text-sm font-bold text-slate-700 mb-1">Judul Artikel</label>
                 <input type="text" id="judul" placeholder="Masukkan judul..." class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none border-slate-300">
             </div>
             
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Kategori</label>
+                    <select id="kategori" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none border-slate-300">
+                        <option value="semua">semua</option>
+                        <option value="Rasan-rasan">rasan-rasan</option>
+                        <option value="Fiksiana">Fiksina</option>
+                        <option value="Asal Nulis">Asal Nulis</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Tags (Pisahkan koma)</label>
+                    <input type="text" id="tags" placeholder="rpp, linux, docker" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none border-slate-300">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Link Gambar Google Drive</label>
+                    <input type="text" id="gambar" placeholder="Tempel link share gambar..." class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none border-slate-300">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">ID YouTube (Opsional)</label>
+                    <input type="text" id="youtube" placeholder="Contoh: dQw4w9WgXcQ" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none border-slate-300">
+                </div>
+            </div>
+
             <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-1">Link Gambar (Google Drive)</label>
-                <input type="text" id="gambar" placeholder="Tempel link share Google Drive di sini..." class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none border-slate-300">
+                <label class="block text-sm font-bold text-slate-700 mb-1">Konten (Mendukung Tag HTML)</label>
+                <textarea id="konten" rows="12" placeholder="Tulis atau paste isi artikel..." class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none border-slate-300"></textarea>
             </div>
             
-            <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-1">Konten Artikel (Bisa Copas dari Word)</label>
-                <textarea id="konten" rows="10" placeholder="Tulis atau tempel isi artikel..." class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none border-slate-300"></textarea>
-            </div>
-            
-            <button onclick="kirimKeSheets()" id="btnSimpan" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 transition shadow-lg active:scale-95 transform">
+            <button onclick="kirimKeSheets()" id="btnSimpan" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 transition shadow-lg text-lg">
                 Terbitkan ke Blog
             </button>
             <p id="pesan" class="text-center font-medium mt-4"></p>
@@ -34,58 +56,55 @@
     </div>
 
     <script>
-        // MASUKKAN URL WEB APP ANDA DI SINI
+        // MASUKKAN URL WEB APP APPS SCRIPT ANDA DI SINI
         const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec"; 
 
         async function kirimKeSheets() {
             const btn = document.getElementById('btnSimpan');
             const pesan = document.getElementById('pesan');
-            const judul = document.getElementById('judul').value;
-            const konten = document.getElementById('konten').value;
+            
+            // Logika Konversi Link Drive ke Direct Link
             let rawLink = document.getElementById('gambar').value;
-
-            if(!judul || !konten) return alert("Judul dan Konten wajib diisi!");
-
-            // OTOMATIS KONVERSI LINK DRIVE
             let finalLink = rawLink;
             if (rawLink.includes("drive.google.com")) {
                 const fileId = rawLink.split("/d/")[1]?.split("/")[0] || rawLink.split("id=")[1];
-                if (fileId) finalLink = `https://lh3.googleusercontent.com/d/${fileId}`;
+                if (fileId) finalLink = `http://googleusercontent.com/profile/picture/5{fileId}`;
             }
 
             const data = {
-                judul: judul,
+                judul: document.getElementById('judul').value,
+                kategori: document.getElementById('kategori').value,
+                tags: document.getElementById('tags').value,
                 gambar: finalLink,
-                konten: konten,
+                youtube: document.getElementById('youtube').value,
+                konten: document.getElementById('konten').value,
                 tanggal: new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'})
             };
 
+            if(!data.judul || !data.konten) return alert("Judul dan Konten wajib diisi!");
+
             btn.disabled = true;
             btn.innerText = "Sedang Mengirim...";
-            pesan.innerText = "";
 
             try {
-                // Menggunakan mode: 'no-cors' untuk mengatasi masalah keamanan browser
                 await fetch(API_URL, {
                     method: 'POST',
                     mode: 'no-cors',
-                    cache: 'no-cache',
-                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
                 
-                // Karena 'no-cors', kita asumsikan sukses jika tidak masuk ke catch error
                 pesan.className = "text-center mt-4 text-green-600 p-3 bg-green-50 rounded-lg";
-                pesan.innerText = "✅ Berhasil! Artikel terbit (Tunggu 1-2 menit untuk update di blog).";
+                pesan.innerText = "✅ Berhasil! Artikel sudah masuk database.";
                 
-                // Kosongkan form
+                // Reset Form
                 document.getElementById('judul').value = "";
                 document.getElementById('gambar').value = "";
+                document.getElementById('youtube').value = "";
                 document.getElementById('konten').value = "";
+                document.getElementById('tags').value = "";
             } catch (error) {
-                console.error(error);
                 pesan.className = "text-center mt-4 text-red-600 p-3 bg-red-50 rounded-lg";
-                pesan.innerText = "❌ Gagal. Pastikan URL API benar & Deploy sudah 'Anyone'.";
+                pesan.innerText = "❌ Gagal. Periksa URL API.";
             } finally {
                 btn.disabled = false;
                 btn.innerText = "Terbitkan ke Blog";
