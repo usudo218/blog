@@ -3,61 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pak Cokro Blog</title>
+    <title>Penulis Pemula Blog</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Animasi halus untuk Modal */
-        #article-modal { transition: opacity 0.3s ease; }
-        .modal-content { animation: slideUp 0.4s ease; }
-        @keyframes slideUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
+        /* Animasi halus saat berganti halaman */
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* Mengatur spasi paragraf dari Word */
+        #content-body p { margin-bottom: 1.2rem; line-height: 1.8; }
+        #content-body { font-size: 1.125rem; }
     </style>
 </head>
-<body class="bg-gray-50 font-sans text-gray-900">
+<body class="bg-slate-50 font-sans text-slate-900">
 
-    <nav class="bg-blue-600 text-white shadow-md sticky top-0 z-40">
+    <nav class="bg-blue-600 text-white shadow-lg sticky top-0 z-40">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold tracking-tight">Penuis Pemula</h1>
+            <h1 class="text-2xl font-bold tracking-tight">Peulis Pemula</h1>
             <div class="space-x-6 hidden md:flex">
-                <a href="index.html" class="hover:text-blue-200 transition">Blog</a>
-                <a href="daftar-isi.html" class="hover:text-blue-200 transition">Daftar Isi</a>
-                <a href="about.html" class="hover:text-blue-200 transition">About Me</a>
+                <a href="index.html" class="hover:text-blue-100 transition">Blog</a>
+                <a href="daftar-isi.html" class="hover:text-blue-100 transition">Daftar Isi</a>
+                <a href="about.html" class="hover:text-blue-100 transition">About Me</a>
             </div>
         </div>
     </nav>
 
-    <header class="container mx-auto px-6 mt-10">
-        <h2 class="text-4xl font-extrabold text-gray-800 mb-2">Artikel Terbaru</h2>
-        <p class="text-gray-500">Berbagi seputar teknologi, pendidikan, dan catatan harian.</p>
-        <hr class="mt-6 border-gray-200">
-    </header>
+    <main class="container mx-auto px-6 py-10 max-w-5xl">
+        
+        <div id="view-list" class="fade-in">
+            <header class="mb-12 text-center">
+                <h2 class="text-4xl font-extrabold text-slate-900 mb-2">Artikel Terbaru</h2>
+                <p class="text-lg text-slate-600 max-w-2xl mx-auto">Selamat datang di catatan pribadi saya. Silakan jelajahi berbagai topik menarik di bawah ini.</p>
+                <div class="mt-8 border-b border-slate-200"></div>
+            </header>
 
-    <main class="container mx-auto px-6 py-10">
-        <div id="blog-container" class="grid gap-8 max-w-4xl">
-            <div class="text-center py-10">
-                <p class="text-gray-500 animate-pulse">Memuat artikel dari Spreadsheet...</p>
+            <div id="blog-container" class="grid gap-8">
+                <div class="text-center py-16 bg-white rounded-xl shadow border border-slate-100">
+                    <p class="text-slate-500 animate-pulse text-lg">Menghubungkan ke Spreadsheet...</p>
+                </div>
             </div>
         </div>
-    </main>
 
-    <div id="article-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-60 backdrop-blur-sm">
-        <div class="modal-content bg-white rounded-2xl max-w-3xl w-full max-h-[85vh] overflow-hidden shadow-2xl flex flex-col">
-            <div class="p-6 border-b flex justify-between items-center bg-gray-50">
-                <h3 id="modal-title" class="text-xl font-bold text-gray-800 pr-4 line-clamp-1">Judul Artikel</h3>
-                <button onclick="tutupArtikel()" class="text-gray-400 hover:text-red-500 transition text-3xl">&times;</button>
-            </div>
-            <div class="p-8 overflow-y-auto italic-text-fix">
-                <p id="modal-date" class="text-sm text-blue-600 mb-4 font-semibold uppercase tracking-wider"></p>
-                <div id="modal-body" class="text-gray-700 leading-relaxed text-lg space-y-4">
+        <div id="view-detail" class="hidden fade-in bg-white p-10 rounded-3xl shadow-lg border border-slate-100">
+            <button onclick="kembaliKeDaftar()" class="mb-8 flex items-center text-blue-600 font-semibold hover:text-blue-800 transition group">
+                <svg class="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                Kembali ke Daftar Artikel
+            </button>
+
+            <article>
+                <header class="mb-10 pb-6 border-b border-slate-100">
+                    <h1 id="content-title" class="text-4xl md:text-5xl font-extrabold text-slate-950 leading-tight">Judul Panjang Artikel</h1>
+                    <p id="content-date" class="text-blue-600 text-base font-semibold mt-4 uppercase tracking-widest"></p>
+                </header>
+                
+                <div id="content-body" class="text-slate-800 leading-relaxed space-y-2">
                     </div>
-            </div>
-            <div class="p-4 border-t bg-gray-50 text-right">
-                <button onclick="tutupArtikel()" class="bg-gray-800 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition">Tutup</button>
+            </article>
+
+            <div class="mt-12 pt-8 border-t border-slate-100 text-center text-slate-500">
+                <p>&copy; 2024 Penulis Pemula. All rights reserved.</p>
             </div>
         </div>
-    </div>
+
+    </main>
 
     <script src="script.js"></script>
 </body>
