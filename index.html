@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Penulis Pemula | Blog</title>
+    <title>Penulis Pemula | Blog </title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .fade-in { animation: fadeIn 0.4s ease-in-out; }
@@ -17,7 +17,8 @@
         #content-body blockquote {
             margin: 2rem 0;
             padding: 1.5rem 2rem;
-            border-left: 6px solid #2563eb;
+            /* Garis kiri diubah menjadi hitam */
+            border-left: 6px solid #1a1a1a; 
             background-color: #f1f5f9;
             font-style: italic;
             color: #475569;
@@ -43,13 +44,13 @@
 </head>
 <body class="bg-slate-50 font-sans text-slate-900">
 
-    <nav class="bg-blue-600 text-white shadow-lg sticky top-0 z-50">
+    <nav class="bg-black text-white shadow-lg sticky top-0 z-50">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <h1 class="text-xl md:text-2xl font-bold tracking-tight ">Penulis Pemula</h1>
+            <h1 class="text-xl md:text-2xl font-bold tracking-tight ">PENULIS PEMULA</h1>
             <div class="flex space-x-4 text-xs font-bold tracking-widest">
                 <a href="index.html" class="border-b-2 border-white pb-1">Blog</a>
-                <a href="daftar-isi.html">Daftar Isi</a>
-                <a href="about.html">About</a>
+                <a href="daftar-isi.html" class="hover:text-slate-300 transition">Daftar Isi</a>
+                <a href="about.html" class="hover:text-slate-300 transition">About</a>
             </div>
         </div>
     </nav>
@@ -59,20 +60,20 @@
             
             <div class="lg:col-span-2">
                 <div id="view-list" class="fade-in">
-                    <h2 id="section-title" class="text-2xl font-extrabold mb-6 border-b pb-2 text-slate-800">Coretan saya</h2>
+                    <h2 id="section-title" class="text-2xl font-extrabold mb-6 border-b-4 border-black inline-block text-slate-800 uppercase tracking-tight">Catatan Terbaru</h2>
                     <div id="blog-container" class="space-y-6">
-                        <p class="text-center py-10 animate-pulse text-slate-300">Membuka catatan...</p>
+                        <p class="text-center py-10 animate-pulse text-slate-500 italic">Membuka lembaran catatan...</p>
                     </div>
                 </div>
 
-                <div id="view-detail" class="hidden fade-in bg-white p-6 md:p-10 rounded-3xl shadow-xl border border-slate-100">
-                    <button onclick="kembaliKeDaftar()" class="mb-6 flex items-center text-blue-600 font-bold hover:underline">
-                        ← Kembali
+                <div id="view-detail" class="hidden fade-in bg-white p-6 md:p-12 rounded-3xl shadow-xl border border-slate-100">
+                    <button onclick="kembaliKeDaftar()" class="mb-6 flex items-center text-black font-bold hover:underline">
+                        ← Kembali ke Blog
                     </button>
                     <article>
                         <header class="mb-8 border-b pb-4 text-left">
                             <h1 id="content-title" class="text-3xl md:text-4xl font-black text-slate-950 leading-tight"></h1>
-                            <p id="content-date" class="text-blue-600 text-xs font-bold mt-3 uppercase tracking-widest"></p>
+                            <p id="content-date" class="text-black text-xs font-bold mt-3 uppercase tracking-widest"></p>
                         </header>
                         <div id="content-body" class="text-slate-800 break-words"></div>
                     </article>
@@ -81,18 +82,19 @@
 
             <aside class="space-y-8">
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                    <h4 class="font-bold text-lg mb-4 border-b pb-2">Penulis</h4>
-                    <img src="https://ui-avatars.com/api/?name=Agus+Suyatno&background=2563eb&color=fff" class="w-16 h-16 rounded-full mb-3">
-                    <p class="text-sm text-slate-600"><strong>Agus Tjakra</strong>. Menulis untuk merawat ingatan.</p>
+                    <h4 class="font-bold text-lg mb-4 border-b pb-2 text-slate-800">Penulis</h4>
+                    <img src="https://ui-avatars.com/api/?name=Agus+Tjakra&background=1a1a1a&color=fff" class="w-16 h-16 rounded-full mb-3 shadow-lg border-2 border-slate-100">
+                    <p class="text-sm text-slate-600"><strong>Agus Tjakra</strong>. Menulis untuk merawat ingatan di blog Penulis Pemula.</p>
                 </div>
 
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                    <h4 class="font-bold text-lg mb-4 border-b pb-2 uppercase text-xs tracking-widest">Kategori</h4>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 text-center md:text-left">
+                    <h4 class="font-bold text-lg mb-4 border-b pb-2 uppercase text-xs tracking-widest text-slate-800">Topik Utama</h4>
                     <div class="flex flex-wrap gap-2">
-                        <button onclick="filterKategori('Semua')" class="bg-blue-600 text-white px-3 py-1.5 rounded-full text-[10px] font-bold uppercase">Semua</button>
-                        <button onclick="filterKategori('Rasan-rasan')" class="bg-slate-100 hover:bg-blue-100 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase transition">Rasan-rasan</button>
-                        <button onclick="filterKategori('Fiksiana')" class="bg-slate-100 hover:bg-blue-100 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase transition">Fiksiana</button>
-                        <button onclick="filterKategori('Asal nulis')" class="bg-slate-100 hover:bg-blue-100 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase transition">Asal Nulis</button>
+                        <button onclick="filterKategori('Semua')" class="bg-black text-white px-3 py-1.5 rounded-full text-[10px] font-bold uppercase shadow-sm transition hover:scale-105 active:scale-95">Semua</button>
+                        
+                        <button onclick="filterKategori('Rasan-rasan')" class="bg-slate-100 text-slate-600 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase transition hover:bg-slate-800 hover:text-white">Rasan-rasan</button>
+                        <button onclick="filterKategori('Fiksiana')" class="bg-slate-100 text-slate-600 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase transition hover:bg-slate-800 hover:text-white">Fiksiana</button>
+                        <button onclick="filterKategori('Asal nulis')" class="bg-slate-100 text-slate-600 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase transition hover:bg-slate-800 hover:text-white">Asal Nulis</button>
                     </div>
                 </div>
             </aside>
