@@ -1,0 +1,17 @@
+<div id="list-container" class="bg-white p-6 rounded shadow"></div>
+
+<script>
+    const posts = JSON.parse(localStorage.getItem('my_blog_posts')) || [];
+    const container = document.getElementById('list-container');
+    
+    if(posts.length === 0) {
+        container.innerHTML = "<li>Belum ada daftar isi.</li>";
+    } else {
+        let list = "<ul class='list-disc pl-5 space-y-2'>";
+        posts.forEach(p => {
+            list += `<li><a href="#" class="text-blue-600 hover:underline">${p.title}</a> (${p.date})</li>`;
+        });
+        list += "</ul>";
+        container.innerHTML = list;
+    }
+</script>
