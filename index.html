@@ -3,21 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Penulis Pemula</title>
+    <title>Penulis Pemula | Blog</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .fade-in { animation: fadeIn 0.4s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         #content-body { line-height: 1.8; font-size: 1.1rem; }
         #content-body p { margin-bottom: 1.5rem; }
+        img { max-width: 100%; height: auto; }
     </style>
 </head>
 <body class="bg-slate-50 font-sans text-slate-900">
 
     <nav class="bg-blue-600 text-white shadow-lg sticky top-0 z-50">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <h1 class="text-xl md:text-2xl font-bold">Penulis Pemula</h1>
-            <div class="flex space-x-4 text-sm md:text-base font-medium">
+            <h1 class="text-xl md:text-2xl font-bold tracking-tight">Catatan Penulis Pembula</h1>
+            <div class="flex space-x-4 text-sm font-medium">
                 <a href="index.html" class="border-b-2 border-white pb-1">Blog</a>
                 <a href="daftar-isi.html" class="hover:text-blue-100 transition">Daftar Isi</a>
                 <a href="about.html" class="hover:text-blue-100 transition">About</a>
@@ -26,26 +27,25 @@
     </nav>
 
     <main class="container mx-auto px-4 py-8 max-w-6xl">
-        
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
             <div class="lg:col-span-2">
                 
-                <div id="view-list" class="fade-in">
-                    <h2 class="text-3xl font-extrabold mb-6 border-b pb-2">Artikel Terbaru</h2>
-                    <div id="blog-container" class="space-y-8">
-                        <p class="text-slate-500 animate-pulse text-center py-10 bg-white rounded-xl shadow-sm">Menghubungkan ke Sheets...</p>
+                <div id="view-list" class="fade-in text-left">
+                    <h2 id="section-title" class="text-2xl font-extrabold mb-6 border-b pb-2">Catatan Terbaru</h2>
+                    <div id="blog-container" class="space-y-6">
+                        <p class="text-center py-10 animate-pulse text-slate-500">Memuat data dari database...</p>
                     </div>
                 </div>
 
-                <div id="view-detail" class="hidden fade-in bg-white p-6 md:p-10 rounded-2xl shadow-md border border-slate-100">
+                <div id="view-detail" class="hidden fade-in bg-white p-5 md:p-10 rounded-2xl shadow-lg border border-slate-100">
                     <button onclick="kembaliKeDaftar()" class="mb-6 flex items-center text-blue-600 font-bold hover:underline">
-                        ← Kembali
+                        ← Kembali ke Blog
                     </button>
                     <article>
                         <header class="mb-8 border-b pb-4">
                             <h1 id="content-title" class="text-3xl md:text-4xl font-extrabold text-slate-950 leading-tight">Judul</h1>
-                            <p id="content-date" class="text-blue-600 text-sm font-semibold mt-3 uppercase"></p>
+                            <p id="content-date" class="text-blue-600 text-sm font-semibold mt-3 uppercase tracking-widest"></p>
                         </header>
                         <div id="content-body" class="text-slate-800 break-words">
                             </div>
@@ -54,42 +54,25 @@
             </div>
 
             <aside class="space-y-8">
-                
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
                     <h4 class="font-bold text-lg mb-4 border-b pb-2">Tentang Penulis</h4>
-                    <img src="https://ui-avatars.com/api/?name=Agus+Suyatno&background=2563eb&color=fff" class="w-20 h-20 rounded-full mb-4 mx-auto md:mx-0">
-                    <p class="text-slate-600 text-sm leading-relaxed">
-                        <strong>Agus Suyatno, S.Kom</strong>Guru Informatika di SMAN 1 Muncar. Penggiat Server Management & Digital Learning.
-                    </p>
-                    <a href="about.html" class="text-blue-600 text-sm font-bold mt-3 block hover:underline">Selengkapnya →</a>
-                </div>
-
-                <div class="bg-blue-600 text-white p-6 rounded-2xl shadow-lg">
-                    <h4 class="font-bold text-lg mb-4 border-b border-blue-400 pb-2">Link Terkait</h4>
-                    <ul class="space-y-3 text-sm">
-                        <li><a href="https://usudo.id" target="_blank" class="flex justify-between hover:translate-x-1 transition"><span>🌐 Usudo.id</span> ↗</a></li>
-                        <li><a href="#" class="flex justify-between hover:translate-x-1 transition"><span>🦅 Elang Digital</span> ↗</a></li>
-                        <li><a href="#" class="flex justify-between hover:translate-x-1 transition"><span>🚀 Double Track</span> ↗</a></li>
-                    </ul>
+                    <img src="https://ui-avatars.com/api/?name=Agus+Suyatno&background=2563eb&color=fff" class="w-16 h-16 rounded-full mb-3">
+                    <p class="text-sm text-slate-600 leading-relaxed"><strong>Agus Tjakra</strong>. Guru dan Penulis Pemula.</p>
                 </div>
 
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                    <h4 class="font-bold text-lg mb-4 border-b pb-2">Topik</h4>
-                    <div class="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-wider">
-                        <span class="bg-slate-100 px-3 py-1 rounded-full text-slate-600">Informatika</span>
-                        <span class="bg-slate-100 px-3 py-1 rounded-full text-slate-600">Server</span>
-                        <span class="bg-slate-100 px-3 py-1 rounded-full text-slate-600">Pendidikan</span>
+                    <h4 class="font-bold text-lg mb-4 border-b pb-2">Topik / Kategori</h4>
+                    <div class="flex flex-wrap gap-2 text-[11px] font-bold uppercase">
+                        <button onclick="filterKategori('Semua')" class="bg-blue-600 text-white px-3 py-1.5 rounded-full">Semua</button>
+                        <button onclick="filterKategori('Informatika')" class="bg-slate-100 hover:bg-blue-100 px-3 py-1.5 rounded-full transition">Rasan-rasan</button>
+                        <button onclick="filterKategori('Server')" class="bg-slate-100 hover:bg-blue-100 px-3 py-1.5 rounded-full transition">Fiksiana</button>
+                        <button onclick="filterKategori('Pendidikan')" class="bg-slate-100 hover:bg-blue-100 px-3 py-1.5 rounded-full transition">Asal Nulis</button>
                     </div>
                 </div>
-
             </aside>
 
         </div>
     </main>
-
-    <footer class="py-10 text-center text-slate-400 text-sm">
-        <p>&copy; 2026 Pak Cokro Blog. Build with 💙</p>
-    </footer>
 
     <script src="script.js"></script>
 </body>
