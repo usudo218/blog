@@ -1,73 +1,92 @@
-// Ganti dengan URL dari Deployment Google Apps Script Anda
+// Ganti dengan URL dari Deployment Google Apps Script Anda (WAJIB)
 const API_URL = "https://script.google.com/macros/s/AKfycbxmTs1IwzKO5yirj2zN3IIGSMl1UzuBaNnsSHaJ__yhqzlMPAgCuslCL92G1Zuw5AjBrw/exec"; 
 
-let listArtikel = []; // Tempat menyimpan data agar tidak fetch ulang
+let listArtikelRaw = []; // Penyimpanan sementara data mentah
+let viewMode = 'list'; // Status tampilan saat ini: 'list' atau 'detail'
 
-async function loadBlog() {
-    const container = document.getElementById('blog-container');
+// Elemen-elemen HTML yang sering digunakan
+const viewList = document.getElementById('view-list');
+const viewDetail = document.getElementById('view-detail');
+const containerList = document.getElementById('blog-container');
 
+// Fungsi Utama: Mengambil data dari Sheets dan menampilkannya sebagai daftar
+async function initBlog() {
     try {
         const response = await fetch(API_URL);
-        if (!response.ok) throw new Error("Gagal fetch data");
+        if (!response.ok) throw new Error("Gagal terhubung ke data.");
         
-        const data = await response.json();
-        
-        // Simpan ke variabel global dan balik urutan (terbaru di atas)
-        listArtikel = data.reverse(); 
+        // Simpan data mentah, urutkan dari yang terbaru (bawah ke atas di Sheets)
+        listArtikelRaw = await response.json();
+        listArtikelRaw.reverse(); 
 
-        container.innerHTML = ''; // Kosongkan loading
-
-        listArtikel.forEach((post, index) => {
-            // Ringkasan: ambil 160 karakter pertama
-            const ringkasan = post.konten.length > 160 
-                ? post.konten.substring(0, 160) + "..." 
-                : post.konten;
-
-            const card = `
-                <article class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition duration-300">
-                    <span class="text-blue-600 text-xs font-bold uppercase tracking-widest">${post.tanggal || 'Baru'}</span>
-                    <h3 class="text-2xl font-bold text-gray-800 mt-2 mb-3 leading-tight">${post.judul}</h3>
-                    <p class="text-gray-600 leading-relaxed">${ringkasan}</p>
-                    <button onclick="bacaLengkap(${index})" class="mt-6 inline-flex items-center text-blue-600 font-bold hover:text-blue-800 group">
-                        Baca Selengkapnya 
-                        <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="9 5l7 7-7 7"></path></svg>
-                    </button>
-                </article>
-            `;
-            container.innerHTML += card;
-        });
+        renderDaftarArtikel(); // Tampilkan daftar pertama kali
 
     } catch (error) {
         console.error(error);
-        container.innerHTML = `
-            <div class="bg-red-50 text-red-600 p-4 rounded-lg border border-red-200 text-center">
-                Gagal memuat artikel. Pastikan URL Apps Script benar dan akses sudah disetel ke 'Anyone'.
+        containerList.innerHTML = `
+            <div class="bg-red-50 text-red-700 p-8 rounded-2xl border border-red-200 text-center">
+                <h4 class="font-bold text-lg mb-2">Gagal Memuat Blog</h4>
+                <p>Pastikan URL Apps Script di script.js sudah benar, dan izin akses Web App sudah diset ke 'Anyone'.</p>
+                <p class="text-xs mt-3 text-red-500">Error: ${error.message}</p>
             </div>`;
     }
 }
 
-// Fungsi membuka Modal
+// Menampilkan semua artikel dalam bentuk kartu ringkas (Card)
+function renderDaftarArtikel() {
+    containerList.innerHTML = ''; // Kosongkan loading/isi lama
+
+    listArtikelRaw.forEach((post, index) => {
+        // Tampilkan 180 karakter pertama untuk ringkasan
+        const ringkasan = post.konten.length > 180 
+            ? post.konten.substring(0, 180) + "..." 
+            : post.konten;
+
+        const htmlCard = `
+            <article class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition duration-300 transform hover:-translate-y-1">
+                <span class="text-blue-600 text-xs font-bold uppercase tracking-widest">${post.tanggal || 'Terbaru'}</span>
+                <h3 onclick="bacaLengkap(${index})" class="text-2xl font-bold text-slate-900 mt-2 mb-3 leading-tight hover:text-blue-700 cursor-pointer transition">
+                    ${post.judul}
+                </h3>
+                <p class="text-slate-600 leading-relaxed text-base">${ringkasan}</p>
+                <button onclick="bacaLengkap(${index})" class="mt-6 inline-flex items-center text-blue-600 font-bold hover:text-blue-800 group">
+                    Baca Selanjutnya 
+                    <svg class="w-4 h-4 ml-1 group-hover:translate-x-1.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </button>
+            </article>
+        `;
+        containerList.innerHTML += htmlCard;
+    });
+}
+
+// === FUNGSI PERALIHAN TAMPILAN === //
+
+// 1. Menampilkan Halaman Detail Artikel
 function bacaLengkap(index) {
-    const post = listArtikel[index];
-    const modal = document.getElementById('article-modal');
+    const post = listArtikelRaw[index];
     
-    document.getElementById('modal-title').innerText = post.judul;
-    document.getElementById('modal-date').innerText = post.tanggal;
+    // Isi konten detail
+    document.getElementById('content-title').innerText = post.judul;
+    document.getElementById('content-date').innerText = post.tanggal;
     
-    // Mengubah enter (\n) menjadi <br> agar paragraf dari Word tetap terjaga
-    const kontenTerformat = post.konten.replace(/\n/g, "<br>");
-    document.getElementById('modal-body').innerHTML = kontenTerformat;
+    // Format penting: Mengubah enter (\n) dari Word/Sheets menjadi <br>
+    // agar paragraf tidak menyatu jadi satu teks panjang
+    const kontenFormatHTML = post.konten.replace(/\n/g, "<br>");
+    document.getElementById('content-body').innerHTML = kontenFormatHTML;
 
-    modal.classList.remove('hidden');
-    document.body.style.overflow = 'hidden'; // Kunci scroll layar utama
+    // Sembunyikan daftar, tampilkan detail
+    viewList.classList.add('hidden');
+    viewDetail.classList.remove('hidden');
+    
+    // Scroll otomatis ke atas
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Fungsi menutup Modal
-function tutupArtikel() {
-    const modal = document.getElementById('article-modal');
-    modal.classList.add('hidden');
-    document.body.style.overflow = 'auto'; // Aktifkan kembali scroll
+// 2. Menutup Detail dan kembali ke Daftar
+function kembaliKeDaftar() {
+    viewDetail.classList.add('hidden');
+    viewList.classList.remove('hidden');
 }
 
-// Jalankan fungsi saat halaman siap
-document.addEventListener('DOMContentLoaded', loadBlog);
+// Jalankan initBlog saat halaman selesai dimuat
+document.addEventListener('DOMContentLoaded', initBlog);
