@@ -2,63 +2,90 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Blog</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-100 p-6 md:p-12">
-    <div class="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-xl">
+    <div class="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-xl border border-slate-200">
         <h2 class="text-3xl font-bold mb-6 text-blue-600">Tambah Artikel Baru</h2>
         
-        <div class="space-y-4">
-            <input type="text" id="judul" placeholder="Judul Artikel" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none">
+        <div class="space-y-5">
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Judul Artikel</label>
+                <input type="text" id="judul" placeholder="Masukkan judul..." class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none border-slate-300">
+            </div>
             
-            <input type="text" id="gambar" placeholder="Link Gambar (Google Drive/Lainnya)" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none">
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Link Gambar (Google Drive)</label>
+                <input type="text" id="gambar" placeholder="Tempel link share Google Drive di sini..." class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none border-slate-300">
+            </div>
             
-            <textarea id="konten" rows="10" placeholder="Paste konten dari Word di sini..." class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"></textarea>
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Konten Artikel (Bisa Copas dari Word)</label>
+                <textarea id="konten" rows="10" placeholder="Tulis atau tempel isi artikel..." class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none border-slate-300"></textarea>
+            </div>
             
-            <button onclick="kirimKeSheets()" id="btnSimpan" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition">
+            <button onclick="kirimKeSheets()" id="btnSimpan" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 transition shadow-lg active:scale-95 transform">
                 Terbitkan ke Blog
             </button>
-            <p id="pesan" class="text-center font-semibold mt-4"></p>
+            <p id="pesan" class="text-center font-medium mt-4"></p>
         </div>
     </div>
 
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbxmTs1IwzKO5yirj2zN3IIGSMl1UzuBaNnsSHaJ__yhqzlMPAgCuslCL92G1Zuw5AjBrw/exec"; // Masukkan URL Deploy baru di sini
+        // MASUKKAN URL WEB APP ANDA DI SINI
+        const API_URL = "https://script.google.com/macros/s/AKfycbxmTs1IwzKO5yirj2zN3IIGSMl1UzuBaNnsSHaJ__yhqzlMPAgCuslCL92G1Zuw5AjBrw/exec"; 
 
         async function kirimKeSheets() {
             const btn = document.getElementById('btnSimpan');
             const pesan = document.getElementById('pesan');
-            
+            const judul = document.getElementById('judul').value;
+            const konten = document.getElementById('konten').value;
+            let rawLink = document.getElementById('gambar').value;
+
+            if(!judul || !konten) return alert("Judul dan Konten wajib diisi!");
+
+            // OTOMATIS KONVERSI LINK DRIVE
+            let finalLink = rawLink;
+            if (rawLink.includes("drive.google.com")) {
+                const fileId = rawLink.split("/d/")[1]?.split("/")[0] || rawLink.split("id=")[1];
+                if (fileId) finalLink = `https://lh3.googleusercontent.com/d/${fileId}`;
+            }
+
             const data = {
-                judul: document.getElementById('judul').value,
-                gambar: document.getElementById('gambar').value,
-                konten: document.getElementById('konten').value,
+                judul: judul,
+                gambar: finalLink,
+                konten: konten,
                 tanggal: new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'})
             };
-
-            if(!data.judul || !data.konten) return alert("Judul dan Konten wajib diisi!");
 
             btn.disabled = true;
             btn.innerText = "Sedang Mengirim...";
             pesan.innerText = "";
 
             try {
-                // Mengirim data ke Google Sheets via Apps Script
+                // Menggunakan mode: 'no-cors' untuk mengatasi masalah keamanan browser
                 await fetch(API_URL, {
                     method: 'POST',
+                    mode: 'no-cors',
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
                 
-                pesan.className = "text-center font-semibold mt-4 text-green-600";
-                pesan.innerText = "Berhasil! Artikel sudah masuk ke Spreadsheet dan Blog.";
+                // Karena 'no-cors', kita asumsikan sukses jika tidak masuk ke catch error
+                pesan.className = "text-center mt-4 text-green-600 p-3 bg-green-50 rounded-lg";
+                pesan.innerText = "✅ Berhasil! Artikel terbit (Tunggu 1-2 menit untuk update di blog).";
+                
                 // Kosongkan form
                 document.getElementById('judul').value = "";
                 document.getElementById('gambar').value = "";
                 document.getElementById('konten').value = "";
             } catch (error) {
-                pesan.className = "text-center font-semibold mt-4 text-red-600";
-                pesan.innerText = "Gagal mengirim. Cek koneksi atau URL API.";
+                console.error(error);
+                pesan.className = "text-center mt-4 text-red-600 p-3 bg-red-50 rounded-lg";
+                pesan.innerText = "❌ Gagal. Pastikan URL API benar & Deploy sudah 'Anyone'.";
             } finally {
                 btn.disabled = false;
                 btn.innerText = "Terbitkan ke Blog";
