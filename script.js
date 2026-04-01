@@ -1,32 +1,34 @@
+// Ganti dengan URL Web App yang Anda salin dari Google Apps Script
+const API_URL = "https://script.google.com/macros/s/AKfycbxmTs1IwzKO5yirj2zN3IIGSMl1UzuBaNnsSHaJ__yhqzlMPAgCuslCL92G1Zuw5AjBrw/exec";
+
 async function loadBlog() {
     const container = document.getElementById('blog-container');
     
     try {
-        // Mengambil data dari file JSON
-        const response = await fetch('data.json');
+        const response = await fetch(API_URL);
         const posts = await response.json();
 
-        container.innerHTML = ''; // Bersihkan loading
+        container.innerHTML = ''; 
 
-        // Tampilkan dari yang terbaru
+        // Tampilkan dari bawah ke atas (Terbaru)
         posts.reverse().forEach((post) => {
-            // Read More: potong 150 karakter
-            const summary = post.content.substring(0, 150) + "...";
+            // Ambil 150 karakter pertama untuk Read More
+            const summary = post.konten.substring(0, 150) + "...";
 
             const card = `
-                <div class="bg-white p-6 rounded-lg shadow mb-6 border-l-4 border-blue-500">
-                    <h3 class="text-2xl font-bold">${post.title}</h3>
-                    <p class="text-gray-400 text-sm mb-4">${post.date}</p>
-                    <p class="text-gray-700">${summary}</p>
-                    <button class="mt-4 text-blue-600 font-semibold hover:underline">
-                        Baca Selengkapnya
+                <article class="bg-white p-6 rounded-lg shadow-md mb-6 border-l-4 border-green-500">
+                    <h3 class="text-2xl font-bold text-gray-800">${post.judul}</h3>
+                    <p class="text-gray-400 text-xs mb-3">${post.tanggal}</p>
+                    <div class="text-gray-700 leading-relaxed">${summary}</div>
+                    <button onclick="alert('Buka artikel: ${post.judul}')" class="mt-4 text-green-600 font-bold hover:underline">
+                        Baca Selengkapnya →
                     </button>
-                </div>
+                </article>
             `;
             container.innerHTML += card;
         });
     } catch (error) {
-        container.innerHTML = "<p>Gagal memuat artikel. Pastikan data.json sudah ada.</p>";
+        container.innerHTML = "<p class='text-red-500'>Gagal mengambil data dari Google Sheets. Cek URL API Anda.</p>";
     }
 }
 
