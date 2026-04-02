@@ -3,25 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Admin | Penulis Pemula</title>
+    <title>Admin Panel | Penulis Pemula</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
+        /* Toolbar Editor Styling */
         .editor-toolbar { display: flex; gap: 6px; background: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 12px 12px 0 0; border-bottom: none; }
         .btn-tool { background: white; border: 1px solid #cbd5e1; padding: 5px 12px; border-radius: 6px; font-size: 13px; font-weight: 800; cursor: pointer; transition: all 0.2s; color: #1e293b; }
         .btn-tool:hover { background: #1a1a1a; color: white; border-color: #1a1a1a; }
         #konten { border-radius: 0 0 12px 12px !important; line-height: 1.6; }
         
-        /* Sembunyikan form sebelum login */
-        #admin-content { display: none; }
+        /* Sembunyikan panel admin sebelum login */
+        #admin-panel { display: none; }
     </style>
 </head>
 <body class="bg-slate-50 font-sans text-slate-900">
 
     <div id="login-screen" class="min-h-screen flex items-center justify-center px-4">
-        <div class="fade-in bg-white p-8 md:p-10 rounded-[2.5rem] shadow-2xl border border-slate-100 w-full max-w-md text-center">
+        <div class="fade-in bg-white p-8 md:p-12 rounded-[2.5rem] shadow-2xl border border-slate-100 w-full max-w-md text-center">
             <div class="mb-8">
                 <div class="w-20 h-20 bg-black rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
                     <span class="text-white text-3xl font-black">AT</span>
@@ -29,42 +30,40 @@
                 <h2 class="text-2xl font-black uppercase tracking-tight">Pintu Masuk</h2>
                 <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mt-1">Khusus Penulis Pemula</p>
             </div>
-            
-            <input type="password" id="login_pass" placeholder="Masukkan Sandi Rahasia" 
-                   class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-black outline-none transition text-center mb-4">
-            
-            <button onclick="prosesLogin()" class="w-full bg-black text-white p-4 rounded-2xl font-black uppercase tracking-widest hover:bg-slate-800 transition active:scale-95">
-                Buka Kunci
-            </button>
-            <a href="index.html" class="block mt-6 text-slate-400 text-xs font-bold hover:text-black transition">← Kembali ke Blog</a>
+            <input type="password" id="login_pass" placeholder="Password Rahasia" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-black outline-none transition text-center mb-4 text-lg">
+            <button onclick="prosesLogin()" class="w-full bg-black text-white p-4 rounded-2xl font-black uppercase tracking-widest hover:bg-slate-800 transition active:scale-95 shadow-xl">Buka Kunci</button>
+            <a href="index.html" class="block mt-8 text-slate-400 text-xs font-bold hover:text-black transition uppercase tracking-widest">← Kembali ke Blog</a>
         </div>
     </div>
 
-    <div id="admin-content">
+    <div id="admin-panel">
         <nav class="bg-black text-white shadow-lg sticky top-0 z-50">
             <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-                <h1 class="text-xl font-black uppercase tracking-widest">Admin Panel</h1>
-                <button onclick="logout()" class="text-[10px] font-black border border-white px-3 py-1 rounded-full hover:bg-white hover:text-black transition uppercase">Keluar</button>
+                <h1 class="text-lg font-black uppercase tracking-widest text-white">Admin Dashboard</h1>
+                <button onclick="logout()" class="text-[10px] font-black border border-white px-4 py-1.5 rounded-full hover:bg-white hover:text-black transition uppercase">Keluar</button>
             </div>
         </nav>
 
         <main class="container mx-auto px-4 py-10 max-w-3xl">
             <div class="fade-in bg-white p-6 md:p-10 rounded-[2.5rem] shadow-xl border border-slate-100">
                 <form id="blogForm" class="space-y-6">
-                    <h2 class="text-2xl font-black border-b-4 border-black inline-block uppercase mb-4">Tulis Catatan Baru</h2>
-                    
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-black border-b-4 border-black inline-block uppercase tracking-tight">Tambah Catatan</h2>
+                        <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mt-1">Ruang Merawat Ingatan Agus Tjakra</p>
+                    </div>
+
                     <div>
-                        <label class="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2">Judul</label>
-                        <input type="text" id="judul" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Judul Artikel</label>
+                        <input type="text" id="judul" required placeholder="Apa yang ingin diabadikan hari ini?" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2">Tanggal</label>
+                            <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Tanggal</label>
                             <input type="date" id="tanggal" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
                         </div>
                         <div>
-                            <label class="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2">Kategori</label>
+                            <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Kategori</label>
                             <select id="kategori" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
                                 <option value="Rasan-rasan">Rasan-rasan</option>
                                 <option value="Fiksiana">Fiksiana</option>
@@ -74,18 +73,33 @@
                     </div>
 
                     <div>
-                        <label class="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2">Isi Konten</label>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">URL Gambar (Direct Link)</label>
+                        <input type="url" id="gambar" placeholder="https://raw.githubusercontent.com/..." class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Isi Konten</label>
                         <div class="editor-toolbar">
                             <button type="button" class="btn-tool" onclick="formatText('b')">B</button>
                             <button type="button" class="btn-tool" onclick="formatText('i')">I</button>
+                            <button type="button" class="btn-tool" onclick="formatText('u')">U</button>
                             <button type="button" class="btn-tool" onclick="formatText('blockquote')">Quote</button>
                         </div>
-                        <textarea id="konten" rows="12" required class="w-full p-6 bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-black outline-none transition"></textarea>
+                        <textarea id="konten" rows="12" required placeholder="Tuliskan rasan-rasan Bapak di sini..." class="w-full p-6 bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-black outline-none transition"></textarea>
                     </div>
 
-                    <button type="submit" id="submitBtn" class="w-full bg-black text-white p-5 rounded-2xl font-black uppercase tracking-[0.3em] hover:bg-slate-800 transition shadow-2xl active:scale-95">
-                        Posting ke Blog
-                    </button>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Tags (Koma)</label>
+                            <input type="text" id="tags" placeholder="catatan, hidup, sekolah" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">ID YouTube</label>
+                            <input type="text" id="youtube" placeholder="Contoh: dQw4w9WgXcQ" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
+                        </div>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="w-full bg-black text-white p-5 rounded-2xl font-black uppercase tracking-[0.3em] hover:bg-slate-800 transition shadow-2xl active:scale-95">Posting ke Blog</button>
                 </form>
             </div>
         </main>
@@ -94,24 +108,20 @@
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec"; 
 
-        // 1. FUNGSI CEK LOGIN SAAT HALAMAN DIBUKA
         window.onload = function() {
-            if (sessionStorage.getItem("adminAuth") === "true") {
-                tampilkanPanelAdmin();
-            }
+            if (sessionStorage.getItem("adminAuth") === "true") { bukaPanelAdmin(); }
         };
 
-        // 2. FUNGSI PROSES LOGIN (Hanya di sisi depan untuk masuk ke form)
         function prosesLogin() {
             const pass = document.getElementById('login_pass').value;
-            // Simpan password di session agar saat posting bisa dikirim ke server
+            if (pass === "") return alert("Password kosong!");
             sessionStorage.setItem("adminPass", pass);
-            tampilkanPanelAdmin();
+            bukaPanelAdmin();
         }
 
-        function tampilkanPanelAdmin() {
+        function bukaPanelAdmin() {
             document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('admin-content').style.display = 'block';
+            document.getElementById('admin-panel').style.display = 'block';
             sessionStorage.setItem("adminAuth", "true");
         }
 
@@ -120,7 +130,6 @@
             location.reload();
         }
 
-        // Fungsi Toolbar (Sama seperti sebelumnya)
         function formatText(tag) {
             const area = document.getElementById('konten');
             const start = area.selectionStart;
@@ -130,38 +139,35 @@
             area.focus();
         }
 
-        // PROSES KIRIM DATA (Tetap memvalidasi password di server Apps Script)
         document.getElementById('blogForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
             btn.disabled = true;
-            btn.innerText = "SEDANG MENGIRIM...";
+            btn.innerText = "MENGIRIM...";
 
             const payload = {
-                password: sessionStorage.getItem("adminPass"), // Ambil dari session
+                password: sessionStorage.getItem("adminPass"),
                 judul: document.getElementById('judul').value,
                 tanggal: document.getElementById('tanggal').value,
                 konten: document.getElementById('konten').value,
-                kategori: document.getElementById('kategori').value
+                gambar: document.getElementById('gambar').value,
+                kategori: document.getElementById('kategori').value,
+                tags: document.getElementById('tags').value,
+                youtube: document.getElementById('youtube').value
             };
 
             try {
                 const response = await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) });
                 const result = await response.text();
-                
                 if (result === "PASSWORD_SALAH") {
-                    alert("Akses Ditolak! Password di server berbeda.");
-                    logout(); // Tendang keluar jika password salah
+                    alert("Akses Ditolak! Password Salah.");
+                    logout();
                 } else {
-                    alert("✅ Catatan Berhasil Disimpan!");
+                    alert("✅ Berhasil Disimpan!");
                     document.getElementById('blogForm').reset();
                 }
-            } catch (err) {
-                alert("Gagal terhubung ke server.");
-            } finally {
-                btn.disabled = false;
-                btn.innerText = "POSTING KE BLOG";
-            }
+            } catch (err) { alert("Error koneksi."); }
+            finally { btn.disabled = false; btn.innerText = "POSTING KE BLOG"; }
         });
     </script>
 </body>
