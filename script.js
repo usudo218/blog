@@ -131,3 +131,24 @@ function cekLinkDaftarIsi() {
 }
 
 window.onload = ambilData;
+// --- FITUR COPY WITH LINK ---
+document.addEventListener('copy', function(e) {
+    const selection = window.getSelection();
+    // Membuat format link sumber
+    const pagelink = `\n\n--------------------------------------------\nTulisan ini telah tayang di: ${window.location.href}\nCopyright © Penulis Pemula - Merawat Ingatan\n--------------------------------------------`;
+    
+    const copytext = selection + pagelink;
+    const newdiv = document.createElement('div');
+    
+    // Sembunyikan elemen pembantu ini
+    newdiv.style.position = 'absolute';
+    newdiv.style.left = '-99999px';
+    
+    document.body.appendChild(newdiv);
+    newdiv.innerText = copytext;
+    selection.selectAllChildren(newdiv);
+    
+    window.setTimeout(function() {
+        document.body.removeChild(newdiv);
+    }, 0);
+});
