@@ -3,7 +3,7 @@ const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9
 let allData = [];
 let filteredData = [];
 let currentPage = 1;
-const postsPerPage = 4; // Batasan 4 postingan per halaman
+const postsPerPage = 3; // Batasan 4 postingan per halaman
 
 async function fetchData() {
     const container = document.getElementById('blog-container');
