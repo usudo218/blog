@@ -3,7 +3,7 @@ const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9
 let allData = [];
 let filteredData = [];
 let currentPage = 1;
-const postsPerPage = 3; // Batasan 4 postingan per halaman
+const postsPerPage = 3; 
 
 async function fetchData() {
     const container = document.getElementById('blog-container');
@@ -11,14 +11,15 @@ async function fetchData() {
         const response = await fetch(API_URL);
         allData = await response.json();
         
-        // Cek jika ada ID di URL untuk mode detail
+        // Cek mode: Detail atau List
         const urlParams = new URLSearchParams(window.location.search);
         const postId = urlParams.get('id');
 
         if (postId !== null) {
             tampilkanDetail(postId);
         } else {
-            filteredData = [...allData].reverse(); // Terbaru di atas
+            // Mapping index asli agar tidak tertukar saat filter/pagination
+            filteredData = allData.map((post, index) => ({ ...post, originalIndex: index })).reverse();
             renderPosts();
         }
     } catch (e) {
@@ -30,36 +31,32 @@ function renderPosts() {
     const container = document.getElementById('blog-container');
     container.innerHTML = '';
 
-    // Hitung index data yang akan ditampilkan
     const startIndex = (currentPage - 1) * postsPerPage;
     const endIndex = startIndex + postsPerPage;
     const paginatedPosts = filteredData.slice(startIndex, endIndex);
 
     if (paginatedPosts.length === 0) {
-        container.innerHTML = '<p class="text-center py-10 italic">Tidak ada catatan ditemukan.</p>';
+        container.innerHTML = '<p class="text-center py-10 italic text-black">Tidak ada catatan ditemukan.</p>';
         return;
     }
 
     paginatedPosts.forEach((post) => {
-        // Cari index asli untuk link detail
-        const originalIndex = allData.findIndex(p => p.judul === post.judul);
-        
         let tgl = post.tanggal || "";
         if (tgl.includes("T") || tgl.includes("-")) {
             tgl = new Date(tgl).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
         }
 
         container.innerHTML += `
-            <article class="fade-in bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-md transition">
+            <article class="fade-in bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-md transition mb-6">
                 <span class="text-[10px] font-black uppercase tracking-[0.2em] text-black bg-slate-100 px-3 py-1 rounded-full">${post.kategori}</span>
                 <h3 class="text-xl md:text-2xl font-black mt-4 leading-tight">
-                    <a href="?id=${originalIndex}" class="hover:text-blue-700 transition">${post.judul}</a>
+                    <a href="?id=${post.originalIndex}" class="hover:text-blue-700 transition">${post.judul}</a>
                 </h3>
                 <p class="text-black text-xs font-bold mt-2 uppercase tracking-widest">${tgl}</p>
                 <div class="mt-4 text-slate-600 line-clamp-3 text-sm leading-relaxed text-justify">
                     ${post.konten.replace(/<[^>]*>/g, '').substring(0, 200)}...
                 </div>
-                <a href="?id=${originalIndex}" class="inline-block mt-6 text-xs font-black uppercase tracking-widest border-b-2 border-black pb-1 hover:text-blue-700 hover:border-blue-700 transition">Baca Selengkapnya →</a>
+                <a href="?id=${post.originalIndex}" class="inline-block mt-6 text-xs font-black uppercase tracking-widest border-b-2 border-black pb-1 hover:text-blue-700 hover:border-blue-700 transition">Baca Selengkapnya →</a>
             </article>
         `;
     });
@@ -76,18 +73,14 @@ function renderPagination() {
     paginationDiv.className = 'flex justify-center items-center space-x-6 mt-12 mb-10';
 
     let paginationHtml = '';
-
-    // Tombol Previous
     if (currentPage > 1) {
         paginationHtml += `<button onclick="changePage(${currentPage - 1})" class="px-5 py-2 bg-black text-white text-[10px] font-black rounded-full uppercase tracking-widest shadow-lg hover:scale-105 transition">Prev</button>`;
     } else {
         paginationHtml += `<button disabled class="px-5 py-2 bg-slate-100 text-slate-300 text-[10px] font-black rounded-full uppercase tracking-widest cursor-not-allowed">Prev</button>`;
     }
 
-    // Info Halaman Format: Page 1/2
     paginationHtml += `<span class="text-[11px] font-black uppercase tracking-[0.2em] text-black">Page ${currentPage}/${totalPages}</span>`;
 
-    // Tombol Next
     if (currentPage < totalPages) {
         paginationHtml += `<button onclick="changePage(${currentPage + 1})" class="px-5 py-2 bg-black text-white text-[10px] font-black rounded-full uppercase tracking-widest shadow-lg hover:scale-105 transition">Next</button>`;
     } else {
@@ -97,6 +90,7 @@ function renderPagination() {
     paginationDiv.innerHTML = paginationHtml;
     container.appendChild(paginationDiv);
 }
+
 function changePage(page) {
     currentPage = page;
     renderPosts();
@@ -104,11 +98,14 @@ function changePage(page) {
 }
 
 function filterKategori(kat) {
-    currentPage = 1; // Reset ke halaman 1 setiap kali filter
+    currentPage = 1;
     if (kat === 'Semua') {
-        filteredData = [...allData].reverse();
+        filteredData = allData.map((post, index) => ({ ...post, originalIndex: index })).reverse();
     } else {
-        filteredData = allData.filter(p => p.kategori === kat).reverse();
+        filteredData = allData
+            .map((post, index) => ({ ...post, originalIndex: index }))
+            .filter(p => p.kategori === kat)
+            .reverse();
     }
     renderPosts();
 }
@@ -120,23 +117,47 @@ function tampilkanDetail(id) {
     document.getElementById('view-list').classList.add('hidden');
     document.getElementById('view-detail').classList.remove('hidden');
 
+    // Judul & Tanggal
     document.getElementById('content-title').innerText = post.judul;
-    
     let tgl = post.tanggal || "";
     if (tgl.includes("T") || tgl.includes("-")) {
         tgl = new Date(tgl).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
     }
     document.getElementById('content-date').innerText = tgl;
-    document.getElementById('content-body').innerHTML = post.konten;
-    
+
+    // Reset Body
+    let fullContent = "";
+
+    // 1. Tambahkan Gambar jika ada
+    if (post.gambar && post.gambar.trim() !== "") {
+        fullContent += `<img src="${post.gambar}" class="w-full h-auto rounded-[2rem] mb-8 shadow-lg">`;
+    }
+
+    // 2. Tambahkan Isi Konten
+    fullContent += `<div class="prose prose-slate max-w-none text-justify">${post.konten}</div>`;
+
+    // 3. Tambahkan Video YouTube jika ada
+    if (post.youtube && post.youtube.trim() !== "") {
+        fullContent += `
+            <div class="mt-10 aspect-video rounded-[2rem] overflow-hidden shadow-xl border-4 border-white">
+                <iframe class="w-full h-full" src="https://www.youtube.com/embed/${post.youtube}" frameborder="0" allowfullscreen></iframe>
+            </div>`;
+    }
+
+    // 4. Tambahkan Tags jika ada
+    if (post.tags && post.tags.trim() !== "") {
+        const tagList = post.tags.split(',').map(tag => 
+            `<span class="bg-slate-100 text-black text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-tighter mr-2">#${tag.trim()}</span>`
+        ).join('');
+        fullContent += `<div class="mt-10 pt-6 border-t border-slate-100">${tagList}</div>`;
+    }
+
+    document.getElementById('content-body').innerHTML = fullContent;
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function kembaliKeDaftar() {
-    window.history.pushState({}, '', 'index.html');
-    document.getElementById('view-list').classList.remove('hidden');
-    document.getElementById('view-detail').classList.add('hidden');
-    renderPosts();
+    window.location.href = 'index.html';
 }
 
 window.onload = fetchData;
