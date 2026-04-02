@@ -8,14 +8,10 @@
     <style>
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* Toolbar Editor Styling */
         .editor-toolbar { display: flex; gap: 6px; background: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 12px 12px 0 0; border-bottom: none; }
         .btn-tool { background: white; border: 1px solid #cbd5e1; padding: 5px 12px; border-radius: 6px; font-size: 13px; font-weight: 800; cursor: pointer; transition: all 0.2s; color: #1e293b; }
         .btn-tool:hover { background: #1a1a1a; color: white; border-color: #1a1a1a; }
         #konten { border-radius: 0 0 12px 12px !important; line-height: 1.6; }
-        
-        /* Sembunyikan panel admin sebelum login */
         #admin-panel { display: none; }
     </style>
 </head>
@@ -32,7 +28,6 @@
             </div>
             <input type="password" id="login_pass" placeholder="Password Rahasia" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-black outline-none transition text-center mb-4 text-lg">
             <button onclick="prosesLogin()" class="w-full bg-black text-white p-4 rounded-2xl font-black uppercase tracking-widest hover:bg-slate-800 transition active:scale-95 shadow-xl">Buka Kunci</button>
-            <a href="index.html" class="block mt-8 text-slate-400 text-xs font-bold hover:text-black transition uppercase tracking-widest">← Kembali ke Blog</a>
         </div>
     </div>
 
@@ -44,17 +39,21 @@
             </div>
         </nav>
 
-        <main class="container mx-auto px-4 py-10 max-w-3xl">
+        <main class="container mx-auto px-4 py-10 max-w-4xl grid grid-cols-1 gap-8">
+            
             <div class="fade-in bg-white p-6 md:p-10 rounded-[2.5rem] shadow-xl border border-slate-100">
                 <form id="blogForm" class="space-y-6">
-                    <div class="mb-8">
-                        <h2 class="text-2xl font-black border-b-4 border-black inline-block uppercase tracking-tight">Tambah Catatan</h2>
-                        <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mt-1">Ruang Merawat Ingatan Agus Tjakra</p>
+                    <div class="mb-8 flex justify-between items-end">
+                        <div>
+                            <h2 id="form-title" class="text-2xl font-black border-b-4 border-black inline-block uppercase tracking-tight">Tambah Catatan</h2>
+                            <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mt-1">Gunakan judul yang sama untuk mengedit</p>
+                        </div>
+                        <button type="button" onclick="resetForm()" class="text-[10px] font-bold text-red-500 uppercase underline">Batal / Reset</button>
                     </div>
 
                     <div>
-                        <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Judul Artikel</label>
-                        <input type="text" id="judul" required placeholder="Apa yang ingin diabadikan hari ini?" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Judul Artikel (Kunci Edit)</label>
+                        <input type="text" id="judul" required placeholder="Judul harus sama jika ingin mengedit" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition font-bold">
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -73,8 +72,8 @@
                     </div>
 
                     <div>
-                        <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">URL Gambar (Direct Link)</label>
-                        <input type="url" id="gambar" placeholder="https://raw.githubusercontent.com/..." class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">URL Gambar</label>
+                        <input type="url" id="gambar" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
                     </div>
 
                     <div>
@@ -85,28 +84,41 @@
                             <button type="button" class="btn-tool" onclick="formatText('u')">U</button>
                             <button type="button" class="btn-tool" onclick="formatText('blockquote')">Quote</button>
                         </div>
-                        <textarea id="konten" rows="12" required placeholder="Tuliskan rasan-rasan Bapak di sini..." class="w-full p-6 bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-black outline-none transition"></textarea>
+                        <textarea id="konten" rows="10" required class="w-full p-6 bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-black outline-none transition"></textarea>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Tags (Koma)</label>
-                            <input type="text" id="tags" placeholder="catatan, hidup, sekolah" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">ID YouTube</label>
-                            <input type="text" id="youtube" placeholder="Contoh: dQw4w9WgXcQ" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
-                        </div>
+                        <input type="text" id="tags" placeholder="Tags" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl">
+                        <input type="text" id="youtube" placeholder="ID Youtube" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl">
                     </div>
 
-                    <button type="submit" id="submitBtn" class="w-full bg-black text-white p-5 rounded-2xl font-black uppercase tracking-[0.3em] hover:bg-slate-800 transition shadow-2xl active:scale-95">Posting ke Blog</button>
+                    <button type="submit" id="submitBtn" class="w-full bg-black text-white p-5 rounded-2xl font-black uppercase tracking-[0.3em] hover:bg-slate-800 transition shadow-2xl">Simpan Catatan</button>
                 </form>
+            </div>
+
+            <div class="fade-in bg-white p-6 rounded-[2rem] shadow-lg border border-slate-100 overflow-hidden">
+                <h3 class="text-sm font-black uppercase tracking-widest mb-4">Pilih Postingan untuk Diedit</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs">
+                        <thead>
+                            <tr class="border-b">
+                                <th class="p-3">Judul</th>
+                                <th class="p-3">Kategori</th>
+                                <th class="p-3">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="list-postingan">
+                            <tr><td colspan="3" class="p-5 text-center italic text-slate-400">Memuat data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </main>
     </div>
 
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec"; 
+        let allData = [];
 
         window.onload = function() {
             if (sessionStorage.getItem("adminAuth") === "true") { bukaPanelAdmin(); }
@@ -119,16 +131,65 @@
             bukaPanelAdmin();
         }
 
-        function bukaPanelAdmin() {
+        async function bukaPanelAdmin() {
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('admin-panel').style.display = 'block';
             sessionStorage.setItem("adminAuth", "true");
+            fetchData();
         }
 
-        function logout() {
-            sessionStorage.clear();
-            location.reload();
+        async function fetchData() {
+            try {
+                const res = await fetch(API_URL);
+                allData = await res.json();
+                renderList();
+            } catch (e) { console.error("Gagal ambil data"); }
         }
+
+        function renderList() {
+            const container = document.getElementById('list-postingan');
+            container.innerHTML = '';
+            allData.reverse().forEach(post => {
+                container.innerHTML += `
+                    <tr class="border-b hover:bg-slate-50">
+                        <td class="p-3 font-bold">${post.judul}</td>
+                        <td class="p-3 text-slate-500">${post.kategori}</td>
+                        <td class="p-3">
+                            <button onclick="pilihEdit('${post.judul}')" class="bg-blue-600 text-white px-3 py-1 rounded-lg font-bold">Edit</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function pilihEdit(judul) {
+            const post = allData.find(p => p.judul === judul);
+            if (!post) return;
+            
+            document.getElementById('form-title').innerText = "Edit Catatan";
+            document.getElementById('judul').value = post.judul;
+            document.getElementById('tanggal').value = formatTanggalInput(post.tanggal);
+            document.getElementById('kategori').value = post.kategori;
+            document.getElementById('gambar').value = post.gambar || '';
+            document.getElementById('konten').value = post.konten;
+            document.getElementById('tags').value = post.tags || '';
+            document.getElementById('youtube').value = post.youtube || '';
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function formatTanggalInput(tglStr) {
+            if(!tglStr) return '';
+            const d = new Date(tglStr);
+            return d.toISOString().split('T')[0];
+        }
+
+        function resetForm() {
+            document.getElementById('blogForm').reset();
+            document.getElementById('form-title').innerText = "Tambah Catatan";
+        }
+
+        function logout() { sessionStorage.clear(); location.reload(); }
 
         function formatText(tag) {
             const area = document.getElementById('konten');
@@ -163,11 +224,12 @@
                     alert("Akses Ditolak! Password Salah.");
                     logout();
                 } else {
-                    alert("✅ Berhasil Disimpan!");
-                    document.getElementById('blogForm').reset();
+                    alert("✅ Catatan Berhasil Diperbarui/Disimpan!");
+                    resetForm();
+                    fetchData(); // Refresh list
                 }
             } catch (err) { alert("Error koneksi."); }
-            finally { btn.disabled = false; btn.innerText = "POSTING KE BLOG"; }
+            finally { btn.disabled = false; btn.innerText = "SIMPAN CATATAN"; }
         });
     </script>
 </body>
