@@ -6,20 +6,29 @@
     <title>Arsip Catatan | Penulis Pemula</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* Menggunakan font Inter agar terlihat modern dan bersih */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; }
+        
         .fade-in { animation: fadeIn 0.6s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Custom Table Styling */
-        .table-row:hover .judul-link { color: #000; text-decoration: underline; }
-        .num-col { font-family: serif; font-style: italic; color: #94a3b8; }
+        /* Custom Table Styling yang lebih ramping */
+        .table-row:hover { background-color: #f8fafc; }
+        .judul-link { font-size: 1rem; transition: color 0.2s; }
+        .table-row:hover .judul-link { color: #2563eb; } /* Warna biru lembut saat hover */
+        
+        /* Nomor urut yang lebih elegan */
+        .num-col { color: #cbd5e1; font-weight: 600; font-size: 0.875rem; }
     </style>
 </head>
 <body class="bg-slate-50 font-sans text-slate-900">
 
     <nav class="bg-black text-white shadow-lg sticky top-0 z-50">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <h1 class="text-xl md:text-2xl font-bold tracking-tight ">PENULIS PEMULA</h1>
-            <div class="flex space-x-6 text-xs font-bold tracking-widest">
+            <h1 class="text-lg md:text-xl font-extrabold tracking-tight">PENULIS PEMULA</h1>
+            <div class="flex space-x-6 text-[11px] font-bold uppercase tracking-widest">
                 <a href="index.html" class="hover:text-slate-300 transition">Blog</a>
                 <a href="daftar-isi.html" class="border-b-2 border-white pb-1">Daftar Isi</a>
                 <a href="about.html" class="hover:text-slate-300 transition">About</a>
@@ -30,26 +39,26 @@
 
     <main class="container mx-auto px-4 py-12 max-w-4xl">
         <div class="fade-in">
-            <div class="mb-12 text-center md:text-left">
-                <h2 class="text-4xl font-black text-slate-900 uppercase tracking-tighter border-b-8 border-black inline-block">Arsip Catatan</h2>
-                <p class="text-slate-500 mt-4 font-medium italic">Kumpulan rasan-rasan dari asal nulisnya Penulis Pemula.</p>
+            <div class="mb-10 text-center md:text-left">
+                <h2 class="text-2xl font-extrabold text-slate-900 uppercase tracking-tight border-b-4 border-black inline-block">Arsip Catatan</h2>
+                <p class="text-slate-500 mt-3 text-sm italic">Kumpulan rasan-rasan dari asal nulisnya Penulis Pemula.</p>
             </div>
             
-            <div class="bg-white rounded-[2rem] shadow-2xl border border-slate-100 overflow-hidden">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="bg-slate-50 border-b border-slate-100 text-[10px] tracking-[0.2em] text-slate-400">
-                            <th class="p-6 text-center w-16">No.</th>
-                            <th class="p-6">Judul & Tanggal</th>
-                            <th class="p-6 hidden md:table-cell">Kategori</th>
+                        <tr class="bg-slate-50 border-b border-slate-100 text-[10px] uppercase tracking-[0.2em] text-slate-400 font-bold">
+                            <th class="p-5 text-center w-16">No.</th>
+                            <th class="p-5">Judul & Tanggal</th>
+                            <th class="p-5 hidden md:table-cell text-right">Kategori</th>
                         </tr>
                     </thead>
                     <tbody id="daftar-isi-container">
                         <tr>
                             <td colspan="3" class="p-20 text-center">
                                 <div class="animate-pulse flex flex-col items-center">
-                                    <div class="h-4 w-48 bg-slate-200 rounded mb-4"></div>
-                                    <p class="text-slate-400 italic text-sm">Membuka laci arsip...</p>
+                                    <div class="h-2 w-32 bg-slate-200 rounded mb-4"></div>
+                                    <p class="text-slate-400 italic text-xs uppercase tracking-widest">Membuka laci arsip...</p>
                                 </div>
                             </td>
                         </tr>
@@ -57,14 +66,14 @@
                 </table>
             </div>
 
-            <p class="text-center mt-12 text-slate-400 text-xs font-bold tracking-widest">
+            <p class="text-center mt-12 text-slate-400 text-[10px] font-bold tracking-[0.3em] uppercase">
                 &copy; 2026 Penulis Pemula - Merawat Ingatan
             </p>
         </div>
     </main>
 
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec"; // <--- Masukkan URL Apps Script Bapak di sini
+        const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec";
 
         async function ambilDaftarIsi() {
             const container = document.getElementById('daftar-isi-container');
@@ -72,15 +81,12 @@
                 const response = await fetch(API_URL);
                 const data = await response.json();
                 
-                // Urutkan artikel terbaru di paling atas
                 const dataUrut = data.reverse();
                 
                 container.innerHTML = '';
                 dataUrut.forEach((post, index) => {
-                    // Logika Kategori
                     const kat = (post.kategori || post.Kategori || "UMUM").toUpperCase();
                     
-                    // Perbaikan Format Tanggal agar tidak muncul 000Z
                     let tgl = post.tanggal || "";
                     if (tgl.toString().includes("T") || tgl.toString().includes("-")) {
                         const d = new Date(tgl);
@@ -88,22 +94,22 @@
                     }
                     
                     container.innerHTML += `
-                        <tr class="table-row border-b border-slate-50 hover:bg-slate-50/50 transition duration-300">
-                            <td class="p-6 text-center num-col text-lg">
+                        <tr class="table-row border-b border-slate-50 transition duration-200">
+                            <td class="p-5 text-center num-col">
                                 ${String(index + 1).padStart(2, '0')}
                             </td>
-                            <td class="p-6">
-                                <a href="index.html?id=${index}" class="judul-link block text-lg font-black text-slate-800 leading-tight transition-colors">
+                            <td class="p-5">
+                                <a href="index.html?id=${index}" class="judul-link block font-semibold text-slate-800 leading-tight">
                                     ${post.judul}
                                 </a>
-                                <div class="flex items-center mt-2 text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+                                <div class="flex items-center mt-1 text-[10px] font-medium text-slate-400 uppercase tracking-wider">
                                     <span>${tgl}</span>
                                     <span class="mx-2 md:hidden">•</span>
-                                    <span class="md:hidden text-black">${kat}</span>
+                                    <span class="md:hidden text-slate-500 font-bold">${kat}</span>
                                 </div>
                             </td>
-                            <td class="p-6 hidden md:table-cell">
-                                <span class="inline-block text-[9px] font-black px-3 py-1 bg-black text-white rounded-full tracking-tighter">
+                            <td class="p-5 hidden md:table-cell text-right">
+                                <span class="inline-block text-[9px] font-bold px-2 py-0.5 bg-slate-100 text-slate-500 rounded uppercase tracking-tighter">
                                     ${kat}
                                 </span>
                             </td>
@@ -111,7 +117,7 @@
                     `;
                 });
             } catch (e) {
-                container.innerHTML = '<tr><td colspan="3" class="p-20 text-center text-red-500 font-bold">Gagal memuat arsip. Silakan cek koneksi internet Bapak.</td></tr>';
+                container.innerHTML = '<tr><td colspan="3" class="p-20 text-center text-xs text-red-400 uppercase font-bold tracking-widest">Gagal memuat arsip.</td></tr>';
             }
         }
 
