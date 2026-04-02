@@ -1,158 +1,143 @@
-// Ganti dengan URL Apps Script Bapak
-const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec"; 
-let dataBlog = []; 
+const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec";
 
-async function ambilData() {
+let allData = [];
+let filteredData = [];
+let currentPage = 1;
+const postsPerPage = 4; // Batasan 4 postingan per halaman
+
+async function fetchData() {
     const container = document.getElementById('blog-container');
-    
-    if (dataBlog.length > 0) {
-        renderDaftar(dataBlog);
+    try {
+        const response = await fetch(API_URL);
+        allData = await response.json();
+        
+        // Cek jika ada ID di URL untuk mode detail
+        const urlParams = new URLSearchParams(window.location.search);
+        const postId = urlParams.get('id');
+
+        if (postId !== null) {
+            tampilkanDetail(postId);
+        } else {
+            filteredData = [...allData].reverse(); // Terbaru di atas
+            renderPosts();
+        }
+    } catch (e) {
+        container.innerHTML = '<p class="text-center py-10 font-bold uppercase tracking-widest text-red-500">Gagal memuat catatan.</p>';
+    }
+}
+
+function renderPosts() {
+    const container = document.getElementById('blog-container');
+    container.innerHTML = '';
+
+    // Hitung index data yang akan ditampilkan
+    const startIndex = (currentPage - 1) * postsPerPage;
+    const endIndex = startIndex + postsPerPage;
+    const paginatedPosts = filteredData.slice(startIndex, endIndex);
+
+    if (paginatedPosts.length === 0) {
+        container.innerHTML = '<p class="text-center py-10 italic">Tidak ada catatan ditemukan.</p>';
         return;
     }
 
-    try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 12000);
-
-        const response = await fetch(API_URL, { signal: controller.signal });
-        const data = await response.json();
+    paginatedPosts.forEach((post) => {
+        // Cari index asli untuk link detail
+        const originalIndex = allData.findIndex(p => p.judul === post.judul);
         
-        clearTimeout(timeoutId);
-        
-        // PENTING: Kita simpan urutan asli Spreadsheet ke dalam property 'idAsli' 
-        // sebelum data dibalik (reverse) untuk tampilan.
-        dataBlog = data.map((item, index) => {
-            return { ...item, idAsli: index };
-        });
-
-        // Urutan tampilan tetap yang terbaru di atas
-        const dataTampilan = [...dataBlog].reverse();
-        
-        renderDaftar(dataTampilan);
-        cekLinkDaftarIsi();
-    } catch (e) { 
-        console.error("Gagal ambil data:", e);
-        container.innerHTML = "<p class='text-center py-10 italic text-slate-400'>Koneksi lambat. Silakan muat ulang halaman.</p>";
-    }
-}
-
-function renderDaftar(data) {
-    const container = document.getElementById('blog-container');
-    container.innerHTML = ''; 
-    
-    data.forEach((post) => {
-        // ID yang digunakan untuk link sekarang menggunakan idAsli (indeks baris Spreadsheet)
-        const idShare = post.idAsli; 
-        
-        const katTampil = (post.kategori || post.Kategori || "UMUM").toString().toUpperCase();
-        let teksBersih = (post.konten || "").replace(/<[^>]*>?/gm, ''); 
-        let ringkasan = teksBersih.substring(0, 250) + (teksBersih.length > 250 ? "..." : "");
-
         let tgl = post.tanggal || "";
-        if (tgl.toString().includes("-")) {
+        if (tgl.includes("T") || tgl.includes("-")) {
             tgl = new Date(tgl).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
         }
 
-        const tagHtml = post.tags ? post.tags.split(',').map(t => 
-            `<span class="bg-slate-50 text-slate-400 text-[10px] px-2 py-0.5 rounded border border-slate-100 mr-1 uppercase font-bold">#${t.trim()}</span>`
-        ).join('') : '';
-
         container.innerHTML += `
-            <article class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 fade-in hover:shadow-md transition duration-300">
-                <div class="flex justify-between items-start mb-3">
-                    <span class="text-xs font-black uppercase tracking-widest bg-slate-100 px-2 py-1 rounded-md border border-slate-200">${katTampil}</span>
-                    <span class="text-slate-400 text-[10px] font-medium">${tgl}</span>
-                </div>
-                <h3 onclick="bacaLengkap(${idShare})" class="text-xl md:text-2xl font-black text-slate-900 mb-3 cursor-pointer hover:underline leading-tight">
-                    ${post.judul}
+            <article class="fade-in bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-md transition">
+                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-black bg-slate-100 px-3 py-1 rounded-full">${post.kategori}</span>
+                <h3 class="text-xl md:text-2xl font-black mt-4 leading-tight">
+                    <a href="?id=${originalIndex}" class="hover:text-blue-700 transition">${post.judul}</a>
                 </h3>
-                <p class="text-slate-600 text-sm leading-relaxed mb-5">${ringkasan}</p>
-                <div class="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-slate-50">
-                    <div class="flex flex-wrap gap-1">${tagHtml}</div>
-                    <button onclick="bacaLengkap(${idShare})" class="text-black font-black text-sm hover:underline">BACA →</button>
+                <p class="text-black text-xs font-bold mt-2 uppercase tracking-widest">${tgl}</p>
+                <div class="mt-4 text-slate-600 line-clamp-3 text-sm leading-relaxed text-justify">
+                    ${post.konten.replace(/<[^>]*>/g, '').substring(0, 200)}...
                 </div>
-            </article>`;
+                <a href="?id=${originalIndex}" class="inline-block mt-6 text-xs font-black uppercase tracking-widest border-b-2 border-black pb-1 hover:text-blue-700 hover:border-blue-700 transition">Baca Selengkapnya →</a>
+            </article>
+        `;
     });
+
+    renderPagination();
 }
 
-function bacaLengkap(idAsli) {
-    // Cari data yang idAsli-nya cocok (pasti tepat sasaran ke baris Spreadsheet yang benar)
-    const post = dataBlog.find(p => p.idAsli === idAsli);
-    if(!post) return;
+function renderPagination() {
+    const totalPages = Math.ceil(filteredData.length / postsPerPage);
+    if (totalPages <= 1) return;
 
-    const kat = (post.kategori || post.Kategori || "UMUM").toUpperCase();
-    document.getElementById('content-title').innerText = post.judul;
-    document.getElementById('content-date').innerText = kat + " | " + post.tanggal;
-    
-    let img = post.gambar ? `<div class="mb-6"><img src="${post.gambar}" loading="lazy" class="w-full rounded-2xl shadow-lg border border-slate-100 mx-auto"></div>` : '';
-    let yt = post.youtube ? `<div class="relative w-full pb-[56.25%] h-0 rounded-2xl overflow-hidden mb-8 shadow-xl"><iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/${post.youtube.trim()}" frameborder="0" allowfullscreen></iframe></div>` : '';
-    
-    const kontenFormat = post.konten ? post.konten.replace(/\n/g, "<br>") : "";
-    document.getElementById('content-body').innerHTML = img + yt + kontenFormat;
+    const container = document.getElementById('blog-container');
+    const paginationDiv = document.createElement('div');
+    paginationDiv.className = 'flex justify-center items-center space-x-4 mt-12';
 
-    document.getElementById('view-list').classList.add('hidden');
-    document.getElementById('view-detail').classList.remove('hidden');
-    
-    // Update URL di browser tanpa reload, agar link bisa dicopy langsung dari address bar
-    window.history.pushState({}, '', `?id=${idAsli}`);
+    let paginationHtml = '';
+
+    // Tombol Previous
+    if (currentPage > 1) {
+        paginationHtml += `<button onclick="changePage(${currentPage - 1})" class="px-4 py-2 bg-black text-white text-xs font-black rounded-full uppercase tracking-widest shadow-lg">Prev</button>`;
+    } else {
+        paginationHtml += `<button disabled class="px-4 py-2 bg-slate-200 text-slate-400 text-xs font-black rounded-full uppercase tracking-widest cursor-not-allowed">Prev</button>`;
+    }
+
+    // Info Halaman
+    paginationHtml += `<span class="text-xs font-black uppercase tracking-widest text-black">Halaman ${currentPage} dari ${totalPages}</span>`;
+
+    // Tombol Next
+    if (currentPage < totalPages) {
+        paginationHtml += `<button onclick="changePage(${currentPage + 1})" class="px-4 py-2 bg-black text-white text-xs font-black rounded-full uppercase tracking-widest shadow-lg">Next</button>`;
+    } else {
+        paginationHtml += `<button disabled class="px-4 py-2 bg-slate-200 text-slate-400 text-xs font-black rounded-full uppercase tracking-widest cursor-not-allowed">Next</button>`;
+    }
+
+    paginationDiv.innerHTML = paginationHtml;
+    container.appendChild(paginationDiv);
+}
+
+function changePage(page) {
+    currentPage = page;
+    renderPosts();
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function filterKategori(kat) {
-    document.getElementById('view-list').classList.remove('hidden');
-    document.getElementById('view-detail').classList.add('hidden');
-    
-    let hasil;
+    currentPage = 1; // Reset ke halaman 1 setiap kali filter
     if (kat === 'Semua') {
-        hasil = [...dataBlog].reverse();
+        filteredData = [...allData].reverse();
     } else {
-        hasil = dataBlog.filter(p => {
-            const katPost = (p.kategori || p.Kategori || "UMUM").toString().trim().toLowerCase();
-            return katPost === kat.toLowerCase();
-        }).reverse();
+        filteredData = allData.filter(p => p.kategori === kat).reverse();
     }
-    renderDaftar(hasil);
+    renderPosts();
 }
 
-function kembaliKeDaftar() {
-    document.getElementById('view-list').classList.remove('hidden');
-    document.getElementById('view-detail').classList.add('hidden');
-    window.history.pushState({}, '', window.location.pathname); // Bersihkan ID di URL
+function tampilkanDetail(id) {
+    const post = allData[id];
+    if (!post) return;
+
+    document.getElementById('view-list').classList.add('hidden');
+    document.getElementById('view-detail').classList.remove('hidden');
+
+    document.getElementById('content-title').innerText = post.judul;
+    
+    let tgl = post.tanggal || "";
+    if (tgl.includes("T") || tgl.includes("-")) {
+        tgl = new Date(tgl).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+    document.getElementById('content-date').innerText = tgl;
+    document.getElementById('content-body').innerHTML = post.konten;
+    
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function cekLinkDaftarIsi() {
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
-    if (id !== null && dataBlog.length > 0) {
-        // Langsung buka berdasarkan ID asli baris spreadsheet
-        bacaLengkap(parseInt(id));
-    }
+function kembaliKeDaftar() {
+    window.history.pushState({}, '', 'index.html');
+    document.getElementById('view-list').classList.remove('hidden');
+    document.getElementById('view-detail').classList.add('hidden');
+    renderPosts();
 }
 
-window.onload = ambilData;
-
-// --- FITUR COPY WITH LINK (LINK OTOMATIS AKTIF) ---
-document.addEventListener('copy', function(e) {
-    const selection = window.getSelection();
-    const url = window.location.href;
-    
-    // 1. Format untuk Teks Biasa (Notepad, dll)
-    const textLink = `\n\n--------------------------------------------\nTulisan ini telah tayang di: ${url}\nCopyright © Penulis Pemula - Merawat Ingatan\n--------------------------------------------`;
-    
-    // 2. Format untuk HTML (WhatsApp, Email, Word agar link langsung Biru/Aktif)
-    const htmlLink = `<br><br>--------------------------------------------<br>` +
-                     `Tulisan ini telah tayang di: <a href="${url}">${url}</a><br>` +
-                     `Copyright © <b>Penulis Pemula - Merawat Ingatan</b><br>` +
-                     `--------------------------------------------`;
-
-    const combinedText = selection + textLink;
-    const combinedHtml = selection.toString().replace(/\n/g, '<br>') + htmlLink;
-
-    // Set data ke clipboard
-    e.clipboardData.setData('text/plain', combinedText);
-    e.clipboardData.setData('text/html', combinedHtml);
-    
-    // Cegah aksi copy bawaan browser agar menggunakan data buatan kita ini
-    e.preventDefault();
-});
+window.onload = fetchData;
