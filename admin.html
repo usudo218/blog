@@ -10,73 +10,75 @@
         body { font-family: 'Inter', sans-serif; color: #000; }
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .editor-toolbar { display: flex; gap: 6px; background: #f8fafc; padding: 10px; border: 1px solid #000; border-radius: 12px 12px 0 0; border-bottom: none; }
-        .btn-tool { background: white; border: 1px solid #000; padding: 5px 12px; border-radius: 6px; font-size: 13px; font-weight: 800; cursor: pointer; }
-        .btn-tool:hover { background: #000; color: white; }
-        #konten { border: 1px solid #000; border-radius: 0 0 12px 12px !important; }
         #admin-panel { display: none; }
     </style>
 </head>
-<body class="bg-slate-50">
+<body class="bg-slate-50 font-sans text-slate-900">
 
     <div id="login-screen" class="min-h-screen flex items-center justify-center px-4">
-        <div class="fade-in bg-white p-12 rounded-[2.5rem] shadow-2xl w-full max-w-md text-center border border-slate-200">
-            <div class="mb-8">
-                <div class="w-20 h-20 bg-black rounded-full flex items-center justify-center mx-auto mb-4">
+        <div class="fade-in bg-white p-12 rounded-[2.5rem] shadow-2xl border border-slate-100 w-full max-w-md text-center">
+            <div class="mb-8 text-black">
+                <div class="w-20 h-20 bg-black rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
                     <span class="text-white text-3xl font-black">AT</span>
                 </div>
-                <h2 class="text-2xl font-black uppercase">Pintu Masuk</h2>
+                <h2 class="text-2xl font-black uppercase tracking-tight">Pintu Masuk</h2>
+                <p class="text-black text-[10px] font-bold uppercase tracking-widest mt-1">Admin Penulis Pemula</p>
             </div>
-            <input type="password" id="login_pass" placeholder="Password Rahasia" class="w-full p-4 border border-black rounded-2xl mb-4 text-center">
-            <button onclick="prosesLogin()" class="w-full bg-black text-white p-4 rounded-2xl font-black uppercase mb-6">Buka Kunci</button>
-            <a href="index.html" class="block text-black text-[10px] font-black uppercase tracking-widest hover:underline">← Kembali ke Blog</a>
+            <input type="password" id="login_pass" placeholder="Password Rahasia" class="w-full p-4 bg-slate-50 border border-black rounded-2xl focus:ring-2 focus:ring-black outline-none transition text-center mb-4 text-lg text-black">
+            <button onclick="prosesLogin()" class="w-full bg-black text-white p-4 rounded-2xl font-black uppercase tracking-widest hover:bg-slate-800 transition active:scale-95 shadow-xl mb-6">Buka Kunci</button>
+            <a href="index.html" class="block text-black text-[10px] font-black uppercase tracking-[0.3em] hover:underline decoration-2 underline-offset-4">← Kembali ke Blog</a>
         </div>
     </div>
 
     <div id="admin-panel">
-        <nav class="bg-black text-white p-4 sticky top-0 z-50">
-            <div class="container mx-auto flex justify-between items-center uppercase font-black tracking-widest text-xs">
-                <span>Admin Dashboard</span>
-                <button onclick="logout()" class="border border-white px-4 py-1 rounded-full">Keluar</button>
+        <nav class="bg-black text-white shadow-lg sticky top-0 z-50">
+            <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+                <h1 class="text-lg font-black uppercase tracking-widest text-white">Admin Dashboard</h1>
+                <button onclick="logout()" class="text-[10px] font-black border border-white px-4 py-1.5 rounded-full hover:bg-white hover:text-black transition uppercase">Keluar</button>
             </div>
         </nav>
 
-        <main class="container mx-auto px-4 py-10 max-w-4xl">
-            <div class="bg-white p-10 rounded-[2.5rem] shadow-xl border border-slate-100 mb-10 text-black">
+        <main class="container mx-auto px-4 py-10 max-w-3xl">
+            
+            <div class="fade-in bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-slate-100 mb-10">
                 <form id="blogForm" class="space-y-6">
-                    <input type="hidden" id="edit_id" value="">
-                    <h2 id="form-title" class="text-2xl font-black border-b-4 border-black inline-block mb-4 uppercase">Tambah Catatan</h2>
-                    
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-black border-b-4 border-black inline-block uppercase tracking-tight text-black">Posting Baru</h2>
+                        <p class="text-black text-[10px] font-black uppercase tracking-widest mt-1 italic">Tulis rasan-rasan baru di sini</p>
+                    </div>
+
                     <div>
-                        <label class="block text-[10px] font-black uppercase mb-2">Judul</label>
-                        <input type="text" id="judul" required class="w-full p-4 border border-black rounded-xl font-bold text-black">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-black mb-2">Judul Artikel</label>
+                        <input type="text" id="judul" required class="w-full p-4 bg-slate-50 border border-black rounded-xl focus:ring-2 focus:ring-black outline-none transition font-bold text-black">
                     </div>
 
                     <div class="grid grid-cols-2 gap-6">
-                        <input type="date" id="tanggal" required class="p-4 border border-black rounded-xl text-black">
-                        <select id="kategori" class="p-4 border border-black rounded-xl font-bold text-black">
+                        <input type="date" id="tanggal" required class="p-4 bg-slate-50 border border-black rounded-xl text-black">
+                        <select id="kategori" class="p-4 bg-slate-50 border border-black rounded-xl font-bold text-black">
                             <option value="Rasan-rasan">Rasan-rasan</option>
                             <option value="Fiksiana">Fiksiana</option>
                             <option value="Asal nulis">Asal Nulis</option>
                         </select>
                     </div>
 
-                    <textarea id="konten" rows="12" required class="w-full p-6 text-black"></textarea>
+                    <textarea id="konten" rows="10" required placeholder="Tulis konten..." class="w-full p-6 border border-black rounded-xl text-black"></textarea>
 
                     <div class="grid grid-cols-2 gap-6">
-                        <input type="text" id="tags" placeholder="Tags" class="p-4 border border-black rounded-xl">
-                        <input type="text" id="youtube" placeholder="ID Youtube" class="p-4 border border-black rounded-xl">
+                        <input type="text" id="tags" placeholder="Tags" class="p-4 border border-black rounded-xl text-black text-xs">
+                        <input type="text" id="youtube" placeholder="ID Youtube" class="p-4 border border-black rounded-xl text-black text-xs">
                     </div>
 
-                    <button type="submit" id="submitBtn" class="w-full bg-black text-white p-5 rounded-2xl font-black uppercase tracking-[0.3em]">Simpan Catatan</button>
+                    <button type="submit" id="submitBtn" class="w-full bg-black text-white p-5 rounded-2xl font-black uppercase tracking-[0.3em] hover:bg-slate-800 transition shadow-2xl">Kirim ke Blog</button>
                 </form>
             </div>
 
-            <div class="bg-white p-8 rounded-[2.5rem] shadow-lg border border-slate-100 overflow-hidden">
-                <h3 class="text-[10px] font-black uppercase mb-6 border-b pb-2">Pilih Tulisan untuk Diedit</h3>
+            <div class="fade-in bg-white p-8 rounded-[2.5rem] shadow-lg border border-slate-100 overflow-hidden">
+                <h3 class="text-[10px] font-black uppercase tracking-[0.2em] mb-6 text-black border-b pb-2">Edit Tulisan (Buka di Spreadsheet)</h3>
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs border-collapse">
-                        <tbody id="list-postingan"></tbody>
+                    <table class="w-full text-left text-sm border-collapse">
+                        <tbody id="list-postingan" class="text-black">
+                            <tr><td class="p-10 text-center italic">Membaca arsip...</td></tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -84,11 +86,14 @@
     </div>
 
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec";
+        // Masukkan URL Spreadsheet Bapak di sini (URL yang Bapak buka saat mau edit manual)
+        const SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/1XfK5k0_7w8_8_G7Wz_I_I0_7w8_8_G7Wz/edit#gid=0";
+        
+        const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec"; 
+        let allData = [];
 
         function prosesLogin() {
             const pass = document.getElementById('login_pass').value;
-            if (pass === "") return alert("Isi password!");
             sessionStorage.setItem("adminPass", pass);
             bukaPanelAdmin();
         }
@@ -102,33 +107,30 @@
 
         async function fetchData() {
             const res = await fetch(API_URL);
-            const data = await res.json();
+            allData = await res.json();
+            renderList();
+        }
+
+        function renderList() {
             const container = document.getElementById('list-postingan');
             container.innerHTML = '';
-            data.forEach((post, index) => {
+            allData.forEach((post, index) => {
+                const rowNum = index + 2; 
                 container.innerHTML += `
-                    <tr class="border-b hover:bg-slate-50">
-                        <td class="py-4 font-bold text-black">${post.judul}</td>
-                        <td class="py-4 text-right">
-                            <button onclick="pilihEdit('${post.judul}', ${index + 2})" class="bg-black text-white px-6 py-2 rounded-full font-black text-[10px] uppercase">Edit</button>
+                    <tr class="border-b hover:bg-slate-50 transition">
+                        <td class="py-4 px-2 font-bold text-xs">${post.judul}</td>
+                        <td class="py-4 px-2 text-right">
+                            <button onclick="bukaSheet(${rowNum})" class="bg-blue-600 text-white px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest">Edit Baris ${rowNum}</button>
                         </td>
                     </tr>`;
             });
         }
 
-        function pilihEdit(judul, rowNum) {
-            fetch(API_URL).then(r => r.json()).then(data => {
-                const post = data.find(p => p.judul === judul);
-                document.getElementById('form-title').innerText = "Mode Edit (Baris " + rowNum + ")";
-                document.getElementById('edit_id').value = rowNum;
-                document.getElementById('judul').value = post.judul;
-                document.getElementById('tanggal').value = post.tanggal.split('T')[0];
-                document.getElementById('kategori').value = post.kategori || 'Rasan-rasan';
-                document.getElementById('konten').value = post.konten;
-                document.getElementById('tags').value = post.tags || '';
-                document.getElementById('youtube').value = post.youtube || '';
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
+        // FUNGSI UTAMA: MEMBUKA SPREADSHEET PADA BARIS TERTENTU
+        function bukaSheet(row) {
+            // Kita arahkan ke URL Spreadsheet Bapak dengan parameter baris
+            const rangeUrl = SPREADSHEET_URL + "&range=A" + row;
+            window.open(rangeUrl, '_blank');
         }
 
         document.getElementById('blogForm').addEventListener('submit', async (e) => {
@@ -138,19 +140,17 @@
             
             const payload = {
                 password: sessionStorage.getItem("adminPass"),
-                row_id: document.getElementById('edit_id').value,
                 judul: document.getElementById('judul').value,
                 tanggal: document.getElementById('tanggal').value,
                 konten: document.getElementById('konten').value,
-                gambar: "", // Bisa ditambah input jika perlu
+                gambar: "",
                 kategori: document.getElementById('kategori').value,
                 tags: document.getElementById('tags').value,
                 youtube: document.getElementById('youtube').value
             };
 
-            const response = await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) });
-            const result = await response.text();
-            alert(result);
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) });
+            alert("Berhasil Terposting!");
             location.reload();
         });
 
