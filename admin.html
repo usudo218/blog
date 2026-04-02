@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Penulis Pemula</title>
+    <title>Admin Panel | Penulis Pemula</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Gaya Khusus Toolbar Editor */
         .editor-toolbar {
             display: flex;
             gap: 6px;
@@ -39,31 +43,38 @@
 </head>
 <body class="bg-slate-50 font-sans text-slate-900">
 
-    <nav class="bg-black text-white shadow-lg mb-8">
+    <nav class="bg-black text-white shadow-lg sticky top-0 z-50">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <h1 class="text-xl font-black uppercase tracking-widest">Admin Panel</h1>
-            <a href="index.html" class="text-xs font-bold border border-white px-4 py-2 rounded-full hover:bg-white hover:text-black transition">Lihat Blog</a>
+            <a href="index.html" class="text-xs font-bold border border-white px-4 py-2 rounded-full hover:bg-white hover:text-black transition">
+                ← Lihat Blog
+            </a>
         </div>
     </nav>
 
-    <main class="container mx-auto px-4 max-w-3xl">
-        <div class="bg-white p-6 md:p-10 rounded-[2rem] shadow-xl border border-slate-100">
-            <h2 class="text-2xl font-black mb-8 border-b-4 border-black inline-block uppercase">Tambah Catatan Baru</h2>
+    <main class="container mx-auto px-4 py-10 max-w-3xl">
+        <div class="fade-in bg-white p-6 md:p-10 rounded-[2.5rem] shadow-2xl border border-slate-100">
+            <div class="mb-8">
+                <h2 class="text-2xl font-black border-b-4 border-black inline-block uppercase tracking-tight">Tambah Catatan</h2>
+                <p class="text-slate-400 text-xs mt-2 font-bold uppercase tracking-widest">Ruang Merawat Ingatan Agus Tjakra</p>
+            </div>
             
             <form id="blogForm" class="space-y-6">
                 <div>
-                    <label class="block text-sm font-black uppercase tracking-widest text-slate-700 mb-2">Judul Artikel</label>
-                    <input type="text" id="judul" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
+                    <label class="block text-xs font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Judul Artikel</label>
+                    <input type="text" id="judul" required placeholder="Apa yang ingin diabadikan hari ini?" 
+                           class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-black uppercase tracking-widest text-slate-700 mb-2">Tanggal</label>
-                        <input type="date" id="tanggal" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
+                        <label class="block text-xs font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Tanggal</label>
+                        <input type="date" id="tanggal" required 
+                               class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
                     </div>
                     <div>
-                        <label class="block text-sm font-black uppercase tracking-widest text-slate-700 mb-2">Kategori</label>
-                        <select id="kategori" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
+                        <label class="block text-xs font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Kategori</label>
+                        <select id="kategori" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition cursor-pointer">
                             <option value="Rasan-rasan">Rasan-rasan</option>
                             <option value="Fiksiana">Fiksiana</option>
                             <option value="Asal nulis">Asal Nulis</option>
@@ -72,72 +83,84 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-black uppercase tracking-widest text-slate-700 mb-2">URL Gambar (Opsional)</label>
-                    <input type="url" id="gambar" placeholder="https://..." class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
+                    <label class="block text-xs font-black uppercase tracking-[0.2em] text-slate-500 mb-2">URL Gambar (Direct Link)</label>
+                    <input type="url" id="gambar" placeholder="https://raw.githubusercontent.com/..." 
+                           class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
                 </div>
 
                 <div>
-                    <label class="block text-sm font-black uppercase tracking-widest text-slate-700 mb-2">Isi Catatan</label>
+                    <label class="block text-xs font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Isi Konten</label>
                     <div class="editor-toolbar">
-                        <button type="button" class="btn-tool" title="Tebal" onclick="formatText('b')">B</button>
-                        <button type="button" class="btn-tool" title="Miring" onclick="formatText('i')">I</button>
-                        <button type="button" class="btn-tool" title="Garis Bawah" onclick="formatText('u')">U</button>
-                        <button type="button" class="btn-tool" title="Kutipan" onclick="formatText('blockquote')">Quote</button>
+                        <button type="button" class="btn-tool" onclick="formatText('b')" title="Tebal">B</button>
+                        <button type="button" class="btn-tool" onclick="formatText('i')" title="Miring">I</button>
+                        <button type="button" class="btn-tool" onclick="formatText('u')" title="Garis Bawah">U</button>
+                        <button type="button" class="btn-tool" onclick="formatText('blockquote')" title="Kutipan">Quote</button>
                     </div>
-                    <textarea id="konten" rows="12" required class="w-full p-6 bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-black outline-none transition" placeholder="Tuliskan isi hati di sini..."></textarea>
-                    <p class="text-[10px] text-slate-400 mt-2 font-medium uppercase tracking-wider italic">*Tip: Sorot teks lalu klik tombol di atas untuk memberi format.</p>
+                    <textarea id="konten" rows="12" required placeholder="Tuliskan rasan-rasan Bapak di sini..." 
+                              class="w-full p-6 bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-black outline-none transition"></textarea>
                 </div>
 
-                <div>
-                    <label class="block text-sm font-black uppercase tracking-widest text-slate-700 mb-2">Tags (Pisahkan dengan koma)</label>
-                    <input type="text" id="tags" placeholder="catatan, refleksi, hidup" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-black uppercase tracking-[0.2em] text-slate-500 mb-2">Tags (Koma)</label>
+                        <input type="text" id="tags" placeholder="catatan, hidup, sekolah" 
+                               class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-black uppercase tracking-[0.2em] text-slate-500 mb-2">ID YouTube</label>
+                        <input type="text" id="youtube" placeholder="Contoh: dQw4w9WgXcQ" 
+                               class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
+                    </div>
                 </div>
 
-                <div>
-                    <label class="block text-sm font-black uppercase tracking-widest text-slate-700 mb-2">ID Video YouTube (Jika ada)</label>
-                    <input type="text" id="youtube" placeholder="Contoh: dQw4w9WgXcQ" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
+                <div class="mt-8 pt-6 border-t-2 border-slate-100">
+                    <label class="block text-xs font-black uppercase tracking-[0.2em] text-red-600 mb-2">Password Otoritas</label>
+                    <input type="password" id="admin_pass" required placeholder="Masukkan kunci masuk..." 
+                           class="w-full p-4 bg-red-50 border border-red-100 rounded-xl focus:ring-2 focus:ring-red-600 outline-none transition">
                 </div>
 
-                <button type="submit" id="submitBtn" class="w-full bg-black text-white p-5 rounded-xl font-black uppercase tracking-[0.2em] hover:bg-slate-800 transition shadow-xl active:scale-95">
+                <button type="submit" id="submitBtn" 
+                        class="w-full bg-black text-white p-5 rounded-2xl font-black uppercase tracking-[0.3em] hover:bg-slate-800 transition shadow-2xl active:scale-95 disabled:bg-slate-400">
                     Posting ke Blog
                 </button>
             </form>
         </div>
-        
-        <p class="text-center mt-12 mb-8 text-slate-400 text-[10px] font-bold tracking-widest uppercase">
-            &copy; 2026 Penulis Pemula - Dashboard Admin
-        </p>
+
+        <footer class="mt-12 mb-8">
+            <p class="text-center text-slate-400 text-[10px] font-bold tracking-[0.3em] uppercase">
+                &copy; 2026 Dashboard Penulis Pemula
+            </p>
+        </footer>
     </main>
 
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec"; // <--- GANTI DENGAN URL BAPAK
+        // MASUKKAN URL DEPLOY APPS SCRIPT BAPAK DI SINI
+        const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec";
 
-        // FUNGSI TOOLBAR EDITOR
+        // Fungsi Toolbar Editor
         function formatText(tag) {
             const area = document.getElementById('konten');
             const start = area.selectionStart;
             const end = area.selectionEnd;
             const selectedText = area.value.substring(start, end);
             
-            // Format yang akan disisipkan
-            const replacement = `<${tag}>${selectedText || 'teks'}</${tag}>`;
+            const replacement = `<${tag}>${selectedText || '...'}</${tag}>`;
             
-            // Masukkan ke posisi kursor
             area.value = area.value.substring(0, start) + replacement + area.value.substring(end);
-            
             area.focus();
-            // Kembalikan posisi blok kursor
-            area.setSelectionRange(start + tag.length + 2, start + tag.length + 2 + (selectedText.length || 4));
+            area.setSelectionRange(start + tag.length + 2, start + tag.length + 2 + (selectedText.length || 3));
         }
 
-        // PROSES KIRIM DATA
+        // Proses Submit Form
         document.getElementById('blogForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
+            
             btn.disabled = true;
-            btn.innerText = "MENGIRIM...";
+            btn.innerText = "SEDANG MENGIRIM...";
 
             const payload = {
+                password: document.getElementById('admin_pass').value,
                 judul: document.getElementById('judul').value,
                 tanggal: document.getElementById('tanggal').value,
                 konten: document.getElementById('konten').value,
@@ -152,11 +175,20 @@
                     method: 'POST',
                     body: JSON.stringify(payload)
                 });
+                
                 const result = await response.text();
-                alert("Catatan Berhasil Disimpan di Spreadsheet!");
-                document.getElementById('blogForm').reset();
+                
+                if (result === "PASSWORD_SALAH") {
+                    alert("⚠️ Akses Ditolak: Password Salah!");
+                } else if (result === "BERHASIL") {
+                    alert("✅ Sukses! Catatan telah tersimpan di Spreadsheet.");
+                    document.getElementById('blogForm').reset();
+                } else {
+                    alert("Respon: " + result);
+                }
             } catch (err) {
-                alert("Gagal mengirim: " + err.message);
+                alert("❌ Gagal terhubung ke server. Cek link API Bapak.");
+                console.error(err);
             } finally {
                 btn.disabled = false;
                 btn.innerText = "POSTING KE BLOG";
