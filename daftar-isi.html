@@ -6,7 +6,6 @@
     <title>Arsip Catatan | Penulis Pemula</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Menggunakan font Inter agar terlihat modern dan bersih */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
         
         body { font-family: 'Inter', sans-serif; }
@@ -14,13 +13,42 @@
         .fade-in { animation: fadeIn 0.6s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Custom Table Styling yang lebih ramping */
-        .table-row:hover { background-color: #f8fafc; }
-        .judul-link { font-size: 1rem; transition: color 0.2s; }
-        .table-row:hover .judul-link { color: #2563eb; } /* Warna biru lembut saat hover */
+        /* Pengaturan Link: Hitam standar, Biru saat disorot */
+        .judul-link { 
+            color: #000000; 
+            font-size: 0.95rem; /* Ukuran font seragam */
+            font-weight: 600;
+            transition: color 0.2s;
+            text-decoration: none;
+        }
+        .table-row:hover .judul-link { 
+            color: #2563eb; /* Biru saat disorot */
+        }
         
-        /* Nomor urut yang lebih elegan */
-        .num-col { color: #cbd5e1; font-weight: 600; font-size: 0.875rem; }
+        /* Nomor urut dan Tanggal: Ukuran seragam dengan judul */
+        .text-standard {
+            font-size: 0.95rem;
+            color: #000000;
+        }
+
+        .num-col { 
+            color: #cbd5e1; 
+            font-weight: 600; 
+            font-size: 0.95rem;
+            font-style: italic;
+        }
+
+        .text-date {
+            font-size: 0.75rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        /* Mengurangi tinggi baris agar lebih rapat */
+        .table-row td {
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+        }
     </style>
 </head>
 <body class="bg-slate-50 font-sans text-slate-900">
@@ -39,18 +67,18 @@
 
     <main class="container mx-auto px-4 py-12 max-w-4xl">
         <div class="fade-in">
-            <div class="mb-10 text-center md:text-left">
+            <div class="mb-8 text-center md:text-left">
                 <h2 class="text-2xl font-extrabold text-slate-900 uppercase tracking-tight border-b-4 border-black inline-block">Arsip Catatan</h2>
-                <p class="text-slate-500 mt-3 text-sm italic">Kumpulan rasan-rasan dari asal nulisnya Penulis Pemula.</p>
+                <p class="text-slate-500 mt-2 text-sm italic">Kumpulan rasan-rasan dari asal nulisnya Penulis Pemula.</p>
             </div>
             
             <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="bg-slate-50 border-b border-slate-100 text-[10px] uppercase tracking-[0.2em] text-slate-400 font-bold">
-                            <th class="p-5 text-center w-16">No.</th>
-                            <th class="p-5">Judul & Tanggal</th>
-                            <th class="p-5 hidden md:table-cell text-right">Kategori</th>
+                            <th class="p-4 text-center w-16">No.</th>
+                            <th class="p-4">Judul & Tanggal</th>
+                            <th class="p-4 hidden md:table-cell text-right text-xs">Kategori</th>
                         </tr>
                     </thead>
                     <tbody id="daftar-isi-container">
@@ -95,20 +123,20 @@
                     
                     container.innerHTML += `
                         <tr class="table-row border-b border-slate-50 transition duration-200">
-                            <td class="p-5 text-center num-col">
+                            <td class="px-4 py-3 text-center num-col">
                                 ${String(index + 1).padStart(2, '0')}
                             </td>
-                            <td class="p-5">
-                                <a href="index.html?id=${index}" class="judul-link block font-semibold text-slate-800 leading-tight">
+                            <td class="px-4 py-3">
+                                <a href="index.html?id=${index}" class="judul-link block leading-tight">
                                     ${post.judul}
                                 </a>
-                                <div class="flex items-center mt-1 text-[10px] font-medium text-slate-400 uppercase tracking-wider">
+                                <div class="text-date mt-0.5 uppercase tracking-wider">
                                     <span>${tgl}</span>
                                     <span class="mx-2 md:hidden">•</span>
                                     <span class="md:hidden text-slate-500 font-bold">${kat}</span>
                                 </div>
                             </td>
-                            <td class="p-5 hidden md:table-cell text-right">
+                            <td class="px-4 py-3 hidden md:table-cell text-right">
                                 <span class="inline-block text-[9px] font-bold px-2 py-0.5 bg-slate-100 text-slate-500 rounded uppercase tracking-tighter">
                                     ${kat}
                                 </span>
