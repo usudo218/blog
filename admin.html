@@ -11,10 +11,13 @@
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
+        /* Toolbar Editor Styling */
         .editor-toolbar { display: flex; gap: 6px; background: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 12px 12px 0 0; border-bottom: none; }
-        .btn-tool { background: white; border: 1px solid #cbd5e1; padding: 5px 12px; border-radius: 6px; font-size: 13px; font-weight: 800; cursor: pointer; transition: all 0.2s; color: #1e293b; }
-        .btn-tool:hover { background: #1a1a1a; color: white; border-color: #1a1a1a; }
+        .btn-tool { background: white; border: 1px solid #cbd5e1; padding: 5px 12px; border-radius: 6px; font-size: 13px; font-weight: 800; cursor: pointer; transition: all 0.2s; color: #000; }
+        .btn-tool:hover { background: #000; color: white; border-color: #000; }
         #konten { border-radius: 0 0 12px 12px !important; line-height: 1.6; }
+        
+        /* Sembunyikan panel admin sebelum login */
         #admin-panel { display: none; }
     </style>
 </head>
@@ -22,17 +25,17 @@
 
     <div id="login-screen" class="min-h-screen flex items-center justify-center px-4">
         <div class="fade-in bg-white p-8 md:p-12 rounded-[2.5rem] shadow-2xl border border-slate-100 w-full max-w-md text-center">
-            <div class="mb-8">
+            <div class="mb-8 text-black">
                 <div class="w-20 h-20 bg-black rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
                     <span class="text-white text-3xl font-black">AT</span>
                 </div>
                 <h2 class="text-2xl font-black uppercase tracking-tight">Pintu Masuk</h2>
-                <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mt-1 text-black">Khusus Penulis Pemula</p>
+                <p class="text-black text-[10px] font-bold uppercase tracking-widest mt-1">Khusus Penulis Pemula</p>
             </div>
             <input type="password" id="login_pass" placeholder="Password Rahasia" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-black outline-none transition text-center mb-4 text-lg">
             <button onclick="prosesLogin()" class="w-full bg-black text-white p-4 rounded-2xl font-black uppercase tracking-widest hover:bg-slate-800 transition active:scale-95 shadow-xl mb-6">Buka Kunci</button>
             
-            <a href="index.html" class="inline-block text-black text-[10px] font-black uppercase tracking-[0.3em] hover:underline decoration-2 underline-offset-4">
+            <a href="index.html" class="block text-black text-[10px] font-black uppercase tracking-[0.3em] hover:underline decoration-2 underline-offset-4">
                 ← Kembali ke Blog
             </a>
         </div>
@@ -47,7 +50,6 @@
         </nav>
 
         <main class="container mx-auto px-4 py-10 max-w-4xl grid grid-cols-1 gap-8">
-            
             <div class="fade-in bg-white p-6 md:p-10 rounded-[2.5rem] shadow-xl border border-slate-100">
                 <form id="blogForm" class="space-y-6">
                     <input type="hidden" id="edit_id" value="">
@@ -55,24 +57,24 @@
                     <div class="mb-8 flex justify-between items-end">
                         <div>
                             <h2 id="form-title" class="text-2xl font-black border-b-4 border-black inline-block uppercase tracking-tight">Tambah Catatan</h2>
-                            <p class="text-black text-[10px] font-bold uppercase tracking-widest mt-1">Ruang Merawat Ingatan Agus Tjakra</p>
+                            <p class="text-black text-[10px] font-black uppercase tracking-widest mt-1">Ruang Merawat Ingatan Agus Tjakra</p>
                         </div>
                         <button type="button" onclick="resetForm()" class="text-[10px] font-black text-red-600 uppercase underline decoration-2 underline-offset-4">Batal / Reset</button>
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-black uppercase tracking-widest text-black mb-2">Judul Artikel</label>
-                        <input type="text" id="judul" required placeholder="Apa yang ingin diabadikan?" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition font-bold">
+                        <input type="text" id="judul" required placeholder="Apa yang ingin diabadikan?" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition font-bold text-black">
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-[10px] font-black uppercase tracking-widest text-black mb-2">Tanggal</label>
-                            <input type="date" id="tanggal" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
+                            <input type="date" id="tanggal" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition text-black">
                         </div>
                         <div>
                             <label class="block text-[10px] font-black uppercase tracking-widest text-black mb-2">Kategori</label>
-                            <select id="kategori" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition font-bold">
+                            <select id="kategori" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition font-bold text-black">
                                 <option value="Rasan-rasan">Rasan-rasan</option>
                                 <option value="Fiksiana">Fiksiana</option>
                                 <option value="Asal nulis">Asal Nulis</option>
@@ -81,32 +83,32 @@
                     </div>
 
                     <div>
-                        <label class="block text-[10px] font-black uppercase tracking-widest text-black mb-2">URL Gambar</label>
-                        <input type="url" id="gambar" placeholder="https://..." class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-black mb-2">URL Gambar (Direct Link)</label>
+                        <input type="url" id="gambar" placeholder="https://..." class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition text-black">
                     </div>
 
                     <div>
                         <label class="block text-[10px] font-black uppercase tracking-widest text-black mb-2">Isi Konten</label>
-                        <div class="editor-toolbar text-black">
+                        <div class="editor-toolbar">
                             <button type="button" class="btn-tool" onclick="formatText('b')">B</button>
                             <button type="button" class="btn-tool" onclick="formatText('i')">I</button>
                             <button type="button" class="btn-tool" onclick="formatText('u')">U</button>
                             <button type="button" class="btn-tool" onclick="formatText('blockquote')">Quote</button>
                         </div>
-                        <textarea id="konten" rows="12" required class="w-full p-6 bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-black outline-none transition"></textarea>
+                        <textarea id="konten" rows="12" required class="w-full p-6 bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-black outline-none transition text-black"></textarea>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-black">
                         <input type="text" id="tags" placeholder="Tags (koma)" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl">
                         <input type="text" id="youtube" placeholder="ID Youtube" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl">
                     </div>
 
-                    <button type="submit" id="submitBtn" class="w-full bg-black text-white p-5 rounded-2xl font-black uppercase tracking-[0.3em] hover:bg-slate-800 transition shadow-2xl active:scale-95">Simpan Catatan</button>
+                    <button type="submit" id="submitBtn" class="w-full bg-black text-white p-5 rounded-2xl font-black uppercase tracking-[0.3em] hover:bg-slate-800 transition shadow-2xl active:scale-95">Posting ke Blog</button>
                 </form>
             </div>
 
             <div class="fade-in bg-white p-8 rounded-[2.5rem] shadow-lg border border-slate-100 overflow-hidden">
-                <h3 class="text-[10px] font-black uppercase tracking-[0.2em] mb-6 text-black border-b pb-2">Daftar Postingan (Pilih untuk Edit)</h3>
+                <h3 class="text-[10px] font-black uppercase tracking-[0.2em] mb-6 text-black border-b pb-2">Pilih Tulisan untuk Diedit</h3>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-sm border-collapse">
                         <thead>
@@ -115,8 +117,8 @@
                                 <th class="py-3 px-2 text-right">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="list-postingan">
-                            <tr><td colspan="2" class="p-10 text-center italic text-slate-400">Memuat data...</td></tr>
+                        <tbody id="list-postingan" class="text-black">
+                            <tr><td colspan="2" class="p-10 text-center italic text-slate-400">Membaca arsip...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -157,32 +159,31 @@
         function renderList() {
             const container = document.getElementById('list-postingan');
             container.innerHTML = '';
-            // Ambil data asli (tanpa reverse untuk melacak index baris yang benar)
-            // Header ada di baris 1, jadi data pertama ada di baris 2
+            // Data Spreadsheet: Baris 1 (Header), Baris 2 (Data pertama)
+            // Jadi index 0 di array allData = Baris 2 di Spreadsheet
             allData.forEach((post, index) => {
-                const actualRowNumber = index + 2; 
+                const rowNum = index + 2; 
                 container.innerHTML += `
                     <tr class="border-b hover:bg-slate-50 transition">
-                        <td class="py-4 px-2 font-bold text-slate-800 text-xs">${post.judul}</td>
+                        <td class="py-4 px-2 font-bold text-black text-xs">${post.judul}</td>
                         <td class="py-4 px-2 text-right">
-                            <button onclick="pilihEdit('${post.judul}', ${actualRowNumber})" class="bg-black text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-blue-700 transition">Edit</button>
+                            <button onclick="pilihEdit('${post.judul}', ${rowNum})" class="bg-black text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-blue-700 transition">Edit</button>
                         </td>
                     </tr>
                 `;
             });
         }
 
-        function pilihEdit(judul, rowNumber) {
-            // Cari data berdasarkan judul dari array allData
+        function pilihEdit(judul, rowNum) {
             const post = allData.find(p => p.judul === judul);
             if (!post) return;
             
-            document.getElementById('form-title').innerText = "Edit Catatan (Baris #" + rowNumber + ")";
-            document.getElementById('edit_id').value = rowNumber; // Simpan ID baris di input hidden
+            document.getElementById('form-title').innerText = "Edit Catatan (Baris #" + rowNum + ")";
+            document.getElementById('edit_id').value = rowNum; // Simpan nomor baris
             
             document.getElementById('judul').value = post.judul;
             document.getElementById('tanggal').value = formatTanggalInput(post.tanggal);
-            document.getElementById('kategori').value = post.kategori || "Rasan-rasan";
+            document.getElementById('kategori').value = post.kategori || 'Rasan-rasan';
             document.getElementById('gambar').value = post.gambar || '';
             document.getElementById('konten').value = post.konten || '';
             document.getElementById('tags').value = post.tags || '';
@@ -223,7 +224,7 @@
 
             const payload = {
                 password: sessionStorage.getItem("adminPass"),
-                id: document.getElementById('edit_id').value, // Mengirim ID Baris
+                id: document.getElementById('edit_id').value, // Mengirim nomor baris
                 judul: document.getElementById('judul').value,
                 tanggal: document.getElementById('tanggal').value,
                 konten: document.getElementById('konten').value,
@@ -241,11 +242,11 @@
                     alert("Akses Ditolak! Password Salah.");
                     logout();
                 } else {
-                    alert("✅ Berhasil: " + result);
+                    alert("Berhasil: " + result);
                     resetForm();
-                    fetchData(); // Muat ulang tabel daftar
+                    fetchData(); 
                 }
-            } catch (err) { alert("Error koneksi."); }
+            } catch (err) { alert("Koneksi gagal."); }
             finally { btn.disabled = false; btn.innerText = "SIMPAN CATATAN"; }
         });
     </script>
