@@ -114,7 +114,14 @@
             try {
                 const response = await fetch(API_URL);
                 const data = await response.json();
-                const dataUrut = data.reverse();
+                
+                // PENTING: Bungkus data dengan index asli sebelum dibalik (reverse)
+                const dataDenganID = data.map((item, index) => {
+                    return { ...item, indexAsli: index };
+                });
+
+                // Urutkan dari yang terbaru (paling bawah di sheet jadi paling atas di web)
+                const dataUrut = dataDenganID.reverse();
                 
                 container.innerHTML = '';
                 dataUrut.forEach((post, index) => {
@@ -132,7 +139,7 @@
                                 ${String(index + 1).padStart(2, '0')}
                             </td>
                             <td class="px-4 py-3">
-                                <a href="index.html?id=${index}" class="judul-link block leading-tight">
+                                <a href="index.html?id=${post.indexAsli}" class="judul-link block leading-tight">
                                     ${post.judul}
                                 </a>
                                 <div class="text-date mt-0.5 uppercase tracking-wider">
