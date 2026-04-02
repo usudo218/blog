@@ -73,31 +73,30 @@ function renderPagination() {
 
     const container = document.getElementById('blog-container');
     const paginationDiv = document.createElement('div');
-    paginationDiv.className = 'flex justify-center items-center space-x-4 mt-12';
+    paginationDiv.className = 'flex justify-center items-center space-x-6 mt-12 mb-10';
 
     let paginationHtml = '';
 
     // Tombol Previous
     if (currentPage > 1) {
-        paginationHtml += `<button onclick="changePage(${currentPage - 1})" class="px-4 py-2 bg-black text-white text-xs font-black rounded-full uppercase tracking-widest shadow-lg">Prev</button>`;
+        paginationHtml += `<button onclick="changePage(${currentPage - 1})" class="px-5 py-2 bg-black text-white text-[10px] font-black rounded-full uppercase tracking-widest shadow-lg hover:scale-105 transition">Prev</button>`;
     } else {
-        paginationHtml += `<button disabled class="px-4 py-2 bg-slate-200 text-slate-400 text-xs font-black rounded-full uppercase tracking-widest cursor-not-allowed">Prev</button>`;
+        paginationHtml += `<button disabled class="px-5 py-2 bg-slate-100 text-slate-300 text-[10px] font-black rounded-full uppercase tracking-widest cursor-not-allowed">Prev</button>`;
     }
 
-    // Info Halaman
-    paginationHtml += `<span class="text-xs font-black uppercase tracking-widest text-black">Halaman ${currentPage} dari ${totalPages}</span>`;
+    // Info Halaman Format: Page 1/2
+    paginationHtml += `<span class="text-[11px] font-black uppercase tracking-[0.2em] text-black">Page ${currentPage}/${totalPages}</span>`;
 
     // Tombol Next
     if (currentPage < totalPages) {
-        paginationHtml += `<button onclick="changePage(${currentPage + 1})" class="px-4 py-2 bg-black text-white text-xs font-black rounded-full uppercase tracking-widest shadow-lg">Next</button>`;
+        paginationHtml += `<button onclick="changePage(${currentPage + 1})" class="px-5 py-2 bg-black text-white text-[10px] font-black rounded-full uppercase tracking-widest shadow-lg hover:scale-105 transition">Next</button>`;
     } else {
-        paginationHtml += `<button disabled class="px-4 py-2 bg-slate-200 text-slate-400 text-xs font-black rounded-full uppercase tracking-widest cursor-not-allowed">Next</button>`;
+        paginationHtml += `<button disabled class="px-5 py-2 bg-slate-100 text-slate-300 text-[10px] font-black rounded-full uppercase tracking-widest cursor-not-allowed">Next</button>`;
     }
 
     paginationDiv.innerHTML = paginationHtml;
     container.appendChild(paginationDiv);
 }
-
 function changePage(page) {
     currentPage = page;
     renderPosts();
