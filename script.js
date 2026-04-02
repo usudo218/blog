@@ -131,24 +131,28 @@ function cekLinkDaftarIsi() {
 }
 
 window.onload = ambilData;
-// --- FITUR COPY WITH LINK ---
+
+// --- FITUR COPY WITH LINK (LINK OTOMATIS AKTIF) ---
 document.addEventListener('copy', function(e) {
     const selection = window.getSelection();
-    // Membuat format link sumber
-    const pagelink = `\n\n--------------------------------------------\nTulisan ini telah tayang di: ${window.location.href}\nCopyright © Penulis Pemula - Merawat Ingatan\n--------------------------------------------`;
+    const url = window.location.href;
     
-    const copytext = selection + pagelink;
-    const newdiv = document.createElement('div');
+    // 1. Format untuk Teks Biasa (Notepad, dll)
+    const textLink = `\n\n--------------------------------------------\nTulisan ini telah tayang di: ${url}\nCopyright © Penulis Pemula - Merawat Ingatan\n--------------------------------------------`;
     
-    // Sembunyikan elemen pembantu ini
-    newdiv.style.position = 'absolute';
-    newdiv.style.left = '-99999px';
+    // 2. Format untuk HTML (WhatsApp, Email, Word agar link langsung Biru/Aktif)
+    const htmlLink = `<br><br>--------------------------------------------<br>` +
+                     `Tulisan ini telah tayang di: <a href="${url}">${url}</a><br>` +
+                     `Copyright © <b>Penulis Pemula - Merawat Ingatan</b><br>` +
+                     `--------------------------------------------`;
+
+    const combinedText = selection + textLink;
+    const combinedHtml = selection.toString().replace(/\n/g, '<br>') + htmlLink;
+
+    // Set data ke clipboard
+    e.clipboardData.setData('text/plain', combinedText);
+    e.clipboardData.setData('text/html', combinedHtml);
     
-    document.body.appendChild(newdiv);
-    newdiv.innerText = copytext;
-    selection.selectAllChildren(newdiv);
-    
-    window.setTimeout(function() {
-        document.body.removeChild(newdiv);
-    }, 0);
+    // Cegah aksi copy bawaan browser agar menggunakan data buatan kita ini
+    e.preventDefault();
 });
