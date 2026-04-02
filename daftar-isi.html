@@ -8,40 +8,49 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
         
-        body { font-family: 'Inter', sans-serif; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            color: #000000; /* Warna dasar hitam untuk seluruh body */
+        }
         
         .fade-in { animation: fadeIn 0.6s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Pengaturan Link: Hitam standar, Biru saat disorot */
+        /* Judul Link: Hitam pekat, Biru saat disorot */
         .judul-link { 
             color: #000000; 
-            font-size: 0.95rem; /* Ukuran font seragam */
+            font-size: 0.95rem; 
             font-weight: 600;
             transition: color 0.2s;
             text-decoration: none;
         }
         .table-row:hover .judul-link { 
-            color: #2563eb; /* Biru saat disorot */
+            color: #2563eb; 
         }
         
-        /* Nomor urut dan Tanggal: Ukuran seragam dengan judul */
-        .text-standard {
-            font-size: 0.95rem;
-            color: #000000;
-        }
-
+        /* Nomor urut & Tanggal: Semuanya Hitam */
         .num-col { 
-            color: #cbd5e1; 
+            color: #000000; 
             font-weight: 600; 
             font-size: 0.95rem;
             font-style: italic;
+            opacity: 0.8; /* Sedikit soft tapi tetap hitam */
         }
 
         .text-date {
             font-size: 0.75rem;
-            color: #64748b;
+            color: #000000;
             font-weight: 500;
+            opacity: 0.7;
+        }
+
+        /* Footer Hitam Pekat */
+        .footer-text {
+            color: #000000;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
         }
 
         /* Mengurangi tinggi baris agar lebih rapat */
@@ -51,12 +60,12 @@
         }
     </style>
 </head>
-<body class="bg-slate-50 font-sans text-slate-900">
+<body class="bg-slate-50">
 
     <nav class="bg-black text-white shadow-lg sticky top-0 z-50">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <h1 class="text-lg md:text-xl font-extrabold tracking-tight">PENULIS PEMULA</h1>
-            <div class="flex space-x-6 text-[11px] font-bold tracking-widest">
+            <div class="flex space-x-6 text-[11px] font-bold uppercase tracking-widest">
                 <a href="index.html" class="hover:text-slate-300 transition">Blog</a>
                 <a href="daftar-isi.html" class="border-b-2 border-white pb-1">Daftar Isi</a>
                 <a href="about.html" class="hover:text-slate-300 transition">About</a>
@@ -69,13 +78,13 @@
         <div class="fade-in">
             <div class="mb-8 text-center md:text-left">
                 <h2 class="text-2xl font-extrabold text-slate-900 uppercase tracking-tight border-b-4 border-black inline-block">Arsip Catatan</h2>
-                <p class="text-slate-500 mt-2 text-sm italic">Kumpulan rasan-rasan dari asal nulisnya Penulis Pemula.</p>
+                <p class="text-black mt-2 text-sm italic font-medium">Kumpulan rasan-rasan dari asal nulisnya Penulis Pemula.</p>
             </div>
             
             <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="bg-slate-50 border-b border-slate-100 text-[10px] uppercase tracking-[0.2em] text-slate-400 font-bold">
+                        <tr class="bg-slate-50 border-b border-slate-100 text-[10px] uppercase tracking-[0.2em] text-black font-black">
                             <th class="p-4 text-center w-16">No.</th>
                             <th class="p-4">Judul & Tanggal</th>
                             <th class="p-4 hidden md:table-cell text-right text-xs">Kategori</th>
@@ -83,18 +92,15 @@
                     </thead>
                     <tbody id="daftar-isi-container">
                         <tr>
-                            <td colspan="3" class="p-20 text-center">
-                                <div class="animate-pulse flex flex-col items-center">
-                                    <div class="h-2 w-32 bg-slate-200 rounded mb-4"></div>
-                                    <p class="text-slate-400 italic text-xs uppercase tracking-widest">Membuka laci arsip...</p>
-                                </div>
+                            <td colspan="3" class="p-20 text-center text-black font-bold text-xs uppercase tracking-widest italic animate-pulse">
+                                Membuka laci arsip...
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <p class="text-center mt-12 text-slate-400 text-[10px] font-bold tracking-[0.3em] uppercase">
+            <p class="text-center mt-12 footer-text">
                 &copy; 2026 Penulis Pemula - Merawat Ingatan
             </p>
         </div>
@@ -108,7 +114,6 @@
             try {
                 const response = await fetch(API_URL);
                 const data = await response.json();
-                
                 const dataUrut = data.reverse();
                 
                 container.innerHTML = '';
@@ -133,11 +138,11 @@
                                 <div class="text-date mt-0.5 uppercase tracking-wider">
                                     <span>${tgl}</span>
                                     <span class="mx-2 md:hidden">•</span>
-                                    <span class="md:hidden text-slate-500 font-bold">${kat}</span>
+                                    <span class="md:hidden text-black font-black">${kat}</span>
                                 </div>
                             </td>
                             <td class="px-4 py-3 hidden md:table-cell text-right">
-                                <span class="inline-block text-[9px] font-bold px-2 py-0.5 bg-slate-100 text-slate-500 rounded uppercase tracking-tighter">
+                                <span class="inline-block text-[9px] font-black px-2 py-0.5 bg-slate-100 text-black border border-slate-200 rounded uppercase tracking-tighter">
                                     ${kat}
                                 </span>
                             </td>
@@ -145,7 +150,7 @@
                     `;
                 });
             } catch (e) {
-                container.innerHTML = '<tr><td colspan="3" class="p-20 text-center text-xs text-red-400 uppercase font-bold tracking-widest">Gagal memuat arsip.</td></tr>';
+                container.innerHTML = '<tr><td colspan="3" class="p-20 text-center text-xs text-black uppercase font-bold tracking-widest">Gagal memuat arsip.</td></tr>';
             }
         }
 
