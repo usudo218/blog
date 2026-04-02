@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentang Penulis | Penulis Pemula</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .fade-in { animation: fadeIn 0.6s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .content-text { line-height: 1.8; font-size: 1.1rem; color: #334155; }
+        .content-text p { margin-bottom: 1.5rem; }
+        
+        blockquote {
+            margin: 2rem 0;
+            padding: 1.5rem 2rem;
+            border-left: 6px solid #1a1a1a;
+            background-color: #f8fafc;
+            font-style: italic;
+            color: #475569;
+            border-radius: 0 1rem 1rem 0;
+            position: relative;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-900">
+
+    <nav class="bg-black text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold tracking-tight uppercase">PENULIS PEMULA</h1>
+            <div class="flex space-x-6 text-xs font-bold uppercase tracking-widest">
+                <a href="index.html" class="hover:text-slate-300 transition">Blog</a>
+                <a href="daftar-isi.html" class="hover:text-slate-300 transition">Daftar Isi</a>
+                <a href="about.html" class="border-b-2 border-white pb-1">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-12 max-w-3xl">
+        <div class="fade-in bg-white p-8 md:p-16 rounded-[3rem] shadow-xl border border-slate-100">
+            
+            <div class="text-center mb-12">
+                <img src="https://raw.githubusercontent.com/usudo218/blog/main/pp.png" 
+                     alt="Agus Tjakra" 
+                     class="w-32 h-32 rounded-full mx-auto mb-6 shadow-2xl border-4 border-white object-cover">
+                <h2 class="text-3xl font-black text-slate-900 uppercase tracking-tighter">Agus Tjakra</h2>
+                <p class="text-slate-400 font-bold uppercase text-[10px] tracking-[0.4em] mt-2">Penulis Pemula</p>
+            </div>
+
+            <div class="content-text text-justify">
+                <p>
+                    Selamat datang di gubuk digital saya. Saya <strong>Agus Tjakra</strong>.
+                </p>
+                <p>
+                    Nama <strong>Penulis Pemula</strong> saya pilih bukan karena saya baru mengenal aksara, melainkan sebagai pengingat bahwa setiap kali saya duduk dan mulai menulis, saya sedang belajar kembali untuk jujur pada pikiran dan perasaan saya sendiri. Menulis bagi saya adalah upaya untuk terus menjadi murid kehidupan yang mengeja makna di setiap peristiwa.
+                </p>
+                <blockquote>
+                    "Menulis adalah cara saya mengikat makna sebelum ia terbang terbawa angin. Merawat ingatan agar tidak lekas hilang dimakan lupa."
+                </blockquote>
+                <p>
+                    Dunia hari ini berjalan begitu cepat. Kadang, baru saja kita merasakan sebuah momen, ia sudah hilang disalip hiruk-pikuk hari esok. Saya merasa ingatan manusia itu terlalu ringkih untuk memikul beban sejarahnya sendiri. Blog ini hadir sebagai ikhtiar saya untuk menjaga potongan-potongan peristiwa agar tidak menguap begitu saja.
+                </p>
+                               </div>
+
+            <div class="mt-12 pt-8 border-t border-slate-100 text-center">
+                <h4 class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Jejak Digital</h4>
+                <div class="flex justify-center">
+                    <a href="https://usudo218.github.io/blog" target="_blank" class="bg-black text-white px-6 py-2 rounded-full text-[10px] font-bold hover:scale-105 transition shadow-lg">
+                        Penulis Pemula
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <footer class="mt-16 pb-8">
+            <p class="text-center text-slate-400 text-[10px] font-bold tracking-[0.2em] uppercase">
+                &copy; 2026 Penulis Pemula - Merawat Ingatan
+            </p>
+        </footer>
+    </main>
+
+</body>
+</html>
