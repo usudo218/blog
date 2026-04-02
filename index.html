@@ -3,37 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Penulis Pemula | Blog</title>
+    <title>Penulis Pemula | Blog </title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
         
         body { font-family: 'Inter', sans-serif; }
-        .fade-in { animation: fadeIn 0.4s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Tipografi Artikel Standar Profesional */
+        /* Tipografi Artikel: Kembali ke Ukuran Nyaman (Besar) */
         #content-body { 
-            line-height: 1.7; 
-            font-size: 1rem; 
+            line-height: 1.8; 
+            font-size: 1.125rem; /* Kembali ke 18px agar lega */
             color: #334155; 
         }
-        #content-body p { margin-bottom: 1.25rem; }
+        #content-body p { margin-bottom: 1.5rem; }
         
         #content-body blockquote {
-            margin: 1.5rem 0;
-            padding: 1rem 1.5rem;
-            border-left: 4px solid #1a1a1a; 
+            margin: 2rem 0;
+            padding: 1.5rem 2rem;
+            border-left: 6px solid #1a1a1a; 
             background-color: #f8fafc;
             font-style: italic;
             color: #475569;
-            font-size: 0.95rem;
-            border-radius: 0 0.5rem 0.5rem 0;
+            border-radius: 0 1rem 1rem 0;
         }
 
         #content-body img { 
-            max-width: 100%; height: auto; border-radius: 0.75rem; 
-            margin: 1.5rem 0; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); 
+            max-width: 100%; height: auto; border-radius: 1.5rem; 
+            margin: 2rem 0; shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); 
         }
 
         /* Footer Hitam Pekat */
@@ -46,65 +45,67 @@
         }
 
         /* Skeleton Loading */
-        .skeleton { background: #e2e8f0; border-radius: 1rem; animation: pulse 1.5s infinite; }
+        .skeleton { background: #e2e8f0; border-radius: 2rem; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
     </style>
 </head>
 <body class="bg-slate-50 font-sans text-slate-900">
 
     <nav class="bg-black text-white shadow-lg sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <h1 class="text-lg md:text-xl font-extrabold tracking-tight">PENULIS PEMULA</h1>
-            <div class="flex space-x-4 text-[11px] font-bold uppercase tracking-widest">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-black tracking-tight ">PENULIS PEMULA</h1>
+            <div class="flex space-x-6 text-xs font-bold uppercase tracking-widest">
                 <a href="index.html" class="border-b-2 border-white pb-1">Blog</a>
                 <a href="daftar-isi.html">Daftar Isi</a>
                 <a href="about.html">About</a>
+                <a href="admin.html">Login</a>
             </div>
         </div>
     </nav>
 
-    <main class="container mx-auto px-4 py-8 max-w-6xl">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <main class="container mx-auto px-4 py-10 max-w-6xl">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
             <div class="lg:col-span-2">
                 <div id="view-list" class="fade-in">
-                    <h2 id="section-title" class="text-xl font-extrabold mb-6 border-b-2 border-black inline-block text-slate-800 uppercase tracking-tight">Catatan Terbaru</h2>
-                    <div id="blog-container" class="space-y-6">
-                        <div class="skeleton h-40 w-full"></div>
-                        <div class="skeleton h-40 w-full"></div>
+                    <h2 id="section-title" class="text-2xl font-black mb-8 border-b-4 border-black inline-block text-slate-900 uppercase tracking-tight">Catatan Terbaru</h2>
+                    <div id="blog-container" class="space-y-8">
+                        <div class="skeleton h-64 w-full"></div>
+                        <div class="skeleton h-64 w-full"></div>
                     </div>
                 </div>
 
-                <div id="view-detail" class="hidden fade-in bg-white p-6 md:p-10 rounded-2xl shadow-sm border border-slate-100">
-                    <button onclick="kembaliKeDaftar()" class="mb-6 text-sm font-bold text-black hover:underline">← Kembali</button>
+                <div id="view-detail" class="hidden fade-in bg-white p-8 md:p-12 rounded-[2.5rem] shadow-sm border border-slate-100">
+                    <button onclick="kembaliKeDaftar()" class="mb-8 text-sm font-black text-black hover:underline uppercase tracking-widest">← Kembali</button>
                     <article>
-                        <header class="mb-6 border-b pb-4">
-                            <h1 id="content-title" class="text-2xl md:text-3xl font-extrabold text-slate-900 leading-tight"></h1>
-                            <p id="content-date" class="text-black text-[11px] font-bold mt-2 uppercase tracking-widest"></p>
+                        <header class="mb-8 border-b-2 border-slate-50 pb-6">
+                            <h1 id="content-title" class="text-3xl md:text-4xl font-black text-slate-900 leading-tight tracking-tighter"></h1>
+                            <p id="content-date" class="text-black text-xs font-bold mt-3 uppercase tracking-[0.2em]"></p>
                         </header>
-                        <div id="content-body"></div>
+                        <div id="content-body" class="text-justify"></div>
                     </article>
                 </div>
             </div>
 
-            <aside class="space-y-6">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 text-center">
-                    <img src="https://raw.githubusercontent.com/usudo218/blog/main/pp.png" class="w-20 h-20 rounded-full mx-auto mb-3 border-2 border-slate-100 shadow-sm">
-                    <h4 class="font-bold text-sm text-slate-900">Agus Tjakra</h4>
-                    <p class="text-black text-xs italic font-medium mt-1">"Menulis untuk merawat ingatan"</p>
+            <aside class="space-y-8">
+                <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100 text-center">
+                    <img src="https://raw.githubusercontent.com/usudo218/blog/main/pp.png" 
+                         class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-slate-50 shadow-md object-cover">
+                    <h4 class="font-black text-lg text-slate-900 uppercase tracking-tight">Penulis Pemula</h4>
+                    <p class="text-black text-sm italic font-medium mt-2">"Menulis untuk merawat ingatan"</p>
                 </div>
 
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-                    <h4 class="text-[10px] font-bold uppercase tracking-widest text-black mb-4">Topik Utama</h4>
-                    <div class="flex flex-wrap gap-2">
-                        <button onclick="filterKategori('Semua')" class="bg-black text-white px-3 py-1 rounded-full text-[10px] font-bold">Semua</button>
-                        <button onclick="filterKategori('Rasan-rasan')" class="bg-slate-100 text-black px-3 py-1 rounded-full text-[10px] font-bold hover:bg-black hover:text-white transition">Rasan-rasan</button>
-                        <button onclick="filterKategori('Fiksiana')" class="bg-slate-100 text-black px-3 py-1 rounded-full text-[10px] font-bold hover:bg-black hover:text-white transition">Fiksiana</button>
+                <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100">
+                    <h4 class="text-xs font-black uppercase tracking-[0.2em] text-black mb-5">Topik Utama</h4>
+                    <div class="flex flex-wrap gap-3">
+                        <button onclick="filterKategori('Semua')" class="bg-black text-white px-4 py-2 rounded-full text-xs font-bold shadow-md hover:scale-105 transition">Semua</button>
+                        <button onclick="filterKategori('Rasan-rasan')" class="bg-slate-100 text-black px-4 py-2 rounded-full text-xs font-bold hover:bg-black hover:text-white transition">Rasan-rasan</button>
+                        <button onclick="filterKategori('Fiksiana')" class="bg-slate-100 text-black px-4 py-2 rounded-full text-xs font-bold hover:bg-black hover:text-white transition">Fiksiana</button>
                     </div>
                 </div>
             </aside>
         </div>
 
-        <footer class="mt-20 pb-10">
+        <footer class="mt-24 pb-12">
             <p class="text-center footer-text">
                 &copy; 2026 Penulis Pemula - Merawat Ingatan
             </p>
