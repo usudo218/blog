@@ -3,113 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Posting Artikel</title>
+    <title>Admin - Penulis Pemula</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .editor-toolbar {
+            display: flex;
+            gap: 6px;
+            background: #f8fafc;
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px 12px 0 0;
+            border-bottom: none;
+        }
+        .btn-tool {
+            background: white;
+            border: 1px solid #cbd5e1;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #1e293b;
+        }
+        .btn-tool:hover {
+            background: #1a1a1a;
+            color: white;
+            border-color: #1a1a1a;
+        }
+        #konten {
+            border-radius: 0 0 12px 12px !important;
+            line-height: 1.6;
+        }
+    </style>
 </head>
-<body class="bg-slate-100 p-4 md:p-12">
-    <div class="max-w-3xl mx-auto bg-white p-6 md:p-10 rounded-2xl shadow-xl border border-slate-200">
-        <h2 class="text-3xl font-bold mb-8 text-blue-600 border-b pb-4 text-center">Tulis Artikel Baru</h2>
-        
-        <div class="space-y-5">
-            <div>
-                <label class="block text-sm font-bold text-slate-700 mb-1">Judul Artikel</label>
-                <input type="text" id="judul" placeholder="Masukkan judul..." class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none border-slate-300">
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm font-bold text-slate-700 mb-1">Kategori</label>
-                    <select id="kategori" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none border-slate-300">
-                        <option value="semua">semua</option>
-                        <option value="Rasan-rasan">rasan-rasan</option>
-                        <option value="Fiksiana">Fiksina</option>
-                        <option value="Asal Nulis">Asal Nulis</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-slate-700 mb-1">Tags (Pisahkan koma)</label>
-                    <input type="text" id="tags" placeholder="rpp, linux, docker" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none border-slate-300">
-                </div>
-            </div>
+<body class="bg-slate-50 font-sans text-slate-900">
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm font-bold text-slate-700 mb-1">Link Gambar Google Drive</label>
-                    <input type="text" id="gambar" placeholder="Tempel link share gambar..." class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none border-slate-300">
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-slate-700 mb-1">ID YouTube (Opsional)</label>
-                    <input type="text" id="youtube" placeholder="Contoh: dQw4w9WgXcQ" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none border-slate-300">
-                </div>
-            </div>
-
-            <div>
-                <label class="block text-sm font-bold text-slate-700 mb-1">Konten (Mendukung Tag HTML)</label>
-                <textarea id="konten" rows="12" placeholder="Tulis atau paste isi artikel..." class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none border-slate-300"></textarea>
-            </div>
-            
-            <button onclick="kirimKeSheets()" id="btnSimpan" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 transition shadow-lg text-lg">
-                Terbitkan ke Blog
-            </button>
-            <p id="pesan" class="text-center font-medium mt-4"></p>
+    <nav class="bg-black text-white shadow-lg mb-8">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-black uppercase tracking-widest">Admin Panel</h1>
+            <a href="index.html" class="text-xs font-bold border border-white px-4 py-2 rounded-full hover:bg-white hover:text-black transition">Lihat Blog</a>
         </div>
-    </div>
+    </nav>
+
+    <main class="container mx-auto px-4 max-w-3xl">
+        <div class="bg-white p-6 md:p-10 rounded-[2rem] shadow-xl border border-slate-100">
+            <h2 class="text-2xl font-black mb-8 border-b-4 border-black inline-block uppercase">Tambah Catatan Baru</h2>
+            
+            <form id="blogForm" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-black uppercase tracking-widest text-slate-700 mb-2">Judul Artikel</label>
+                    <input type="text" id="judul" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-black uppercase tracking-widest text-slate-700 mb-2">Tanggal</label>
+                        <input type="date" id="tanggal" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-black uppercase tracking-widest text-slate-700 mb-2">Kategori</label>
+                        <select id="kategori" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
+                            <option value="Rasan-rasan">Rasan-rasan</option>
+                            <option value="Fiksiana">Fiksiana</option>
+                            <option value="Asal nulis">Asal Nulis</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-black uppercase tracking-widest text-slate-700 mb-2">URL Gambar (Opsional)</label>
+                    <input type="url" id="gambar" placeholder="https://..." class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-black uppercase tracking-widest text-slate-700 mb-2">Isi Catatan</label>
+                    <div class="editor-toolbar">
+                        <button type="button" class="btn-tool" title="Tebal" onclick="formatText('b')">B</button>
+                        <button type="button" class="btn-tool" title="Miring" onclick="formatText('i')">I</button>
+                        <button type="button" class="btn-tool" title="Garis Bawah" onclick="formatText('u')">U</button>
+                        <button type="button" class="btn-tool" title="Kutipan" onclick="formatText('blockquote')">Quote</button>
+                    </div>
+                    <textarea id="konten" rows="12" required class="w-full p-6 bg-slate-50 border border-slate-200 focus:ring-2 focus:ring-black outline-none transition" placeholder="Tuliskan isi hati di sini..."></textarea>
+                    <p class="text-[10px] text-slate-400 mt-2 font-medium uppercase tracking-wider italic">*Tip: Sorot teks lalu klik tombol di atas untuk memberi format.</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-black uppercase tracking-widest text-slate-700 mb-2">Tags (Pisahkan dengan koma)</label>
+                    <input type="text" id="tags" placeholder="catatan, refleksi, hidup" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-black uppercase tracking-widest text-slate-700 mb-2">ID Video YouTube (Jika ada)</label>
+                    <input type="text" id="youtube" placeholder="Contoh: dQw4w9WgXcQ" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-black outline-none transition">
+                </div>
+
+                <button type="submit" id="submitBtn" class="w-full bg-black text-white p-5 rounded-xl font-black uppercase tracking-[0.2em] hover:bg-slate-800 transition shadow-xl active:scale-95">
+                    Posting ke Blog
+                </button>
+            </form>
+        </div>
+        
+        <p class="text-center mt-12 mb-8 text-slate-400 text-[10px] font-bold tracking-widest uppercase">
+            &copy; 2026 Penulis Pemula - Dashboard Admin
+        </p>
+    </main>
 
     <script>
-        // MASUKKAN URL WEB APP APPS SCRIPT ANDA DI SINI
-        const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec"; 
+        const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec"; // <--- GANTI DENGAN URL BAPAK
 
-        async function kirimKeSheets() {
-            const btn = document.getElementById('btnSimpan');
-            const pesan = document.getElementById('pesan');
+        // FUNGSI TOOLBAR EDITOR
+        function formatText(tag) {
+            const area = document.getElementById('konten');
+            const start = area.selectionStart;
+            const end = area.selectionEnd;
+            const selectedText = area.value.substring(start, end);
             
-            // Logika Konversi Link Drive ke Direct Link
-            let rawLink = document.getElementById('gambar').value;
-            let finalLink = rawLink;
-            if (rawLink.includes("drive.google.com")) {
-                const fileId = rawLink.split("/d/")[1]?.split("/")[0] || rawLink.split("id=")[1];
-                if (fileId) finalLink = `http://googleusercontent.com/profile/picture/5{fileId}`;
-            }
+            // Format yang akan disisipkan
+            const replacement = `<${tag}>${selectedText || 'teks'}</${tag}>`;
+            
+            // Masukkan ke posisi kursor
+            area.value = area.value.substring(0, start) + replacement + area.value.substring(end);
+            
+            area.focus();
+            // Kembalikan posisi blok kursor
+            area.setSelectionRange(start + tag.length + 2, start + tag.length + 2 + (selectedText.length || 4));
+        }
 
-            const data = {
+        // PROSES KIRIM DATA
+        document.getElementById('blogForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerText = "MENGIRIM...";
+
+            const payload = {
                 judul: document.getElementById('judul').value,
+                tanggal: document.getElementById('tanggal').value,
+                konten: document.getElementById('konten').value,
+                gambar: document.getElementById('gambar').value,
                 kategori: document.getElementById('kategori').value,
                 tags: document.getElementById('tags').value,
-                gambar: finalLink,
-                youtube: document.getElementById('youtube').value,
-                konten: document.getElementById('konten').value,
-                tanggal: new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'})
+                youtube: document.getElementById('youtube').value
             };
 
-            if(!data.judul || !data.konten) return alert("Judul dan Konten wajib diisi!");
-
-            btn.disabled = true;
-            btn.innerText = "Sedang Mengirim...";
-
             try {
-                await fetch(API_URL, {
+                const response = await fetch(API_URL, {
                     method: 'POST',
-                    mode: 'no-cors',
-                    body: JSON.stringify(data)
+                    body: JSON.stringify(payload)
                 });
-                
-                pesan.className = "text-center mt-4 text-green-600 p-3 bg-green-50 rounded-lg";
-                pesan.innerText = "✅ Berhasil! Artikel sudah masuk database.";
-                
-                // Reset Form
-                document.getElementById('judul').value = "";
-                document.getElementById('gambar').value = "";
-                document.getElementById('youtube').value = "";
-                document.getElementById('konten').value = "";
-                document.getElementById('tags').value = "";
-            } catch (error) {
-                pesan.className = "text-center mt-4 text-red-600 p-3 bg-red-50 rounded-lg";
-                pesan.innerText = "❌ Gagal. Periksa URL API.";
+                const result = await response.text();
+                alert("Catatan Berhasil Disimpan di Spreadsheet!");
+                document.getElementById('blogForm').reset();
+            } catch (err) {
+                alert("Gagal mengirim: " + err.message);
             } finally {
                 btn.disabled = false;
-                btn.innerText = "Terbitkan ke Blog";
+                btn.innerText = "POSTING KE BLOG";
             }
-        }
+        });
     </script>
 </body>
 </html>
