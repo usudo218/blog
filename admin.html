@@ -11,44 +11,41 @@
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .editor-toolbar { display: flex; gap: 6px; background: #f8fafc; padding: 10px; border: 1px solid #000; border-radius: 12px 12px 0 0; border-bottom: none; overflow-x: auto; }
-        .btn-tool { background: white; border: 1px solid #000; padding: 5px 12px; border-radius: 6px; font-size: 13px; font-weight: 800; cursor: pointer; transition: all 0.2s; color: #000; }
+        .btn-tool { background: white; border: 1px solid #000; padding: 5px 12px; border-radius: 6px; font-size: 13px; font-weight: 800; cursor: pointer; color: #000; }
         .btn-tool:hover { background: #000; color: white; }
         #konten { border-radius: 0 0 12px 12px !important; border: 1px solid #000; line-height: 1.6; }
         #admin-panel { display: none; }
     </style>
 </head>
-<body class="bg-slate-50 font-sans text-slate-900">
+<body class="bg-slate-50">
 
     <div id="login-screen" class="min-h-screen flex items-center justify-center px-4">
         <div class="fade-in bg-white p-12 rounded-[2.5rem] shadow-2xl border border-slate-100 w-full max-w-md text-center">
-            <div class="mb-8">
-                <div class="w-20 h-20 bg-black rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-white text-3xl font-black">AT</span></div>
-                <h2 class="text-2xl font-black uppercase">Pintu Masuk</h2>
-            </div>
+            <h2 class="text-2xl font-black uppercase mb-6">Pintu Masuk</h2>
             <input type="password" id="login_pass" placeholder="Password Rahasia" class="w-full p-4 border border-black rounded-2xl text-center mb-4 outline-none">
             <button onclick="prosesLogin()" class="w-full bg-black text-white p-4 rounded-2xl font-black uppercase shadow-xl mb-6">Buka Kunci</button>
-            <a href="index.html" class="block text-black text-[10px] font-black uppercase tracking-widest hover:underline">← Kembali ke Blog</a>
+            <a href="index.html" class="block text-black text-[10px] font-black uppercase hover:underline">← Kembali ke Blog</a>
         </div>
     </div>
 
     <div id="admin-panel">
         <nav class="bg-black text-white p-4 sticky top-0 z-50">
-            <div class="container mx-auto flex justify-between items-center text-xs font-black uppercase tracking-widest">
+            <div class="container mx-auto flex justify-between items-center text-xs font-black uppercase">
                 <h1>Admin Dashboard</h1>
                 <button onclick="logout()" class="border border-white px-4 py-1.5 rounded-full hover:bg-white hover:text-black transition">Keluar</button>
             </div>
         </nav>
 
-        <main class="container mx-auto px-4 py-10 max-w-3xl text-black">
+        <main class="container mx-auto px-4 py-10 max-w-3xl">
             <div class="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-slate-100 mb-10">
                 <form id="blogForm" class="space-y-6">
-                    <h2 class="text-2xl font-black border-b-4 border-black inline-block uppercase tracking-tight mb-4 text-black">Posting Baru</h2>
+                    <h2 class="text-2xl font-black border-b-4 border-black inline-block uppercase mb-4">Posting Baru</h2>
                     
-                    <input type="text" id="judul" required placeholder="Judul Artikel" class="w-full p-4 border border-black rounded-xl font-bold text-black">
+                    <input type="text" id="judul" required placeholder="Judul Artikel" class="w-full p-4 border border-black rounded-xl font-bold">
 
                     <div class="grid grid-cols-2 gap-4">
-                        <input type="date" id="tanggal" required class="p-4 border border-black rounded-xl text-black">
-                        <select id="kategori" class="p-4 border border-black rounded-xl font-black text-black">
+                        <input type="date" id="tanggal" required class="p-4 border border-black rounded-xl">
+                        <select id="kategori" class="p-4 border border-black rounded-xl font-black">
                             <option value="Rasan-rasan">Rasan-rasan</option>
                             <option value="Fiksiana">Fiksiana</option>
                             <option value="Asal nulis">Asal Nulis</option>
@@ -56,11 +53,11 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
-                        <input type="text" id="gambar" placeholder="Link Gambar (URL)" class="p-4 border border-black rounded-xl text-black text-xs">
-                        <input type="text" id="youtube" placeholder="ID Video Youtube" class="p-4 border border-black rounded-xl text-black text-xs">
+                        <input type="text" id="gambar" placeholder="Link Gambar (URL)" class="p-4 border border-black rounded-xl text-xs">
+                        <input type="text" id="youtube" placeholder="ID Video Youtube" class="p-4 border border-black rounded-xl text-xs">
                     </div>
 
-                    <input type="text" id="tags" placeholder="Tags (koma, misal: kopi, senja)" class="w-full p-4 border border-black rounded-xl text-black text-xs">
+                    <input type="text" id="tags" placeholder="Tags (koma, misal: kopi, senja)" class="w-full p-4 border border-black rounded-xl text-xs">
 
                     <div>
                         <div class="editor-toolbar">
@@ -70,18 +67,26 @@
                             <button type="button" class="btn-tool" onclick="formatText('br')">BR</button>
                             <button type="button" class="btn-tool" onclick="formatText('blockquote')">Quote</button>
                         </div>
-                        <textarea id="konten" rows="12" required placeholder="Tulis rasan-rasan Bapak..." class="w-full p-6 text-black outline-none border border-black rounded-b-xl"></textarea>
+                        <textarea id="konten" rows="10" required placeholder="Tulis rasan-rasan Bapak..." class="w-full p-6 outline-none border border-black rounded-b-xl"></textarea>
                     </div>
 
-                    <button type="submit" id="submitBtn" class="w-full bg-black text-white p-5 rounded-2xl font-black uppercase tracking-widest shadow-2xl">Kirim ke Blog</button>
+                    <button type="submit" id="submitBtn" class="w-full bg-black text-white p-5 rounded-2xl font-black uppercase shadow-2xl">Kirim ke Blog</button>
                 </form>
             </div>
 
             <div class="bg-white p-8 rounded-[2.5rem] shadow-lg border border-slate-100">
-                <h3 class="text-[10px] font-black uppercase mb-6 border-b pb-2 text-black">Daftar Arsip</h3>
+                <h3 class="text-[10px] font-black uppercase mb-6 border-b pb-2">Daftar Arsip (Edit Langsung)</h3>
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm">
-                        <tbody id="list-postingan" class="text-black"></tbody>
+                    <table class="w-full text-left text-sm border-collapse">
+                        <thead>
+                            <tr class="border-b">
+                                <th class="py-2 text-[10px] uppercase font-black">Judul</th>
+                                <th class="py-2 text-right text-[10px] uppercase font-black">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="list-postingan">
+                            <tr><td colspan="2" class="py-4 text-center italic text-slate-400">Sedang memuat data...</td></tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -89,8 +94,10 @@
     </div>
 
     <script>
-        const SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/1CraAGn4_MdzuORTnBJaTSmE7lp-uB1eeHycGkba8vR4/"; // Pastikan ini benar
-        const API_URL = "ISI_URL_WEB_APP_BAPAK_DI_SINI"; // Masukkan URL hasil Deploy New Version
+        // PASTIKAN URL SPREADSHEET BAPAK SUDAH BENAR
+        const SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/1CraAGn4_MdzuORTnBJaTSmE7lp-uB1eeHycGkba8vR4/";
+        // GUNAKAN URL WEB APP HASIL DEPLOY TERBARU
+        const API_URL = "ISI_URL_WEB_APP_BAPAK_DI_SINI"; 
 
         function formatText(tag) {
             const area = document.getElementById('konten');
@@ -104,6 +111,7 @@
 
         function prosesLogin() {
             const pass = document.getElementById('login_pass').value;
+            if(!pass) return alert("Isi Password!");
             sessionStorage.setItem("adminPass", pass);
             bukaPanelAdmin();
         }
@@ -116,20 +124,34 @@
         }
 
         async function fetchData() {
-            const res = await fetch(API_URL);
-            const data = await res.json();
             const container = document.getElementById('list-postingan');
-            container.innerHTML = '';
-            data.forEach((post, index) => {
-                const rowNum = index + 2; 
-                container.innerHTML += `
-                    <tr class="border-b">
-                        <td class="py-4 px-2 font-bold text-xs text-black">${post.judul}</td>
-                        <td class="py-4 px-2 text-right">
-                            <button onclick="bukaSheet(${rowNum})" class="bg-blue-600 text-white px-4 py-1.5 rounded-full text-[9px] font-black uppercase">Edit Baris ${rowNum}</button>
-                        </td>
-                    </tr>`;
-            });
+            try {
+                const res = await fetch(API_URL);
+                const data = await res.json();
+                container.innerHTML = '';
+                
+                if(data.length === 0) {
+                    container.innerHTML = '<tr><td colspan="2" class="py-4 text-center">Belum ada postingan.</td></tr>';
+                    return;
+                }
+
+                data.forEach((post, index) => {
+                    // Kita ambil Judul dari kolom pertama (index 0)
+                    // Jika kolom judul Bapak pindah, ganti post.judul menjadi post[Object.keys(post)[0]]
+                    const judulPost = post.judul || "Tanpa Judul";
+                    const rowNum = index + 2; 
+
+                    container.innerHTML += `
+                        <tr class="border-b hover:bg-slate-50 transition">
+                            <td class="py-4 px-2 font-bold text-xs">${judulPost}</td>
+                            <td class="py-4 px-2 text-right">
+                                <button onclick="bukaSheet(${rowNum})" class="bg-blue-600 text-white px-4 py-1.5 rounded-full text-[9px] font-black uppercase hover:bg-blue-800 transition shadow-sm">Edit Baris ${rowNum}</button>
+                            </td>
+                        </tr>`;
+                });
+            } catch (e) {
+                container.innerHTML = '<tr><td colspan="2" class="py-4 text-center text-red-500 font-bold">Gagal mengambil data. Cek API_URL!</td></tr>';
+            }
         }
 
         function bukaSheet(row) {
@@ -140,7 +162,9 @@
         document.getElementById('blogForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
+            const originalText = btn.innerText;
             btn.innerText = "MENGIRIM...";
+            btn.disabled = true;
             
             const payload = {
                 password: sessionStorage.getItem("adminPass"),
@@ -153,9 +177,16 @@
                 youtube: document.getElementById('youtube').value
             };
 
-            const response = await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) });
-            alert("Hasil: " + await response.text());
-            location.reload();
+            try {
+                const response = await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) });
+                const txt = await response.text();
+                alert("Hasil: " + txt);
+                location.reload();
+            } catch (err) {
+                alert("Koneksi Error!");
+                btn.innerText = originalText;
+                btn.disabled = false;
+            }
         });
 
         function logout() { sessionStorage.clear(); location.reload(); }
