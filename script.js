@@ -3,7 +3,7 @@ const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9
 let allData = [];
 let filteredData = [];
 let currentPage = 1;
-const postsPerPage = 4; 
+const postsPerPage = 3; 
 
 async function fetchData() {
     const container = document.getElementById('blog-container');
@@ -163,7 +163,7 @@ function tampilkanDetail(id) {
         const tagList = post.tags.split(',').map(tag => 
             `<span class="bg-slate-100 text-black text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-tighter mr-2">#${tag.trim()}</span>`
         ).join('');
-        fullContent += `<div class="mt-10 pt-6 border-t border-slate-100">${tagList}</div>`;
+        fullContent += `<div class="mt-10 pt-10 border-t border-slate-100">${tagList}</div>`;
     }
 
     document.getElementById('content-body').innerHTML = fullContent;
