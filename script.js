@@ -3,23 +3,28 @@ const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9
 let allData = [];
 let filteredData = [];
 let currentPage = 1;
-const postsPerPage = 3; 
+const postsPerPage = 4; 
 
 async function fetchData() {
     const container = document.getElementById('blog-container');
     try {
         const response = await fetch(API_URL);
-        allData = await response.json();
+        const rawData = await response.json();
         
-        // Cek mode: Detail atau List
+        // Simpan index asli ke tiap postingan agar ID tetap konsisten
+        allData = rawData.map((post, index) => ({
+            ...post,
+            originalIndex: index
+        }));
+        
         const urlParams = new URLSearchParams(window.location.search);
         const postId = urlParams.get('id');
 
         if (postId !== null) {
             tampilkanDetail(postId);
         } else {
-            // Mapping index asli agar tidak tertukar saat filter/pagination
-            filteredData = allData.map((post, index) => ({ ...post, originalIndex: index })).reverse();
+            // Default: Tampilkan semua data, urutan terbaru di atas
+            filteredData = [...allData].reverse();
             renderPosts();
         }
     } catch (e) {
@@ -73,14 +78,18 @@ function renderPagination() {
     paginationDiv.className = 'flex justify-center items-center space-x-6 mt-12 mb-10';
 
     let paginationHtml = '';
+    
+    // Tombol Prev
     if (currentPage > 1) {
         paginationHtml += `<button onclick="changePage(${currentPage - 1})" class="px-5 py-2 bg-black text-white text-[10px] font-black rounded-full uppercase tracking-widest shadow-lg hover:scale-105 transition">Prev</button>`;
     } else {
         paginationHtml += `<button disabled class="px-5 py-2 bg-slate-100 text-slate-300 text-[10px] font-black rounded-full uppercase tracking-widest cursor-not-allowed">Prev</button>`;
     }
 
+    // Info Halaman
     paginationHtml += `<span class="text-[11px] font-black uppercase tracking-[0.2em] text-black">Page ${currentPage}/${totalPages}</span>`;
 
+    // Tombol Next
     if (currentPage < totalPages) {
         paginationHtml += `<button onclick="changePage(${currentPage + 1})" class="px-5 py-2 bg-black text-white text-[10px] font-black rounded-full uppercase tracking-widest shadow-lg hover:scale-105 transition">Next</button>`;
     } else {
@@ -97,17 +106,23 @@ function changePage(page) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+// FUNGSI FILTER KATEGORI (Topik Utama)
 function filterKategori(kat) {
-    currentPage = 1;
+    currentPage = 1; // Reset ke halaman 1
+    
+    // Pastikan tombol filter yang diklik berubah warna (opsional di CSS)
     if (kat === 'Semua') {
-        filteredData = allData.map((post, index) => ({ ...post, originalIndex: index })).reverse();
+        filteredData = [...allData].reverse();
     } else {
-        filteredData = allData
-            .map((post, index) => ({ ...post, originalIndex: index }))
-            .filter(p => p.kategori === kat)
-            .reverse();
+        // Filter berdasarkan kategori (abaikan besar kecil huruf)
+        filteredData = allData.filter(p => 
+            p.kategori.toLowerCase() === kat.toLowerCase()
+        ).reverse();
     }
+    
     renderPosts();
+    // Scroll ke judul "Catatan Terbaru"
+    document.getElementById('section-title').scrollIntoView({ behavior: 'smooth' });
 }
 
 function tampilkanDetail(id) {
@@ -117,26 +132,25 @@ function tampilkanDetail(id) {
     document.getElementById('view-list').classList.add('hidden');
     document.getElementById('view-detail').classList.remove('hidden');
 
-    // Judul & Tanggal
     document.getElementById('content-title').innerText = post.judul;
+    
     let tgl = post.tanggal || "";
     if (tgl.includes("T") || tgl.includes("-")) {
         tgl = new Date(tgl).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
     }
     document.getElementById('content-date').innerText = tgl;
 
-    // Reset Body
     let fullContent = "";
 
-    // 1. Tambahkan Gambar jika ada
+    // Gambar
     if (post.gambar && post.gambar.trim() !== "") {
         fullContent += `<img src="${post.gambar}" class="w-full h-auto rounded-[2rem] mb-8 shadow-lg">`;
     }
 
-    // 2. Tambahkan Isi Konten
-    fullContent += `<div class="prose prose-slate max-w-none text-justify">${post.konten}</div>`;
+    // Isi (mendukung Bold, Italic, dll)
+    fullContent += `<div class="prose prose-slate max-w-none text-justify text-black">${post.konten}</div>`;
 
-    // 3. Tambahkan Video YouTube jika ada
+    // YouTube
     if (post.youtube && post.youtube.trim() !== "") {
         fullContent += `
             <div class="mt-10 aspect-video rounded-[2rem] overflow-hidden shadow-xl border-4 border-white">
@@ -144,7 +158,7 @@ function tampilkanDetail(id) {
             </div>`;
     }
 
-    // 4. Tambahkan Tags jika ada
+    // Tags
     if (post.tags && post.tags.trim() !== "") {
         const tagList = post.tags.split(',').map(tag => 
             `<span class="bg-slate-100 text-black text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-tighter mr-2">#${tag.trim()}</span>`
