@@ -10,6 +10,13 @@
         body { font-family: 'Inter', sans-serif; color: #000; }
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Toolbar Editor Styling */
+        .editor-toolbar { display: flex; gap: 6px; background: #f8fafc; padding: 10px; border: 1px solid #000; border-radius: 12px 12px 0 0; border-bottom: none; }
+        .btn-tool { background: white; border: 1px solid #000; padding: 5px 12px; border-radius: 6px; font-size: 13px; font-weight: 800; cursor: pointer; transition: all 0.2s; color: #000; }
+        .btn-tool:hover { background: #000; color: white; border-color: #000; }
+        #konten { border-radius: 0 0 12px 12px !important; line-height: 1.6; border: 1px solid #000; }
+
         #admin-panel { display: none; }
         .input-group { position: relative; }
         .eye-btn { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 20px; }
@@ -19,8 +26,8 @@
 
     <div id="login-screen" class="min-h-screen flex items-center justify-center px-4">
         <div class="fade-in bg-white p-12 rounded-[2.5rem] shadow-2xl border border-slate-100 w-full max-w-md text-center">
-            <div class="mb-8">
-                <div class="w-20 h-20 bg-black rounded-full flex items-center justify-center mx-auto mb-4">
+            <div class="mb-8 text-black">
+                <div class="w-20 h-20 bg-black rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
                     <span class="text-white text-3xl font-black">AT</span>
                 </div>
                 <h2 class="text-2xl font-black uppercase tracking-tight text-black">Pintu Masuk</h2>
@@ -41,7 +48,7 @@
         <nav class="bg-black text-white shadow-lg sticky top-0 z-50">
             <div class="container mx-auto px-4 py-4 flex justify-between items-center text-xs font-black uppercase tracking-widest">
                 <h1>Admin Dashboard</h1>
-                <button onclick="logout()" class="border border-white px-4 py-1.5 rounded-full hover:bg-white hover:text-black transition">Keluar</button>
+                <button onclick="logout()" class="border border-white px-4 py-1.5 rounded-full hover:bg-white hover:text-black transition uppercase">Keluar</button>
             </div>
         </nav>
 
@@ -49,16 +56,38 @@
             <div class="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-slate-100 mb-10">
                 <form id="blogForm" class="space-y-6">
                     <h2 class="text-2xl font-black border-b-4 border-black inline-block uppercase tracking-tight mb-4 text-black">Posting Baru</h2>
-                    <input type="text" id="judul" required placeholder="Judul Artikel" class="w-full p-4 border border-black rounded-xl font-bold text-black">
-                    <div class="grid grid-cols-2 gap-4">
-                        <input type="date" id="tanggal" required class="p-4 border border-black rounded-xl text-black">
-                        <select id="kategori" class="p-4 border border-black rounded-xl font-black text-black">
-                            <option value="Rasan-rasan">Rasan-rasan</option>
-                            <option value="Fiksiana">Fiksiana</option>
-                            <option value="Asal nulis">Asal Nulis</option>
-                        </select>
+                    
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-black mb-2">Judul Artikel</label>
+                        <input type="text" id="judul" required placeholder="Judul Artikel" class="w-full p-4 border border-black rounded-xl font-bold text-black">
                     </div>
-                    <textarea id="konten" rows="10" required placeholder="Tulis rasan-rasan Bapak..." class="w-full p-6 border border-black rounded-xl text-black"></textarea>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-[10px] font-black uppercase tracking-widest text-black mb-2">Tanggal</label>
+                            <input type="date" id="tanggal" required class="w-full p-4 border border-black rounded-xl text-black">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-black uppercase tracking-widest text-black mb-2">Kategori</label>
+                            <select id="kategori" class="w-full p-4 border border-black rounded-xl font-black text-black">
+                                <option value="Rasan-rasan">Rasan-rasan</option>
+                                <option value="Fiksiana">Fiksiana</option>
+                                <option value="Asal nulis">Asal Nulis</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-black mb-2">Isi Konten</label>
+                        <div class="editor-toolbar">
+                            <button type="button" class="btn-tool" onclick="formatText('b')">B</button>
+                            <button type="button" class="btn-tool" onclick="formatText('i')">I</button>
+                            <button type="button" class="btn-tool" onclick="formatText('u')">U</button>
+                            <button type="button" class="btn-tool" onclick="formatText('blockquote')">Quote</button>
+                        </div>
+                        <textarea id="konten" rows="12" required placeholder="Tulis rasan-rasan Bapak..." class="w-full p-6 text-black outline-none transition"></textarea>
+                    </div>
+
                     <button type="submit" id="submitBtn" class="w-full bg-black text-white p-5 rounded-2xl font-black uppercase tracking-widest hover:bg-slate-800 transition">Kirim ke Blog</button>
                 </form>
             </div>
@@ -85,11 +114,29 @@
             const eyeBtn = document.querySelector('.eye-btn');
             if (passInput.type === "password") {
                 passInput.type = "text";
-                eyeBtn.innerText = "🙈"; // Tutup mata
+                eyeBtn.innerText = "🙈"; 
             } else {
                 passInput.type = "password";
-                eyeBtn.innerText = "👁️"; // Buka mata
+                eyeBtn.innerText = "👁️"; 
             }
+        }
+
+        // Fungsi Format Teks (Bold, Italic, dll)
+        function formatText(tag) {
+            const area = document.getElementById('konten');
+            const start = area.selectionStart;
+            const end = area.selectionEnd;
+            const selectedText = area.value.substring(start, end);
+            
+            let replacement = "";
+            if (tag === 'blockquote') {
+                replacement = `<blockquote>${selectedText || '...'}</blockquote>`;
+            } else {
+                replacement = `<${tag}>${selectedText || '...'}</${tag}>`;
+            }
+
+            area.value = area.value.substring(0, start) + replacement + area.value.substring(end);
+            area.focus();
         }
 
         function prosesLogin() {
@@ -117,7 +164,7 @@
                     <tr class="border-b hover:bg-slate-50 transition">
                         <td class="py-4 px-2 font-bold text-xs text-black">${post.judul}</td>
                         <td class="py-4 px-2 text-right">
-                            <button onclick="bukaSheet(${rowNum})" class="bg-blue-600 text-white px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest">Edit Baris ${rowNum}</button>
+                            <button onclick="bukaSheet(${rowNum})" class="bg-blue-600 text-white px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest hover:bg-blue-800 transition">Edit Baris ${rowNum}</button>
                         </td>
                     </tr>`;
             });
