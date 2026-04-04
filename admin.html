@@ -74,28 +74,11 @@
                     <button type="submit" id="submitBtn" class="w-full bg-black text-white p-5 rounded-2xl font-black uppercase shadow-2xl">Kirim ke Blog</button>
                 </form>
             </div>
-
-            <div class="bg-white p-8 rounded-[2.5rem] shadow-lg border border-slate-100">
-                <h3 class="text-[10px] font-black uppercase mb-6 border-b pb-2">Daftar Arsip (Edit Langsung)</h3>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm border-collapse">
-                        <thead>
-                            <tr class="border-b">
-                                <th class="py-2 text-[10px] uppercase font-black">Judul</th>
-                                <th class="py-2 text-right text-[10px] uppercase font-black">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="list-postingan">
-                            <tr><td colspan="2" class="py-4 text-center italic text-slate-400">Sedang memuat data...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
         </main>
     </div>
 
     <script>
-        const SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/1CraAGn4_MdzuORTnBJaTSmE7lp-uB1eeHycGkba8vR4/edit";
+        // MASUKKAN URL WEB APP HASIL DEPLOY TERBARU BAPAK DI SINI
         const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec"; 
 
         function formatText(tag) {
@@ -119,50 +102,15 @@
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('admin-panel').style.display = 'block';
             sessionStorage.setItem("adminAuth", "true");
-            fetchData();
-        }
-
-        async function fetchData() {
-            const container = document.getElementById('list-postingan');
-            try {
-                const res = await fetch(API_URL);
-                const data = await res.json();
-                container.innerHTML = '';
-                
-                if(data.length === 0) {
-                    container.innerHTML = '<tr><td colspan="2" class="py-4 text-center">Belum ada postingan.</td></tr>';
-                    return;
-                }
-
-                data.forEach((post, index) => {
-                    const judulPost = post.judul || "Tanpa Judul";
-                    const rowNum = index + 2; 
-
-                    container.innerHTML += `
-                        <tr class="border-b hover:bg-slate-50 transition">
-                            <td class="py-4 px-2 font-bold text-xs">${judulPost}</td>
-                            <td class="py-4 px-2 text-right">
-                                <button onclick="bukaSheet(${rowNum})" class="bg-blue-600 text-white px-4 py-1.5 rounded-full text-[9px] font-black uppercase hover:bg-blue-800 transition shadow-sm">Edit Baris ${rowNum}</button>
-                            </td>
-                        </tr>`;
-                });
-            } catch (e) {
-                container.innerHTML = '<tr><td colspan="2" class="py-4 text-center text-red-500 font-bold">Gagal mengambil data. Cek API_URL!</td></tr>';
-            }
-        }
-
-        function bukaSheet(row) {
-            const rangeUrl = SPREADSHEET_URL + "#gid=0&range=A" + row;
-            window.open(rangeUrl, '_blank');
         }
 
         document.getElementById('blogForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
-            const originalText = btn.innerText;
             btn.innerText = "MENGIRIM...";
             btn.disabled = true;
             
+            // Perhatikan kunci (key) di sini: kategori, tags, gambar, dll.
             const payload = {
                 password: sessionStorage.getItem("adminPass"),
                 judul: document.getElementById('judul').value,
@@ -177,11 +125,11 @@
             try {
                 const response = await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) });
                 const txt = await response.text();
-                alert("Hasil: " + txt);
+                alert("Status: " + txt);
                 location.reload();
             } catch (err) {
                 alert("Koneksi Error!");
-                btn.innerText = originalText;
+                btn.innerText = "Kirim ke Blog";
                 btn.disabled = false;
             }
         });
