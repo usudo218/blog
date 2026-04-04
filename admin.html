@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel | Penulis Pemula</title>
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/usudo218/blog/main/pp.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
@@ -94,9 +95,7 @@
     </div>
 
     <script>
-        // PASTIKAN URL SPREADSHEET BAPAK SUDAH BENAR
-        const SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/1CraAGn4_MdzuORTnBJaTSmE7lp-uB1eeHycGkba8vR4/";
-        // GUNAKAN URL WEB APP HASIL DEPLOY TERBARU
+        const SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/1CraAGn4_MdzuORTnBJaTSmE7lp-uB1eeHycGkba8vR4/edit";
         const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec"; 
 
         function formatText(tag) {
@@ -136,8 +135,6 @@
                 }
 
                 data.forEach((post, index) => {
-                    // Kita ambil Judul dari kolom pertama (index 0)
-                    // Jika kolom judul Bapak pindah, ganti post.judul menjadi post[Object.keys(post)[0]]
                     const judulPost = post.judul || "Tanpa Judul";
                     const rowNum = index + 2; 
 
@@ -155,7 +152,7 @@
         }
 
         function bukaSheet(row) {
-            const rangeUrl = SPREADSHEET_URL + "?gid=0&range=A" + row;
+            const rangeUrl = SPREADSHEET_URL + "#gid=0&range=A" + row;
             window.open(rangeUrl, '_blank');
         }
 
