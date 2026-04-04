@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel | Penulis Pemula</title>
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/usudo218/blog/main/pp.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
@@ -18,22 +19,26 @@
     </style>
 </head>
 <body class="bg-slate-50">
-<img src="https://raw.githubusercontent.com/usudo218/blog/main/pp.png" 
-                         alt="Agus Tjakra"
+
     <div id="login-screen" class="min-h-screen flex items-center justify-center px-4">
-                                 class="w-40 h-40 rounded-full mx-auto mb-6 border-4 border-slate-50 shadow-md object-cover">
-                    <h4 class="font-black text-xl text-slate-900 uppercase tracking-tight mb-2">Penulis Pemula</h4>
         <div class="fade-in bg-white p-12 rounded-[2.5rem] shadow-2xl border border-slate-100 w-full max-w-md text-center">
-            <h2 class="text-2xl font-black uppercase mb-6">Login</h2>
-            <input type="password" id="login_pass" placeholder="Password Rahasia" class="w-full p-4 border border-black rounded-2xl text-center mb-4 outline-none">
-            <button onclick="prosesLogin()" class="w-full bg-black text-white p-4 rounded-2xl font-black uppercase shadow-xl mb-6">Buka Kunci</button>
-            <a href="index.html" class="block text-black text-[10px] font-black uppercase hover:underline">← Kembali ke Blog</a>
+            
+            <img src="https://raw.githubusercontent.com/usudo218/blog/main/pp.png" 
+                 alt="Agus Tjakra" 
+                 class="w-32 h-32 rounded-full mx-auto mb-6 border-4 border-slate-50 shadow-md object-cover">
+            
+            <h2 class="text-2xl font-black uppercase mb-6 tracking-tight">Pintu Masuk</h2>
+            
+            <input type="password" id="login_pass" placeholder="Password Rahasia" class="w-full p-4 border border-black rounded-2xl text-center mb-4 outline-none focus:ring-2 focus:ring-blue-500 transition">
+            <button onclick="prosesLogin()" class="w-full bg-black text-white p-4 rounded-2xl font-black uppercase shadow-xl mb-6 hover:scale-105 transition">Buka Kunci</button>
+            
+            <a href="index.html" class="block text-black text-[10px] font-black uppercase hover:underline tracking-widest">← Kembali ke Blog</a>
         </div>
     </div>
 
     <div id="admin-panel">
         <nav class="bg-black text-white p-4 sticky top-0 z-50">
-            <div class="container mx-auto flex justify-between items-center text-xs font-black uppercase">
+            <div class="container mx-auto flex justify-between items-center text-xs font-black uppercase tracking-widest">
                 <h1>Admin Dashboard</h1>
                 <button onclick="logout()" class="border border-white px-4 py-1.5 rounded-full hover:bg-white hover:text-black transition">Keluar</button>
             </div>
@@ -42,7 +47,7 @@
         <main class="container mx-auto px-4 py-10 max-w-3xl">
             <div class="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-slate-100 mb-10">
                 <form id="blogForm" class="space-y-6">
-                    <h2 class="text-2xl font-black border-b-4 border-black inline-block uppercase mb-4">Posting Baru</h2>
+                    <h2 class="text-2xl font-black border-b-4 border-black inline-block uppercase mb-4 tracking-tighter">Posting Baru</h2>
                     
                     <input type="text" id="judul" required placeholder="Judul Artikel" class="w-full p-4 border border-black rounded-xl font-bold">
 
@@ -78,7 +83,7 @@
             </div>
 
             <div class="bg-white p-8 rounded-[2.5rem] shadow-lg border border-slate-100">
-                <h3 class="text-[10px] font-black uppercase mb-6 border-b pb-2">Daftar Arsip (Edit Langsung)</h3>
+                <h3 class="text-[10px] font-black uppercase mb-6 border-b pb-2 tracking-widest">Daftar Arsip (Edit Langsung)</h3>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-sm border-collapse">
                         <thead>
@@ -97,10 +102,8 @@
     </div>
 
     <script>
-        // PASTIKAN URL SPREADSHEET BAPAK SUDAH BENAR
-        const SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/1CraAGn4_MdzuORTnBJaTSmE7lp-uB1eeHycGkba8vR4/";
-        // GUNAKAN URL WEB APP HASIL DEPLOY TERBARU
         const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec"; 
+        const SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/1CraAGn4_MdzuORTnBJaTSmE7lp-uB1eeHycGkba8vR4/";
 
         function formatText(tag) {
             const area = document.getElementById('konten');
@@ -139,8 +142,6 @@
                 }
 
                 data.forEach((post, index) => {
-                    // Kita ambil Judul dari kolom pertama (index 0)
-                    // Jika kolom judul Bapak pindah, ganti post.judul menjadi post[Object.keys(post)[0]]
                     const judulPost = post.judul || "Tanpa Judul";
                     const rowNum = index + 2; 
 
