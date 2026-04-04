@@ -103,7 +103,6 @@ function changePage(page) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// FUNGSI FILTER KATEGORI (Topik Utama)
 function filterKategori(kat) {
     currentPage = 1;
     if (kat === 'Semua') {
@@ -125,13 +124,30 @@ function tampilkanDetail(id) {
     document.getElementById('view-list').classList.add('hidden');
     document.getElementById('view-detail').classList.remove('hidden');
 
-    document.getElementById('content-title').innerText = post.judul;
-    
+    // Pengolahan Tanggal
     let tgl = post.tanggal || "";
     if (tgl.includes("T") || tgl.includes("-")) {
         tgl = new Date(tgl).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
     }
-    document.getElementById('content-date').innerText = tgl;
+
+    // Persiapan Meta: Topik & Tags
+    const metaKategori = post.kategori || 'Umum';
+    const metaTags = post.tags ? post.tags.split(',').map(t => `#${t.trim()}`).join(' ') : '-';
+    
+    // Header Meta sesuai permintaan Bapak
+    const headerMeta = `
+        <div class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">
+            TOPIK : <span class="text-black">${metaKategori}</span> | TAGS : <span class="text-black">${metaTags}</span>
+        </div>
+    `;
+
+    // Pasang ke Elemen Detail
+    const headerElement = document.querySelector('#view-detail header');
+    headerElement.innerHTML = `
+        ${headerMeta}
+        <h1 id="content-title" class="text-3xl md:text-4xl font-black text-slate-900 leading-tight tracking-tighter uppercase">${post.judul}</h1>
+        <p id="content-date" class="text-black text-xs font-bold mt-3 uppercase tracking-[0.2em]">${tgl}</p>
+    `;
 
     let fullContent = "";
 
@@ -140,20 +156,15 @@ function tampilkanDetail(id) {
         fullContent += `<img src="${post.gambar}" onerror="this.style.display='none'" class="w-full h-auto rounded-[2rem] mb-8 shadow-lg">`;
     }
 
+    // Isi Konten
     fullContent += `<div class="prose prose-slate max-w-none text-justify text-black">${post.konten}</div>`;
 
+    // YouTube
     if (post.youtube && post.youtube.trim() !== "") {
         fullContent += `
             <div class="mt-10 aspect-video rounded-[2rem] overflow-hidden shadow-xl border-4 border-white">
                 <iframe class="w-full h-full" src="https://www.youtube.com/embed/${post.youtube}" frameborder="0" allowfullscreen></iframe>
             </div>`;
-    }
-
-    if (post.tags && post.tags.trim() !== "") {
-        const tagList = post.tags.split(',').map(tag => 
-            `<span class="bg-slate-100 text-black text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-tighter mr-2">#${tag.trim()}</span>`
-        ).join('');
-        fullContent += `<div class="mt-10 pt-10 border-t border-slate-100">${tagList}</div>`;
     }
 
     document.getElementById('content-body').innerHTML = fullContent;
