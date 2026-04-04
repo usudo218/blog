@@ -4,68 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arsip Catatan | Penulis Pemula</title>
+    
+    <meta name="description" content="Arsip catatan dan rasan-rasan dari Penulis Pemula.">
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/usudo218/blog/main/pp.png">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
         
         body { 
             font-family: 'Inter', sans-serif; 
-            color: #000000; /* Warna dasar hitam untuk seluruh body */
+            color: #000000; 
         }
         
         .fade-in { animation: fadeIn 0.6s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Judul Link: Hitam pekat, Biru saat disorot */
+        /* List Style seperti Gambar */
+        .arsip-list {
+            list-style-type: square;
+            padding-left: 1.5rem;
+        }
+
+        .arsip-item {
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
+        }
+
         .judul-link { 
-            color: #000000; 
-            font-size: 0.95rem; 
-            font-weight: 600;
+            color: #2563eb; 
+            font-size: 1rem; 
+            font-weight: 500;
             transition: color 0.2s;
             text-decoration: none;
         }
-        .table-row:hover .judul-link { 
-            color: #2563eb; 
-        }
         
-        /* Nomor urut & Tanggal: Semuanya Hitam */
-        .num-col { 
-            color: #000000; 
-            font-weight: 600; 
-            font-size: 0.95rem;
-            font-style: italic;
-            opacity: 0.8; /* Sedikit soft tapi tetap hitam */
+        .judul-link:hover { 
+            text-decoration: underline;
+            color: #1d4ed8; 
         }
 
-        .text-date {
-            font-size: 0.75rem;
-            color: #000000;
-            font-weight: 500;
-            opacity: 0.7;
-        }
-
-        /* Footer Hitam Pekat */
         .footer-text {
-            color: #000000;
+            color: #64748b;
             font-size: 10px;
             font-weight: 800;
             letter-spacing: 0.3em;
             text-transform: uppercase;
         }
-
-        /* Mengurangi tinggi baris agar lebih rapat */
-        .table-row td {
-            padding-top: 0.75rem;
-            padding-bottom: 0.75rem;
-        }
     </style>
 </head>
-<body class="bg-slate-50">
+<body class="bg-white">
 
     <nav class="bg-black text-white shadow-lg sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <h1 class="text-lg md:text-xl font-extrabold tracking-tight">PENULIS PEMULA</h1>
-            <div class="flex space-x-6 text-[11px] font-bold tracking-widest">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-black tracking-tight ">PENULIS PEMULA</h1>
+            <div class="flex space-x-6 text-xs font-bold tracking-widest uppercase">
                 <a href="index.html" class="hover:text-slate-300 transition">Blog</a>
                 <a href="daftar-isi.html" class="border-b-2 border-white pb-1">Daftar Isi</a>
                 <a href="about.html" class="hover:text-slate-300 transition">About</a>
@@ -76,33 +69,22 @@
 
     <main class="container mx-auto px-4 py-12 max-w-4xl">
         <div class="fade-in">
-            <div class="mb-8 text-center md:text-left">
-                <h2 class="text-2xl font-extrabold text-slate-900 uppercase tracking-tight border-b-4 border-black inline-block">Arsip Catatan</h2>
-                <p class="text-black mt-2 text-sm italic font-medium">Kumpulan rasan-rasan dari asal nulisnya Penulis Pemula.</p>
+            <div class="mb-10">
+                <h2 class="text-3xl font-bold text-slate-900 leading-tight mb-2">Arsip Catatan</h2>
+                <p class="text-slate-600 text-lg font-medium">Kumpulan rasan-rasan dari asal nulisnya Penulis Pemula.</p>
             </div>
             
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-slate-50 border-b border-slate-100 text-[10px] uppercase tracking-[0.2em] text-black font-black">
-                            <th class="p-4 text-center w-16">No.</th>
-                            <th class="p-4">Judul & Tanggal</th>
-                            <th class="p-4 hidden md:table-cell text-right text-xs">Kategori</th>
-                        </tr>
-                    </thead>
-                    <tbody id="daftar-isi-container">
-                        <tr>
-                            <td colspan="3" class="p-20 text-center text-black font-bold text-xs uppercase tracking-widest italic animate-pulse">
-                                Membuka laci arsip...
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="border-t border-slate-100 pt-8">
+                <ul id="daftar-isi-container" class="arsip-list">
+                    <li class="text-slate-400 italic animate-pulse">Membuka laci arsip...</li>
+                </ul>
             </div>
 
-            <p class="text-center mt-12 footer-text">
-                &copy; 2026 Penulis Pemula - Merawat Ingatan
-            </p>
+            <footer class="mt-20 pb-8 border-t border-slate-50 pt-10">
+                <p class="text-center footer-text">
+                    &copy; 2026 Penulis Pemula - Merawat Ingatan
+                </p>
+            </footer>
         </div>
     </main>
 
@@ -115,49 +97,26 @@
                 const response = await fetch(API_URL);
                 const data = await response.json();
                 
-                // PENTING: Bungkus data dengan index asli sebelum dibalik (reverse)
+                // Tambahkan index asli agar link id tetap benar
                 const dataDenganID = data.map((item, index) => {
                     return { ...item, indexAsli: index };
                 });
 
-                // Urutkan dari yang terbaru (paling bawah di sheet jadi paling atas di web)
+                // Urutkan terbaru di atas
                 const dataUrut = dataDenganID.reverse();
                 
                 container.innerHTML = '';
-                dataUrut.forEach((post, index) => {
-                    const kat = (post.kategori || post.Kategori || "UMUM").toUpperCase();
-                    
-                    let tgl = post.tanggal || "";
-                    if (tgl.toString().includes("T") || tgl.toString().includes("-")) {
-                        const d = new Date(tgl);
-                        tgl = d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-                    }
-                    
+                dataUrut.forEach((post) => {
                     container.innerHTML += `
-                        <tr class="table-row border-b border-slate-50 transition duration-200">
-                            <td class="px-4 py-3 text-center num-col">
-                                ${String(index + 1).padStart(2, '0')}
-                            </td>
-                            <td class="px-4 py-3">
-                                <a href="index.html?id=${post.indexAsli}" class="judul-link block leading-tight">
-                                    ${post.judul}
-                                </a>
-                                <div class="text-date mt-0.5 uppercase tracking-wider">
-                                    <span>${tgl}</span>
-                                    <span class="mx-2 md:hidden">•</span>
-                                    <span class="md:hidden text-black font-black">${kat}</span>
-                                </div>
-                            </td>
-                            <td class="px-4 py-3 hidden md:table-cell text-right">
-                                <span class="inline-block text-[9px] font-black px-2 py-0.5 bg-slate-100 text-black border border-slate-200 rounded uppercase tracking-tighter">
-                                    ${kat}
-                                </span>
-                            </td>
-                        </tr>
+                        <li class="arsip-item">
+                            <a href="index.html?id=${post.indexAsli}" class="judul-link">
+                                ${post.judul}
+                            </a>
+                        </li>
                     `;
                 });
             } catch (e) {
-                container.innerHTML = '<tr><td colspan="3" class="p-20 text-center text-xs text-black uppercase font-bold tracking-widest">Gagal memuat arsip.</td></tr>';
+                container.innerHTML = '<li class="text-red-500 font-bold">Gagal memuat arsip. Silakan cek koneksi atau API URL.</li>';
             }
         }
 
