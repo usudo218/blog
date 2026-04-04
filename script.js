@@ -136,8 +136,8 @@ function tampilkanDetail(id) {
     
     // Header Meta sesuai permintaan Bapak
     const headerMeta = `
-        <div class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">
-            TOPIK : <span class="text-black">${metaKategori}</span> | TAGS : <span class="text-black">${metaTags}</span>
+        <div class="text-[10px] font-black tracking-[0.2em] text-slate-500 mb-2">
+            Topik : <span class="text-black">${metaKategori}</span> | Tags : <span class="text-black">${metaTags}</span>
         </div>
     `;
 
