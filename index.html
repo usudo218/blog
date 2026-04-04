@@ -56,7 +56,7 @@
     <nav class="bg-black text-white shadow-lg sticky top-0 z-50">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <h1 class="text-xl md:text-2xl font-black tracking-tight ">PENULIS PEMULA</h1>
-            <div class="flex space-x-6 text-xs font-bold tracking-widest">
+            <div class="flex space-x-6 text-xs font-bold tracking-widest uppercase">
                 <a href="index.html" class="border-b-2 border-white pb-1">Blog</a>
                 <a href="daftar-isi.html">Daftar Isi</a>
                 <a href="about.html">About</a>
@@ -80,9 +80,7 @@
                     <button onclick="kembaliKeDaftar()" class="mb-8 text-sm font-black text-black hover:underline uppercase tracking-widest">← Kembali</button>
                     <article>
                         <header class="mb-8 border-b-2 border-slate-50 pb-6">
-                            <h1 id="content-title" class="text-3xl md:text-4xl font-black text-slate-900 leading-tight tracking-tighter"></h1>
-                            <p id="content-date" class="text-black text-xs font-bold mt-3 uppercase tracking-[0.2em]"></p>
-                        </header>
+                            </header>
                         <div id="content-body" class="text-justify"></div>
                     </article>
                 </div>
@@ -92,23 +90,27 @@
                 <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100 text-center">
                     <img src="https://raw.githubusercontent.com/usudo218/blog/main/pp.png" 
                          alt="Agus Tjakra"
-                         class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-slate-50 shadow-md object-cover">
-                    <h4 class="font-black text-lg text-slate-900 uppercase tracking-tight">Penulis Pemula</h4>
-                    <p class="text-sm"><b>"Menulis untuk merawat ingatan"</b></p><br/>
-                    <p class="text-xs text-slate-600 leading-relaxed">
-                        Seringkali kita lupa pada apa yang pernah membuat kita tertawa atau merenung. <br/>
-                        Melalui blog sederhana ini, saya mencoba mengikat makna-makna yang berceceran. <br/><br/>
-                        <b>Bumi Blambangan 2026</b>
-                    </p>
+                         class="w-40 h-40 rounded-full mx-auto mb-6 border-4 border-slate-50 shadow-md object-cover">
+                    <h4 class="font-black text-xl text-slate-900 uppercase tracking-tight mb-2">Penulis Pemula</h4>
+                    <p class="text-base font-bold italic text-black mb-4">"Menulis untuk merawat ingatan"</p>
+                    <div class="text-sm text-slate-600 leading-relaxed space-y-4">
+                        <p>
+                            Seringkali kita lupa pada apa yang pernah membuat kita tertawa atau merenung. 
+                        </p>
+                        <p>
+                            Melalui blog sederhana ini, saya mencoba mengikat makna-makna yang berceceran.
+                        </p>
+                        <p class="font-black text-black uppercase tracking-widest text-[10px]">Bumi Blambangan 2026</p>
+                    </div>
                 </div>
 
-                <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100">
-                    <h4 class="text-xs font-black uppercase tracking-[0.2em] text-black mb-5">Topik Utama</h4>
-                    <div class="flex flex-wrap gap-2">
-                        <button onclick="filterKategori('Semua')" class="bg-black text-white px-4 py-2 rounded-full text-[10px] font-black uppercase shadow-md hover:scale-105 transition">Semua</button>
-                        <button onclick="filterKategori('Asal Nulis')" class="bg-slate-100 text-black px-4 py-2 rounded-full text-[10px] font-black uppercase hover:bg-black hover:text-white transition">Asal Nulis</button>
-                        <button onclick="filterKategori('Rasan-rasan')" class="bg-slate-100 text-black px-4 py-2 rounded-full text-[10px] font-black uppercase hover:bg-black hover:text-white transition">Rasan-Rasan</button>
-                        <button onclick="filterKategori('Fiksiana')" class="bg-slate-100 text-black px-4 py-2 rounded-full text-[10px] font-black uppercase hover:bg-black hover:text-white transition">Fiksiana</button>
+                <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100">
+                    <h4 class="text-sm font-black uppercase tracking-[0.2em] text-black mb-6 border-b-2 border-slate-100 pb-2">Topik Utama</h4>
+                    <div class="flex flex-wrap gap-3">
+                        <button onclick="filterKategori('Semua')" class="bg-black text-white px-5 py-2.5 rounded-full text-xs font-black uppercase shadow-md hover:scale-105 transition">Semua</button>
+                        <button onclick="filterKategori('Asal Nulis')" class="bg-slate-100 text-black px-5 py-2.5 rounded-full text-xs font-black uppercase hover:bg-black hover:text-white transition">Asal Nulis</button>
+                        <button onclick="filterKategori('Rasan-rasan')" class="bg-slate-100 text-black px-5 py-2.5 rounded-full text-xs font-black uppercase hover:bg-black hover:text-white transition">Rasan-Rasan</button>
+                        <button onclick="filterKategori('Fiksiana')" class="bg-slate-100 text-black px-5 py-2.5 rounded-full text-xs font-black uppercase hover:bg-black hover:text-white transition">Fiksiana</button>
                     </div>
                 </div>
             </aside>
