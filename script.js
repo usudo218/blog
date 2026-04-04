@@ -11,7 +11,6 @@ async function fetchData() {
         const response = await fetch(API_URL);
         const rawData = await response.json();
         
-        // Simpan index asli ke tiap postingan agar ID tetap konsisten
         allData = rawData.map((post, index) => ({
             ...post,
             originalIndex: index
@@ -23,7 +22,6 @@ async function fetchData() {
         if (postId !== null) {
             tampilkanDetail(postId);
         } else {
-            // Default: Tampilkan semua data, urutan terbaru di atas
             filteredData = [...allData].reverse();
             renderPosts();
         }
@@ -47,7 +45,7 @@ function renderPosts() {
 
     paginatedPosts.forEach((post) => {
         let tgl = post.tanggal || "";
-        if (tgl.includes("T") || tgl.includes("-")) {
+        if (tgl.toString().includes("T") || tgl.toString().includes("-")) {
             tgl = new Date(tgl).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
         }
 
@@ -78,21 +76,17 @@ function renderPagination() {
     paginationDiv.className = 'flex justify-center items-center space-x-6 mt-12 mb-10';
 
     let paginationHtml = '';
-    
     if (currentPage > 1) {
         paginationHtml += `<button onclick="changePage(${currentPage - 1})" class="px-5 py-2 bg-black text-white text-[10px] font-black rounded-full uppercase tracking-widest shadow-lg hover:scale-105 transition">Prev</button>`;
     } else {
         paginationHtml += `<button disabled class="px-5 py-2 bg-slate-100 text-slate-300 text-[10px] font-black rounded-full uppercase tracking-widest cursor-not-allowed">Prev</button>`;
     }
-
     paginationHtml += `<span class="text-[11px] font-black uppercase tracking-[0.2em] text-black">Page ${currentPage}/${totalPages}</span>`;
-
     if (currentPage < totalPages) {
         paginationHtml += `<button onclick="changePage(${currentPage + 1})" class="px-5 py-2 bg-black text-white text-[10px] font-black rounded-full uppercase tracking-widest shadow-lg hover:scale-105 transition">Next</button>`;
     } else {
         paginationHtml += `<button disabled class="px-5 py-2 bg-slate-100 text-slate-300 text-[10px] font-black rounded-full uppercase tracking-widest cursor-not-allowed">Next</button>`;
     }
-
     paginationDiv.innerHTML = paginationHtml;
     container.appendChild(paginationDiv);
 }
@@ -108,9 +102,7 @@ function filterKategori(kat) {
     if (kat === 'Semua') {
         filteredData = [...allData].reverse();
     } else {
-        filteredData = allData.filter(p => 
-            (p.kategori || "").toLowerCase() === kat.toLowerCase()
-        ).reverse();
+        filteredData = allData.filter(p => (p.kategori || "").toLowerCase() === kat.toLowerCase()).reverse();
     }
     renderPosts();
     const target = document.getElementById('section-title');
@@ -124,24 +116,22 @@ function tampilkanDetail(id) {
     document.getElementById('view-list').classList.add('hidden');
     document.getElementById('view-detail').classList.remove('hidden');
 
-    // Pengolahan Tanggal
     let tgl = post.tanggal || "";
-    if (tgl.includes("T") || tgl.includes("-")) {
+    if (tgl.toString().includes("T") || tgl.toString().includes("-")) {
         tgl = new Date(tgl).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
     }
 
-    // Persiapan Meta: Topik & Tags
+    // Pastikan menggunakan post.kategori dan post.tags (huruf kecil)
     const metaKategori = post.kategori || 'Umum';
-    const metaTags = post.tags ? post.tags.split(',').map(t => `#${t.trim()}`).join(' ') : '-';
+    const rawTags = post.tags || '';
+    const metaTags = rawTags ? rawTags.split(',').map(t => `#${t.trim()}`).join(' ') : '-';
     
-    // Header Meta sesuai permintaan Bapak
     const headerMeta = `
-        <div class="text-[10px] font-black tracking-[0.2em] text-slate-500 mb-2">
-            Topik : <span class="text-black">${metaKategori}</span> | Tags : <span class="text-black">${metaTags}</span>
+        <div class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">
+            TOPIK : <span class="text-black">${metaKategori}</span> | TAGS : <span class="text-black">${metaTags}</span>
         </div>
     `;
 
-    // Pasang ke Elemen Detail
     const headerElement = document.querySelector('#view-detail header');
     headerElement.innerHTML = `
         ${headerMeta}
@@ -150,29 +140,17 @@ function tampilkanDetail(id) {
     `;
 
     let fullContent = "";
-
-    // Gambar dengan Error Handling
     if (post.gambar && post.gambar.trim() !== "") {
         fullContent += `<img src="${post.gambar}" onerror="this.style.display='none'" class="w-full h-auto rounded-[2rem] mb-8 shadow-lg">`;
     }
-
-    // Isi Konten
     fullContent += `<div class="prose prose-slate max-w-none text-justify text-black">${post.konten}</div>`;
-
-    // YouTube
     if (post.youtube && post.youtube.trim() !== "") {
-        fullContent += `
-            <div class="mt-10 aspect-video rounded-[2rem] overflow-hidden shadow-xl border-4 border-white">
-                <iframe class="w-full h-full" src="https://www.youtube.com/embed/${post.youtube}" frameborder="0" allowfullscreen></iframe>
-            </div>`;
+        fullContent += `<div class="mt-10 aspect-video rounded-[2rem] overflow-hidden shadow-xl border-4 border-white"><iframe class="w-full h-full" src="https://www.youtube.com/embed/${post.youtube}" frameborder="0" allowfullscreen></iframe></div>`;
     }
 
     document.getElementById('content-body').innerHTML = fullContent;
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function kembaliKeDaftar() {
-    window.location.href = 'index.html';
-}
-
+function kembaliKeDaftar() { window.location.href = 'index.html'; }
 window.onload = fetchData;
