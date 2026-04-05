@@ -30,15 +30,22 @@
             position: relative;
         }
 
-        /* Memastikan gambar profil utuh */
+        .footer-text {
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+        }
+
         .pp-container {
             position: relative;
             display: inline-block;
-            padding: 10px; /* Ruang agar bayangan dan topi tidak terpotong kontainer */
+            padding: 10px;
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900">
+<body class="bg-slate-50 text-slate-900 flex flex-col min-h-screen">
 
     <nav class="bg-black text-white shadow-lg sticky top-0 z-50">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -52,7 +59,7 @@
         </div>
     </nav>
 
-    <main class="container mx-auto px-4 py-16 max-w-3xl">
+    <main class="container mx-auto px-4 py-16 max-w-3xl flex-grow">
         <div class="fade-in bg-white p-8 md:p-16 rounded-[3rem] shadow-xl border border-slate-100">
             
             <div class="text-center mb-12">
@@ -88,19 +95,20 @@
                 <h4 class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Jejak Digital</h4>
                 <div class="flex justify-center">
                     <a href="https://asalnulis.web.id" target="_blank" class="bg-black text-white px-6 py-2 rounded-full text-[10px] font-bold hover:scale-105 transition shadow-lg">
-                        Penuli Pemula
+                        Penulis Pemula
                     </a>
                 </div>
             </div>
-
         </div>
+    </main>
 
-        <footer class="mt-16 pb-8">
-            <p class="text-center text-slate-400 text-[10px] font-bold tracking-[0.2em] uppercase">
+    <footer class="bg-black w-full py-8 mt-24">
+        <div class="container mx-auto px-4">
+            <p class="text-center footer-text">
                 &copy; 2026 Penulis Pemula - Merawat Ingatan
             </p>
-        </footer>
-    </main>
+        </div>
+    </footer>
 
 </body>
 </html>
