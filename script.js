@@ -1,10 +1,56 @@
+// Konfigurasi Utama
 const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec";
+const ORIGINAL_DOMAIN = "www.asalnulis.web.id";
+const AUTHOR_NAME = "Agus Tjakra"; // Nama asli dari data sistem Pak Agus
+
+// --- 1. PROTEKSI DOMAIN (ANTI-CLONE) ---
+// Memastikan blog hanya berjalan di domain resmi Bapak
+if (window.location.hostname !== ORIGINAL_DOMAIN && 
+    window.location.hostname !== "asalnulis.web.id" && 
+    window.location.hostname !== "localhost" && 
+    window.location.hostname !== "127.0.0.1") {
+    alert("Konten ini milik Penulis Pemula. Anda akan dialihkan ke situs resmi.");
+    window.location.href = "https://" + ORIGINAL_DOMAIN;
+}
 
 let allData = [];
 let filteredData = [];
 let currentPage = 1;
 const postsPerPage = 3; 
 
+// --- 2. FUNGSI PROTEKSI ATRIBUSI (FOOTER GUARD) ---
+// Mencegah perubahan teks footer melalui Inspect Element
+function protectAtribution() {
+    const footerText = document.querySelector('.footer-text');
+    const expected = `© 2026 Penulis Pemula - Merawat Ingatan`;
+
+    const restore = () => {
+        if (footerText && footerText.innerText.trim() !== expected) {
+            footerText.innerHTML = `&copy; 2026 Penulis Pemula - Merawat Ingatan`;
+        }
+    };
+
+    const observer = new MutationObserver(restore);
+    if (footerText) {
+        observer.observe(footerText, { childList: true, characterData: true, subtree: true });
+        restore();
+    }
+}
+
+// --- 3. FITUR AUTO-ATTRIBUTION COPY-PASTE ---
+// Menambahkan jejak link sumber saat tulisan Bapak disalin (Copas)
+document.addEventListener('copy', (e) => {
+    const selection = window.getSelection();
+    const pagelink = `\n\n========================================\nTulisan ini telah tayang di : ${ORIGINAL_DOMAIN}\nBaca artikel selengkapnya di : ${document.location.href}\n${AUTHOR_NAME}\n========================================`;
+    
+    const copytext = selection + pagelink;
+    if (e.clipboardData) {
+        e.clipboardData.setData('text/plain', copytext);
+        e.preventDefault();
+    }
+});
+
+// --- 4. LOGIKA UTAMA BLOG (FETCH & RENDER) ---
 async function fetchData() {
     const container = document.getElementById('blog-container');
     try {
@@ -25,13 +71,17 @@ async function fetchData() {
             filteredData = [...allData].reverse();
             renderPosts();
         }
+        
+        // Aktifkan penjaga footer setelah data dimuat
+        protectAtribution();
     } catch (e) {
-        container.innerHTML = '<p class="text-center py-10 font-bold uppercase tracking-widest text-red-500">Gagal memuat catatan.</p>';
+        if(container) container.innerHTML = '<p class="text-center py-10 font-bold uppercase tracking-widest text-red-500">Gagal memuat catatan.</p>';
     }
 }
 
 function renderPosts() {
     const container = document.getElementById('blog-container');
+    if(!container) return;
     container.innerHTML = '';
 
     const startIndex = (currentPage - 1) * postsPerPage;
@@ -140,7 +190,6 @@ function tampilkanDetail(id) {
 
     let fullContent = "";
 
-    // PENAMBAHAN CAPTION PADA GAMBAR
     if (post.gambar && post.gambar.trim() !== "") {
         fullContent += `
             <figure class="mb-8">
@@ -163,4 +212,6 @@ function tampilkanDetail(id) {
 }
 
 function kembaliKeDaftar() { window.location.href = 'index.html'; }
+
+// Jalankan FetchData saat halaman dimuat
 window.onload = fetchData;
