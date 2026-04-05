@@ -1,10 +1,9 @@
 // Konfigurasi Utama
 const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec";
 const ORIGINAL_DOMAIN = "www.asalnulis.web.id";
-const AUTHOR_NAME = "Agus Tjakra"; // Nama asli dari data sistem Pak Agus
+const AUTHOR_NAME = "Agus Tjakra"; // Nama pemilik blog
 
 // --- 1. PROTEKSI DOMAIN (ANTI-CLONE) ---
-// Memastikan blog hanya berjalan di domain resmi Bapak
 if (window.location.hostname !== ORIGINAL_DOMAIN && 
     window.location.hostname !== "asalnulis.web.id" && 
     window.location.hostname !== "localhost" && 
@@ -19,7 +18,6 @@ let currentPage = 1;
 const postsPerPage = 3; 
 
 // --- 2. FUNGSI PROTEKSI ATRIBUSI (FOOTER GUARD) ---
-// Mencegah perubahan teks footer melalui Inspect Element
 function protectAtribution() {
     const footerText = document.querySelector('.footer-text');
     const expected = `© 2026 Penulis Pemula - Merawat Ingatan`;
@@ -37,15 +35,26 @@ function protectAtribution() {
     }
 }
 
-// --- 3. FITUR AUTO-ATTRIBUTION COPY-PASTE ---
-// Menambahkan jejak link sumber saat tulisan Bapak disalin (Copas)
+// --- 3. FITUR AUTO-ATTRIBUTION COPY-PASTE (REVISI) ---
 document.addEventListener('copy', (e) => {
     const selection = window.getSelection();
-    const pagelink = `\n\n========================================\nTulisan ini telah tayang di : ${ORIGINAL_DOMAIN}\nBaca artikel selengkapnya di : ${document.location.href}\n${AUTHOR_NAME}\n========================================`;
+    if (selection.rangeCount === 0) return;
+
+    // Teks Mentah (untuk Notepad, WA, dll)
+    const plainText = selection.toString();
+    const attributionText = `\n\n========================================\nTulisan ini telah tayang di : ${ORIGINAL_DOMAIN}\nBaca artikel selengkapnya di : ${document.location.href}\n${AUTHOR_NAME}\n========================================`;
     
-    const copytext = selection + pagelink;
+    // Teks HTML (untuk Word, Email, Blog lain agar link bisa diklik)
+    const htmlContent = `<div>${plainText.replace(/\n/g, '<br>')}</div><br>` +
+                        `========================================<br>` +
+                        `Tulisan ini telah tayang di : <a href="https://${ORIGINAL_DOMAIN}">${ORIGINAL_DOMAIN}</a><br>` +
+                        `Baca artikel selengkapnya di : <a href="${document.location.href}">${document.location.href}</a><br>` +
+                        `${AUTHOR_NAME}<br>` +
+                        `========================================`;
+
     if (e.clipboardData) {
-        e.clipboardData.setData('text/plain', copytext);
+        e.clipboardData.setData('text/plain', plainText + attributionText);
+        e.clipboardData.setData('text/html', htmlContent);
         e.preventDefault();
     }
 });
@@ -72,7 +81,6 @@ async function fetchData() {
             renderPosts();
         }
         
-        // Aktifkan penjaga footer setelah data dimuat
         protectAtribution();
     } catch (e) {
         if(container) container.innerHTML = '<p class="text-center py-10 font-bold uppercase tracking-widest text-red-500">Gagal memuat catatan.</p>';
@@ -213,5 +221,4 @@ function tampilkanDetail(id) {
 
 function kembaliKeDaftar() { window.location.href = 'index.html'; }
 
-// Jalankan FetchData saat halaman dimuat
 window.onload = fetchData;
