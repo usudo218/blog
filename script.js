@@ -121,7 +121,6 @@ function tampilkanDetail(id) {
         tgl = new Date(tgl).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
     }
 
-    // Pastikan menggunakan post.kategori dan post.tags (huruf kecil)
     const metaKategori = post.kategori || 'Umum';
     const rawTags = post.tags || '';
     const metaTags = rawTags ? rawTags.split(',').map(t => `#${t.trim()}`).join(' ') : '-';
@@ -140,10 +139,21 @@ function tampilkanDetail(id) {
     `;
 
     let fullContent = "";
+
+    // PENAMBAHAN CAPTION PADA GAMBAR
     if (post.gambar && post.gambar.trim() !== "") {
-        fullContent += `<img src="${post.gambar}" onerror="this.style.display='none'" class="w-full h-auto rounded-[2rem] mb-8 shadow-lg">`;
+        fullContent += `
+            <figure class="mb-8">
+                <img src="${post.gambar}" onerror="this.parentElement.style.display='none'" class="w-full h-auto rounded-[2rem] shadow-lg mb-2">
+                <figcaption class="text-center text-[11px] italic text-slate-500 font-medium tracking-wide">
+                    — ${post.judul}
+                </figcaption>
+            </figure>
+        `;
     }
+
     fullContent += `<div class="prose prose-slate max-w-none text-justify text-black">${post.konten}</div>`;
+
     if (post.youtube && post.youtube.trim() !== "") {
         fullContent += `<div class="mt-10 aspect-video rounded-[2rem] overflow-hidden shadow-xl border-4 border-white"><iframe class="w-full h-full" src="https://www.youtube.com/embed/${post.youtube}" frameborder="0" allowfullscreen></iframe></div>`;
     }
