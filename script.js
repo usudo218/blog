@@ -146,7 +146,7 @@ function tampilkanDetail(id) {
             <figure class="mb-8">
                 <img src="${post.gambar}" onerror="this.parentElement.style.display='none'" class="w-full h-auto rounded-[2rem] shadow-lg mb-2">
                 <figcaption class="text-center text-[11px] italic text-slate-500 font-medium tracking-wide">
-                    — ${post.judul}
+                    — ${post.judul} | Dok. Penulis Pemula
                 </figcaption>
             </figure>
         `;
