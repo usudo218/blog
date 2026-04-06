@@ -1,6 +1,4 @@
 const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec";
-const ORIGINAL_DOMAIN = "www.asalnulis.web.id";
-const AUTHOR_NAME = "Agus Tjakra"; // Nama Pak Agus
 
 let allData = [];
 let filteredData = [];
@@ -31,9 +29,6 @@ document.addEventListener('copy', (e) => {
     }
 });
 
-// ==========================================
-// FUNGSI UTAMA BLOG
-// ==========================================
 async function fetchData() {
     const container = document.getElementById('blog-container');
     try {
@@ -55,13 +50,12 @@ async function fetchData() {
             renderPosts();
         }
     } catch (e) {
-        if(container) container.innerHTML = '<p class="text-center py-10 font-bold uppercase tracking-widest text-red-500">Gagal memuat catatan.</p>';
+        container.innerHTML = '<p class="text-center py-10 font-bold uppercase tracking-widest text-red-500">Gagal memuat catatan.</p>';
     }
 }
 
 function renderPosts() {
     const container = document.getElementById('blog-container');
-    if(!container) return;
     container.innerHTML = '';
 
     const startIndex = (currentPage - 1) * postsPerPage;
@@ -170,6 +164,7 @@ function tampilkanDetail(id) {
 
     let fullContent = "";
 
+    // PENAMBAHAN CAPTION PADA GAMBAR
     if (post.gambar && post.gambar.trim() !== "") {
         fullContent += `
             <figure class="mb-8">
@@ -192,5 +187,4 @@ function tampilkanDetail(id) {
 }
 
 function kembaliKeDaftar() { window.location.href = 'index.html'; }
-
 window.onload = fetchData;
