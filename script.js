@@ -1,3 +1,7 @@
+// Tambahkan dua baris ini di paling atas!
+const ORIGINAL_DOMAIN = "www.asalnulis.web.id";
+const AUTHOR_NAME = "Agus Tjakra"; 
+
 const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec";
 
 let allData = [];
@@ -13,6 +17,8 @@ document.addEventListener('copy', (e) => {
     if (selection.rangeCount === 0) return;
 
     const plainText = selection.toString();
+    
+    // Pesan ini yang akan muncul saat di-paste
     const attribution = `\n\n========================================\nTulisan ini telah tayang di : ${ORIGINAL_DOMAIN}\nBaca artikel selengkapnya di : ${document.location.href}\n${AUTHOR_NAME}\n========================================`;
     
     const htmlContent = `<div>${plainText.replace(/\n/g, '<br>')}</div><br>` +
@@ -23,11 +29,13 @@ document.addEventListener('copy', (e) => {
                         `========================================`;
 
     if (e.clipboardData) {
+        // Gabungkan teks asli dengan atribusi
         e.clipboardData.setData('text/plain', plainText + attribution);
         e.clipboardData.setData('text/html', htmlContent);
-        e.preventDefault();
+        e.preventDefault(); // Menghentikan copy standar, menggantinya dengan versi kita
     }
 });
+
 
 async function fetchData() {
     const container = document.getElementById('blog-container');
