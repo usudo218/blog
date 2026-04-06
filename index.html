@@ -11,6 +11,21 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* Optimasi Rendering */
+article {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 400px;
+}
+
+/* Mempercepat transisi */
+.fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Agar gambar profil di samping tidak membebani saat loading utama */
+aside img {
+    content-visibility: visible;
+}
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
         
         body { font-family: 'Inter', sans-serif; }
