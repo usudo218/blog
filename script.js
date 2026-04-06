@@ -187,4 +187,4 @@ function tampilkanDetail(id) {
 }
 
 function kembaliKeDaftar() { window.location.href = 'index.html'; }
-window.onload = fetchData;
+document.addEventListener('DOMContentLoaded', fetchData);
