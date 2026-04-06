@@ -3,7 +3,7 @@ const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9
 const ORIGINAL_DOMAIN = "www.asalnulis.web.id";
 const AUTHOR_NAME = "Agus Tjakra";
 
-// --- 1. PROTEKSI DOMAIN (ANTI-CLONE) ---
+// --- 1. PROTEKSI DOMAIN ---
 if (window.location.hostname !== ORIGINAL_DOMAIN && 
     window.location.hostname !== "asalnulis.web.id" && 
     window.location.hostname !== "localhost" && 
@@ -17,11 +17,10 @@ let filteredData = [];
 let currentPage = 1;
 const postsPerPage = 3; 
 
-// --- 2. FUNGSI PROTEKSI ATRIBUSI (FOOTER GUARD) ---
+// --- 2. PROTEKSI ATRIBUSI FOOTER ---
 function protectAtribution() {
     const footerText = document.querySelector('.footer-text');
     const expected = `© 2026 Penulis Pemula - Merawat Ingatan`;
-
     if (!footerText) return;
 
     const restore = () => {
@@ -29,13 +28,12 @@ function protectAtribution() {
             footerText.innerHTML = `&copy; 2026 Penulis Pemula - Merawat Ingatan`;
         }
     };
-
     const observer = new MutationObserver(restore);
     observer.observe(footerText, { childList: true, characterData: true, subtree: true });
     restore();
 }
 
-// --- 3. FITUR AUTO-ATTRIBUTION COPY-PASTE ---
+// --- 3. FITUR AUTO-ATTRIBUTION COPAS ---
 document.addEventListener('copy', (e) => {
     const selection = window.getSelection();
     if (selection.rangeCount === 0) return;
@@ -57,35 +55,29 @@ document.addEventListener('copy', (e) => {
     }
 });
 
-// --- 4. LOGIKA UTAMA BLOG ---
+// --- 4. LOGIKA UTAMA ---
 async function fetchData() {
     const container = document.getElementById('blog-container');
     try {
         const response = await fetch(API_URL);
-        const rawData = await response.json();
+        allData = await response.json();
         
-        allData = rawData.map((post, index) => ({
-            ...post,
-            originalIndex: index
-        }));
+        // Map index asli untuk keperluan navigasi detail
+        allData = allData.map((post, index) => ({ ...post, originalIndex: index }));
         
         const urlParams = new URLSearchParams(window.location.search);
         const postId = urlParams.get('id');
 
-        if (postId !== null) {
+        if (postId !== null && allData[postId]) {
             tampilkanDetail(postId);
         } else {
             filteredData = [...allData].reverse();
             renderPosts();
         }
-        
-        // Aktifkan penjaga footer
         protectAtribution();
     } catch (e) {
-        console.error("Error fetching data:", e);
-        if (container) {
-            container.innerHTML = '<p class="text-center py-10 font-bold uppercase tracking-widest text-red-500">Gagal memuat catatan. Periksa koneksi atau API_URL.</p>';
-        }
+        console.error("Fetch Error:", e);
+        if (container) container.innerHTML = '<p class="text-center py-10 text-red-500">Gagal memuat data.</p>';
     }
 }
 
@@ -99,31 +91,24 @@ function renderPosts() {
     const paginatedPosts = filteredData.slice(startIndex, endIndex);
 
     if (paginatedPosts.length === 0) {
-        container.innerHTML = '<p class="text-center py-10 italic text-black uppercase tracking-widest text-xs font-bold">Tidak ada catatan ditemukan.</p>';
+        container.innerHTML = '<p class="text-center py-10">Tidak ada catatan.</p>';
         return;
     }
 
     paginatedPosts.forEach((post) => {
         let tgl = post.tanggal || "";
-        if (tgl.toString().includes("T") || tgl.toString().includes("-")) {
+        if (tgl.toString().includes("-") || tgl.toString().includes("T")) {
             tgl = new Date(tgl).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
         }
-
         container.innerHTML += `
-            <article class="fade-in bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-md transition mb-6">
-                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-black bg-slate-100 px-3 py-1 rounded-full">${post.kategori || 'Umum'}</span>
-                <h3 class="text-xl md:text-2xl font-black mt-4 leading-tight">
-                    <a href="?id=${post.originalIndex}" class="hover:text-blue-700 transition">${post.judul}</a>
-                </h3>
-                <p class="text-black text-xs font-bold mt-2 uppercase tracking-widest">${tgl}</p>
-                <div class="mt-4 text-slate-600 line-clamp-3 text-sm leading-relaxed text-justify">
-                    ${(post.konten || '').replace(/<[^>]*>/g, '').substring(0, 200)}...
-                </div>
-                <a href="?id=${post.originalIndex}" class="inline-block mt-6 text-xs font-black uppercase tracking-widest border-b-2 border-black pb-1 hover:text-blue-700 hover:border-blue-700 transition">Baca Selengkapnya →</a>
-            </article>
-        `;
+            <article class="fade-in bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 mb-6">
+                <span class="text-[10px] font-black uppercase tracking-widest text-black bg-slate-100 px-3 py-1 rounded-full">${post.kategori || 'Umum'}</span>
+                <h3 class="text-xl md:text-2xl font-black mt-4"><a href="?id=${post.originalIndex}">${post.judul}</a></h3>
+                <p class="text-xs font-bold mt-2 uppercase">${tgl}</p>
+                <div class="mt-4 text-slate-600 line-clamp-3 text-sm">${(post.konten || '').replace(/<[^>]*>/g, '').substring(0, 200)}...</div>
+                <a href="?id=${post.originalIndex}" class="inline-block mt-6 text-xs font-black uppercase border-b-2 border-black">Baca Selengkapnya →</a>
+            </article>`;
     });
-
     renderPagination();
 }
 
@@ -132,95 +117,52 @@ function renderPagination() {
     const container = document.getElementById('blog-container');
     if (totalPages <= 1 || !container) return;
 
-    const paginationDiv = document.createElement('div');
-    paginationDiv.className = 'flex justify-center items-center space-x-6 mt-12 mb-10';
-
-    let paginationHtml = '';
-    paginationHtml += currentPage > 1 
-        ? `<button onclick="changePage(${currentPage - 1})" class="px-5 py-2 bg-black text-white text-[10px] font-black rounded-full uppercase tracking-widest shadow-lg hover:scale-105 transition">Prev</button>`
-        : `<button disabled class="px-5 py-2 bg-slate-100 text-slate-300 text-[10px] font-black rounded-full uppercase tracking-widest cursor-not-allowed">Prev</button>`;
-    
-    paginationHtml += `<span class="text-[11px] font-black uppercase tracking-[0.2em] text-black">Page ${currentPage}/${totalPages}</span>`;
-    
-    paginationHtml += currentPage < totalPages 
-        ? `<button onclick="changePage(${currentPage + 1})" class="px-5 py-2 bg-black text-white text-[10px] font-black rounded-full uppercase tracking-widest shadow-lg hover:scale-105 transition">Next</button>`
-        : `<button disabled class="px-5 py-2 bg-slate-100 text-slate-300 text-[10px] font-black rounded-full uppercase tracking-widest cursor-not-allowed">Next</button>`;
-
-    paginationDiv.innerHTML = paginationHtml;
-    container.appendChild(paginationDiv);
+    const div = document.createElement('div');
+    div.className = 'flex justify-center items-center space-x-6 mt-10';
+    div.innerHTML = `
+        <button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''} class="px-4 py-2 bg-black text-white rounded-full text-[10px]">Prev</button>
+        <span class="text-[11px] font-bold">Page ${currentPage}/${totalPages}</span>
+        <button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''} class="px-4 py-2 bg-black text-white rounded-full text-[10px]">Next</button>`;
+    container.appendChild(div);
 }
 
-function changePage(page) {
-    currentPage = page;
-    renderPosts();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function filterKategori(kat) {
-    currentPage = 1;
-    if (kat === 'Semua') {
-        filteredData = [...allData].reverse();
-    } else {
-        filteredData = allData.filter(p => (p.kategori || "").toLowerCase() === kat.toLowerCase()).reverse();
-    }
-    renderPosts();
-    const target = document.getElementById('section-title');
-    if(target) target.scrollIntoView({ behavior: 'smooth' });
-}
+function changePage(p) { currentPage = p; renderPosts(); window.scrollTo(0,0); }
 
 function tampilkanDetail(id) {
     const post = allData[id];
-    if (!post) return;
-
     const viewList = document.getElementById('view-list');
     const viewDetail = document.getElementById('view-detail');
+    const contentBody = document.getElementById('content-body');
+    const header = document.querySelector('#view-detail header');
+
     if (viewList) viewList.classList.add('hidden');
     if (viewDetail) viewDetail.classList.remove('hidden');
 
     let tgl = post.tanggal || "";
-    if (tgl.toString().includes("T") || tgl.toString().includes("-")) {
-        tgl = new Date(tgl).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+    if (tgl.toString().includes("-")) tgl = new Date(tgl).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+
+    if (header) {
+        header.innerHTML = `
+            <div class="text-[10px] font-black uppercase text-slate-500 mb-2">TOPIK : ${post.kategori || 'Umum'}</div>
+            <h1 class="text-3xl font-black uppercase">${post.judul}</h1>
+            <p class="text-xs font-bold mt-2">${tgl}</p>`;
     }
 
-    const metaKategori = post.kategori || 'Umum';
-    const rawTags = post.tags || '';
-    const metaTags = rawTags ? rawTags.split(',').map(t => `#${t.trim()}`).join(' ') : '-';
-    
-    const headerElement = document.querySelector('#view-detail header');
-    if (headerElement) {
-        headerElement.innerHTML = `
-            <div class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">
-                TOPIK : <span class="text-black">${metaKategori}</span> | TAGS : <span class="text-black">${metaTags}</span>
-            </div>
-            <h1 id="content-title" class="text-3xl md:text-4xl font-black text-slate-900 leading-tight tracking-tighter uppercase">${post.judul}</h1>
-            <p id="content-date" class="text-black text-xs font-bold mt-3 uppercase tracking-[0.2em]">${tgl}</p>
-        `;
-    }
+    let html = post.gambar ? `<figure class="mb-8"><img src="${post.gambar}" class="w-full rounded-[2rem] shadow-lg"><figcaption class="text-center text-[10px] italic mt-2">— ${post.judul}</figcaption></figure>` : "";
+    html += `<div class="prose max-w-none text-justify">${post.konten}</div>`;
+    if (post.youtube) html += `<div class="mt-10 aspect-video rounded-[2rem] overflow-hidden"><iframe class="w-full h-full" src="https://www.youtube.com/embed/${post.youtube}" frameborder="0" allowfullscreen></iframe></div>`;
 
-    let fullContent = "";
-    if (post.gambar && post.gambar.trim() !== "") {
-        fullContent += `
-            <figure class="mb-8">
-                <img src="${post.gambar}" onerror="this.parentElement.style.display='none'" class="w-full h-auto rounded-[2rem] shadow-lg mb-2">
-                <figcaption class="text-center text-[11px] italic text-slate-500 font-medium tracking-wide">
-                    — ${post.judul} | Karikatur : Penulis Pemula
-                </figcaption>
-            </figure>
-        `;
-    }
-
-    fullContent += `<div class="prose prose-slate max-w-none text-justify text-black">${post.konten}</div>`;
-
-    if (post.youtube && post.youtube.trim() !== "") {
-        fullContent += `<div class="mt-10 aspect-video rounded-[2rem] overflow-hidden shadow-xl border-4 border-white"><iframe class="w-full h-full" src="https://www.youtube.com/embed/${post.youtube}" frameborder="0" allowfullscreen></iframe></div>`;
-    }
-
-    const contentBody = document.getElementById('content-body');
-    if (contentBody) contentBody.innerHTML = fullContent;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (contentBody) contentBody.innerHTML = html;
+    window.scrollTo(0,0);
 }
 
-function kembaliKeDaftar() { window.location.href = 'index.html'; }
+function filterKategori(k) {
+    currentPage = 1;
+    filteredData = k === 'Semua' ? [...allData].reverse() : allData.filter(p => (p.kategori || "").toLowerCase() === k.toLowerCase()).reverse();
+    renderPosts();
+}
 
-// Inisialisasi
-document.addEventListener('DOMContentLoaded', fetchData);
+// Inisialisasi Akhir
+document.addEventListener('DOMContentLoaded', () => {
+    fetchData();
+});
