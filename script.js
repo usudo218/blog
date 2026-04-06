@@ -10,15 +10,13 @@ let currentPage = 1;
 const postsPerPage = 3; 
 
 // ==========================================
-// FITUR ATRIBUSI COPY-PASTE
+// FITUR ATRIBUSI COPY-PASTE (TETAP UTUH)
 // ==========================================
 document.addEventListener('copy', (e) => {
     const selection = window.getSelection();
     if (selection.rangeCount === 0) return;
 
     const plainText = selection.toString();
-    
-    // Pesan ini yang akan muncul saat di-paste
     const attribution = `\n\n========================================\nTulisan ini telah tayang di : ${ORIGINAL_DOMAIN}\nBaca artikel selengkapnya di : ${document.location.href}\n${AUTHOR_NAME}\n========================================`;
     
     const htmlContent = `<div>${plainText.replace(/\n/g, '<br>')}</div><br>` +
@@ -29,10 +27,9 @@ document.addEventListener('copy', (e) => {
                         `========================================`;
 
     if (e.clipboardData) {
-        // Gabungkan teks asli dengan atribusi
         e.clipboardData.setData('text/plain', plainText + attribution);
         e.clipboardData.setData('text/html', htmlContent);
-        e.preventDefault(); // Menghentikan copy standar, menggantinya dengan versi kita
+        e.preventDefault();
     }
 });
 
@@ -81,9 +78,12 @@ function renderPosts() {
             tgl = new Date(tgl).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
         }
 
+        // PERBAIKAN: Menggunakan 'kategori' (huruf kecil) agar sinkron dengan Apps Script
+        const kategoriTampil = post.kategori || 'Umum';
+
         container.innerHTML += `
             <article class="fade-in bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-md transition mb-6">
-                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-black bg-slate-100 px-3 py-1 rounded-full">${post.kategori || 'Umum'}</span>
+                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-black bg-slate-100 px-3 py-1 rounded-full">${kategoriTampil}</span>
                 <h3 class="text-xl md:text-2xl font-black mt-4 leading-tight">
                     <a href="?id=${post.originalIndex}" class="hover:text-blue-700 transition">${post.judul}</a>
                 </h3>
@@ -134,6 +134,7 @@ function filterKategori(kat) {
     if (kat === 'Semua') {
         filteredData = [...allData].reverse();
     } else {
+        // PERBAIKAN: Filter menggunakan huruf kecil
         filteredData = allData.filter(p => (p.kategori || "").toLowerCase() === kat.toLowerCase()).reverse();
     }
     renderPosts();
@@ -153,6 +154,7 @@ function tampilkanDetail(id) {
         tgl = new Date(tgl).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
     }
 
+    // PERBAIKAN: Menggunakan 'kategori' dan 'tags' (huruf kecil)
     const metaKategori = post.kategori || 'Umum';
     const rawTags = post.tags || '';
     const metaTags = rawTags ? rawTags.split(',').map(t => `#${t.trim()}`).join(' ') : '-';
@@ -172,7 +174,7 @@ function tampilkanDetail(id) {
 
     let fullContent = "";
 
-    // PENAMBAHAN CAPTION PADA GAMBAR
+    // FITUR CAPTION GAMBAR (TETAP UTUH)
     if (post.gambar && post.gambar.trim() !== "") {
         fullContent += `
             <figure class="mb-8">
@@ -186,8 +188,20 @@ function tampilkanDetail(id) {
 
     fullContent += `<div class="prose prose-slate max-w-none text-justify text-black">${post.konten}</div>`;
 
+    // PERBAIKAN & FITUR VIDEO: Menggunakan 'youtube' (huruf kecil) + Support Google Drive
     if (post.youtube && post.youtube.trim() !== "") {
-        fullContent += `<div class="mt-10 aspect-video rounded-[2rem] overflow-hidden shadow-xl border-4 border-white"><iframe class="w-full h-full" src="https://www.youtube.com/embed/${post.youtube}" frameborder="0" allowfullscreen></iframe></div>`;
+        let videoSrc = "";
+        // Jika ID lebih panjang dari 15, anggap Google Drive
+        if (post.youtube.length > 15) {
+            videoSrc = `https://drive.google.com/file/d/${post.youtube}/preview`;
+        } else {
+            videoSrc = `https://www.youtube.com/embed/${post.youtube}`;
+        }
+
+        fullContent += `
+            <div class="mt-10 aspect-video rounded-[2rem] overflow-hidden shadow-xl border-4 border-white">
+                <iframe class="w-full h-full" src="${videoSrc}" frameborder="0" allowfullscreen></iframe>
+            </div>`;
     }
 
     document.getElementById('content-body').innerHTML = fullContent;
