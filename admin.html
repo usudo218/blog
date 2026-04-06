@@ -16,25 +16,20 @@
         .btn-tool:hover { background: #000; color: white; }
         #konten { border-radius: 0 0 12px 12px !important; border: 1px solid #000; line-height: 1.6; }
         #admin-panel { display: none; }
-        .pp-container { display: inline-block; padding: 10px; }
     </style>
 </head>
 <body class="bg-slate-50">
 
     <div id="login-screen" class="min-h-screen flex items-center justify-center px-4">
         <div class="fade-in bg-white p-8 md:p-12 rounded-[3rem] shadow-xl border border-slate-100 w-full max-w-md text-center">
-            
-            <div class="pp-container mb-6">
+            <div class="inline-block p-2 mb-6">
                 <img src="https://raw.githubusercontent.com/usudo218/blog/main/pp.png" 
                      alt="Agus Tjakra" 
                      class="w-32 h-32 rounded-full mx-auto shadow-2xl border-4 border-white object-contain bg-white">
             </div>
-            
             <h2 class="text-2xl font-black uppercase mb-6 tracking-tight">Pintu Masuk</h2>
-            
             <input type="password" id="login_pass" placeholder="Password Rahasia" class="w-full p-4 border border-black rounded-2xl text-center mb-4 outline-none focus:ring-2 focus:ring-blue-500 transition">
             <button onclick="prosesLogin()" class="w-full bg-black text-white p-4 rounded-2xl font-black uppercase shadow-xl mb-6 hover:scale-105 transition">Buka Kunci</button>
-            
             <a href="index.html" class="block text-black text-[10px] font-black uppercase hover:underline tracking-widest">← Kembali ke Blog</a>
         </div>
     </div>
@@ -57,15 +52,15 @@
                     <div class="grid grid-cols-2 gap-4">
                         <input type="date" id="tanggal" required class="p-4 border border-black rounded-xl">
                         <select id="kategori" class="p-4 border border-black rounded-xl font-black">
+                            <option value="Asal Nulis">Asal Nulis</option>
                             <option value="Rasan-rasan">Rasan-rasan</option>
                             <option value="Fiksiana">Fiksiana</option>
-                            <option value="Asal nulis">Asal Nulis</option>
                         </select>
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
                         <input type="text" id="gambar" placeholder="Link Gambar (URL)" class="p-4 border border-black rounded-xl text-xs">
-                        <input type="text" id="youtube" placeholder="ID Video Youtube" class="p-4 border border-black rounded-xl text-xs">
+                        <input type="text" id="youtube" placeholder="ID Video (Youtube/Drive)" class="p-4 border border-black rounded-xl text-xs">
                     </div>
 
                     <input type="text" id="tags" placeholder="Tags (koma, misal: kopi, senja)" class="w-full p-4 border border-black rounded-xl text-xs">
@@ -106,7 +101,7 @@
 
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec"; 
-        const SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/1CraAGn4_MdzuORTnBJaTSmE7lp-uB1eeHycGkba8vR4/";
+        const SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/1CraAGn4_MdzuORTnBJaTSmE7lp-uB1eeHycGkba8vR4/edit";
 
         function formatText(tag) {
             const area = document.getElementById('konten');
@@ -152,17 +147,17 @@
                         <tr class="border-b hover:bg-slate-50 transition">
                             <td class="py-4 px-2 font-bold text-xs">${judulPost}</td>
                             <td class="py-4 px-2 text-right">
-                                <button onclick="bukaSheet(${rowNum})" class="bg-blue-600 text-white px-4 py-1.5 rounded-full text-[9px] font-black uppercase hover:bg-blue-800 transition shadow-sm">Edit Baris ${rowNum}</button>
+                                <button onclick="bukaSheet(${rowNum})" class="bg-green-600 text-white px-4 py-1.5 rounded-full text-[9px] font-black uppercase hover:bg-green-800 transition shadow-sm">Edit Baris ${rowNum}</button>
                             </td>
                         </tr>`;
                 });
             } catch (e) {
-                container.innerHTML = '<tr><td colspan="2" class="py-4 text-center text-red-500 font-bold">Gagal mengambil data. Cek API_URL!</td></tr>';
+                container.innerHTML = '<tr><td colspan="2" class="py-4 text-center text-red-500 font-bold">Gagal mengambil data.</td></tr>';
             }
         }
 
         function bukaSheet(row) {
-            const rangeUrl = SPREADSHEET_URL + "?gid=0&range=A" + row;
+            const rangeUrl = SPREADSHEET_URL + "#gid=0&range=" + row + ":" + row;
             window.open(rangeUrl, '_blank');
         }
 
@@ -173,6 +168,7 @@
             btn.innerText = "MENGIRIM...";
             btn.disabled = true;
             
+            // PAYLOAD DATA (Harus Sesuai dengan ID Input)
             const payload = {
                 password: sessionStorage.getItem("adminPass"),
                 judul: document.getElementById('judul').value,
