@@ -7,14 +7,30 @@ let filteredData = [];
 let currentPage = 1;
 const postsPerPage = 3; 
 
-// Fitur Atribusi Copy-Paste
+// Fitur Atribusi Copy-Paste dengan Link Otomatis (HTML Format)
 document.addEventListener('copy', (e) => {
     const selection = window.getSelection();
     if (selection.rangeCount === 0) return;
+
     const plainText = selection.toString();
-    const attribution = `\n\n========================================\nTulisan ini telah tayang di : ${ORIGINAL_DOMAIN}\nBaca artikel selengkapnya di : ${document.location.href}\n${AUTHOR_NAME}\n========================================`;
+    const urlLengkap = document.location.href;
+    const namaPenulis = "Agus Tjakra"; //
+
+    // 1. Format Teks Biasa (Plain Text) - Tetap perlu sebagai cadangan
+    const attributionPlain = `\n\n========================================\nTulisan ini telah tayang di : www.asalnulis.web.id\nBaca artikel selengkapnya di : ${urlLengkap}\n${namaPenulis}\n========================================`;
+
+    // 2. Format HTML (Agar otomatis jadi link biru di Word/Email)
+    const attributionHTML = `<br><br>========================================<br>` +
+                            `Tulisan ini telah tayang di : <a href="https://www.asalnulis.web.id">www.asalnulis.web.id</a><br>` +
+                            `Baca artikel selengkapnya di : <a href="${urlLengkap}">${urlLengkap}</a><br>` +
+                            `<b>${namaPenulis}</b><br>` +
+                            `========================================`;
+
     if (e.clipboardData) {
-        e.clipboardData.setData('text/plain', plainText + attribution);
+        // Kita masukkan dua format sekaligus
+        e.clipboardData.setData('text/plain', plainText + attributionPlain);
+        e.clipboardData.setData('text/html', selection.getRangeAt(0).cloneContents().textContent + attributionHTML);
+        
         e.preventDefault();
     }
 });
