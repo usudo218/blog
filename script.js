@@ -7,30 +7,37 @@ let filteredData = [];
 let currentPage = 1;
 const postsPerPage = 3; 
 
-// Fitur Atribusi Copy-Paste dengan Link Otomatis (HTML Format)
+// Fitur Atribusi Copy-Paste agar otomatis jadi link biru di Word
 document.addEventListener('copy', (e) => {
     const selection = window.getSelection();
     if (selection.rangeCount === 0) return;
 
-    const plainText = selection.toString();
     const urlLengkap = document.location.href;
-    const namaPenulis = "Agus Tjakra"; //
+    const namaPenulis = "Agus Tjakra";
 
-    // 1. Format Teks Biasa (Plain Text) - Tetap perlu sebagai cadangan
-    const attributionPlain = `\n\n========================================\nTulisan ini telah tayang di : www.asalnulis.web.id\nBaca artikel selengkapnya di : ${urlLengkap}\n${namaPenulis}\n========================================`;
+    // 1. Ambil konten yang sedang disalin oleh user
+    const container = document.createElement('div');
+    for (let i = 0; i < selection.rangeCount; i++) {
+        container.appendChild(selection.getRangeAt(i).cloneContents());
+    }
 
-    // 2. Format HTML (Agar otomatis jadi link biru di Word/Email)
-    const attributionHTML = `<br><br>========================================<br>` +
-                            `Tulisan ini telah tayang di : <a href="https://www.asalnulis.web.id">www.asalnulis.web.id</a><br>` +
-                            `Baca artikel selengkapnya di : <a href="${urlLengkap}">${urlLengkap}</a><br>` +
-                            `<b>${namaPenulis}</b><br>` +
-                            `========================================`;
+    // 2. Buat elemen HTML untuk Atribusi (Link Biru)
+    const attributionHTML = `
+        <br><br>
+        <p>========================================</p>
+        <p>Tulisan ini telah tayang di : <a href="https://www.asalnulis.web.id">www.asalnulis.web.id</a></p>
+        <p>Baca artikel selengkapnya di : <a href="${urlLengkap}">${urlLengkap}</a></p>
+        <p><b>${namaPenulis}</b></p>
+        <p>========================================</p>
+    `;
+
+    // 3. Gabungkan konten asli dengan atribusi
+    const finalHTML = container.innerHTML + attributionHTML;
+    const finalPlain = selection.toString() + `\n\n========================================\nTulisan ini telah tayang di : www.asalnulis.web.id\nBaca artikel selengkapnya di : ${urlLengkap}\n${namaPenulis}\n========================================`;
 
     if (e.clipboardData) {
-        // Kita masukkan dua format sekaligus
-        e.clipboardData.setData('text/plain', plainText + attributionPlain);
-        e.clipboardData.setData('text/html', selection.getRangeAt(0).cloneContents().textContent + attributionHTML);
-        
+        e.clipboardData.setData('text/html', finalHTML);
+        e.clipboardData.setData('text/plain', finalPlain);
         e.preventDefault();
     }
 });
