@@ -11,31 +11,23 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Optimasi Rendering */
-article {
-    content-visibility: auto;
-    contain-intrinsic-size: 1px 400px;
-}
-
-/* Mempercepat transisi */
-.fade-in {
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-/* Agar gambar profil di samping tidak membebani saat loading utama */
-aside img {
-    content-visibility: visible;
-}
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
         
-        body { font-family: 'Inter', sans-serif; }
-        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        
+        /* Optimasi Rendering Mobile */
+        article { 
+            content-visibility: auto; 
+            contain-intrinsic-size: 1px 300px; 
+        }
+
+        .fade-in { animation: fadeIn 0.4s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
         #content-body { 
             line-height: 1.8; 
             font-size: 1.125rem; 
-            color: #334155; 
+            color: #1a1a1a; 
         }
         #content-body p { margin-bottom: 1.5rem; }
         
@@ -83,20 +75,32 @@ aside img {
     <main class="container mx-auto px-4 py-10 max-w-6xl flex-grow">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
             <div class="lg:col-span-2">
+                
                 <div id="view-list" class="fade-in">
-                    <h2 id="section-title" class="text-2xl font-black mb-8 border-b-4 border-black inline-block text-slate-900 tracking-tight">Catatan Terbaru</h2>
+                    <h2 id="section-title" class="text-2xl font-black mb-8 border-b-4 border-black inline-block text-slate-900 tracking-tight uppercase">Catatan Terbaru</h2>
                     <div id="blog-container" class="space-y-8">
                         <div class="skeleton h-64 w-full"></div>
                         <div class="skeleton h-64 w-full"></div>
                     </div>
                 </div>
 
-                <div id="view-detail" class="hidden fade-in bg-white p-8 md:p-12 rounded-[2.5rem] shadow-sm border border-slate-100">
-                    <button onclick="kembaliKeDaftar()" class="mb-8 text-sm font-black text-black hover:underline uppercase tracking-widest">← Kembali</button>
+                <div id="view-detail" class="hidden fade-in bg-white p-6 md:p-12 rounded-[2.5rem] shadow-sm border border-slate-100">
+                    <button onclick="kembaliKeDaftar()" class="mb-8 text-[10px] font-black text-black hover:underline uppercase tracking-widest border border-black px-4 py-2 rounded-full">← Kembali ke Beranda</button>
                     <article>
-                        <header class="mb-8 border-b-2 border-slate-50 pb-6">
-                            </header>
+                        <header class="mb-8 border-b-2 border-slate-50 pb-6"></header>
                         <div id="content-body" class="text-justify"></div>
+                        
+                        <div class="mt-16 border-t pt-10">
+                            <h4 class="text-xs font-black uppercase tracking-widest mb-6">Ruang Diskusi :</h4>
+                            <script src="https://utteranc.es/client.js"
+                                    repo="usudo218/blog"
+                                    issue-term="pathname"
+                                    label="komentar"
+                                    theme="github-light"
+                                    crossorigin="anonymous"
+                                    async>
+                            </script>
+                        </div>
                     </article>
                 </div>
             </div>
@@ -106,6 +110,7 @@ aside img {
                     <div class="inline-block p-1 mb-6">
                         <img src="https://raw.githubusercontent.com/usudo218/blog/main/pp.png" 
                              alt="Agus Tjakra"
+                             loading="lazy"
                              class="w-40 h-40 rounded-full mx-auto border-4 border-slate-50 shadow-md object-contain bg-white">
                     </div>
                     
@@ -113,11 +118,7 @@ aside img {
                     <p class="text-base font-bold italic text-black mb-4">"Menulis untuk merawat ingatan"</p>
                     
                     <div class="text-sm text-slate-600 leading-relaxed space-y-4">
-                        <p>Seringkali kita lupa pada apa yang pernah membuat kita tertawa atau merenung.<br/> 
-                        Melalui blog sederhana ini, saya mencoba mengikat makna-makna yang berceceran,<br/> 
-                        mengubah detak waktu menjadi barisan kata,<br/>
-                        agar jejak yang tertinggal tak lekang oleh lupa.</p>
-                        
+                        <p>Melalui blog sederhana ini, saya mencoba mengikat makna-makna yang berceceran agar tidak lekang oleh lupa.</p>
                         <p class="font-black text-black uppercase tracking-widest text-[10px] pt-2">Bumi Blambangan 2026</p>
                     </div>
                 </div>
@@ -143,6 +144,6 @@ aside img {
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 </html>
