@@ -24,7 +24,6 @@ async function fetchData() {
     const cacheTimeKey = 'blog_data_time';
     const currentTime = new Date().getTime();
     const tenMinutes = 10 * 60 * 1000;
-
     const cachedData = localStorage.getItem(cacheKey);
     const cachedTime = localStorage.getItem(cacheTimeKey);
 
@@ -47,7 +46,6 @@ function prosesData(rawData) {
     allData = rawData.map((post, index) => ({ ...post, originalIndex: index }));
     const urlParams = new URLSearchParams(window.location.search);
     const postId = urlParams.get('id');
-
     if (postId !== null) {
         tampilkanDetail(postId);
     } else {
@@ -61,12 +59,10 @@ function renderPosts() {
     container.innerHTML = '';
     const startIndex = (currentPage - 1) * postsPerPage;
     const paginatedPosts = filteredData.slice(startIndex, startIndex + postsPerPage);
-
     if (paginatedPosts.length === 0) {
         container.innerHTML = '<p class="text-center py-10 italic text-xs font-bold">Tidak ada catatan.</p>';
         return;
     }
-
     paginatedPosts.forEach((post) => {
         let tgl = formatTanggal(post.tanggal);
         container.innerHTML += `
@@ -89,10 +85,8 @@ function renderPosts() {
 function tampilkanDetail(id) {
     const post = allData[id];
     if (!post) return;
-
     document.getElementById('view-list').classList.add('hidden');
     document.getElementById('view-detail').classList.remove('hidden');
-
     let tgl = formatTanggal(post.tanggal);
     const headerElement = document.querySelector('#view-detail header');
     headerElement.innerHTML = `
@@ -102,75 +96,10 @@ function tampilkanDetail(id) {
         <h1 class="text-3xl md:text-4xl font-black text-slate-900 leading-tight tracking-tighter uppercase">${post.judul}</h1>
         <p class="text-black text-xs font-bold mt-3 uppercase tracking-[0.2em]">${tgl}</p>
     `;
-
     let fullContent = post.gambar ? `<figure class="mb-8"><img src="${post.gambar}" class="w-full h-auto rounded-[2rem] shadow-lg mb-2"><figcaption class="text-center text-[11px] italic text-slate-500 font-medium">— ${post.judul}</figcaption></figure>` : "";
     fullContent += `<div class="prose prose-slate max-w-none text-justify text-black">${post.konten}</div>`;
-
     document.getElementById('content-body').innerHTML = fullContent;
-    muatKomentar(id);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-async function muatKomentar(postId) {
-    const container = document.getElementById('list-komentar');
-    container.innerHTML = '<p class="text-[10px] italic text-slate-400">Memuat rasan-rasan...</p>';
-    
-    try {
-        const response = await fetch(`${API_URL}?type=comments&postId=${postId}`);
-        const comments = await response.json();
-        
-        container.innerHTML = '';
-        if (!Array.isArray(comments) || comments.length === 0) {
-            container.innerHTML = '<p class="text-[10px] italic text-slate-400">Belum ada rasan-rasan.</p>';
-            return;
-        }
-
-        let htmlContent = "";
-        comments.forEach(c => {
-            if (c.nama && c.komentar && c.nama !== "undefined") {
-                htmlContent += `
-                    <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm mb-4">
-                        <p class="text-[11px] font-black uppercase mb-1">${c.nama}</p>
-                        <p class="text-sm text-slate-700 leading-relaxed">${c.komentar}</p>
-                        <p class="text-[9px] text-slate-400 mt-2 uppercase font-bold">${formatTanggal(c.tanggal)}</p>
-                    </div>
-                `;
-            }
-        });
-        container.innerHTML = htmlContent || '<p class="text-[10px] italic text-slate-400">Belum ada rasan-rasan.</p>';
-    } catch (e) {
-        container.innerHTML = '<p class="text-[10px] italic text-slate-400">Belum ada rasan-rasan.</p>';
-    }
-}
-
-async function kirimKomentar() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const postId = urlParams.get('id');
-    const nama = document.getElementById('nama-komentar').value;
-    const komentar = document.getElementById('isi-komentar').value;
-    const btn = document.getElementById('btn-komentar');
-
-    if (!nama || !komentar) return alert("Lengkapi nama dan komentar dulu, Pak!");
-
-    const originalText = btn.innerText;
-    btn.innerText = "MENGIRIM...";
-    btn.disabled = true;
-
-    try {
-        await fetch(API_URL, {
-            method: 'POST',
-            body: JSON.stringify({ type: 'addComment', postId, nama, komentar })
-        });
-        alert("Rasan-rasan terkirim!");
-        document.getElementById('nama-komentar').value = '';
-        document.getElementById('isi-komentar').value = '';
-        muatKomentar(postId);
-    } catch (err) {
-        alert("Gagal mengirim rasan-rasan.");
-    } finally {
-        btn.innerText = originalText;
-        btn.disabled = false;
-    }
 }
 
 function formatTanggal(tglRaw) {
