@@ -140,7 +140,7 @@ function tampilkanDetail(id) {
         // PERUBAHAN DI SINI: Menambahkan max-w-md dan mx-auto agar gambar proporsional di tengah
         fullContent += `
             <figure class="mb-8 flex flex-col items-center">
-                <img src="${post.gambar}" loading="lazy" class="w-full max-w-md h-auto rounded-[2rem] shadow-lg mb-2 object-cover">
+                <img src="${post.gambar}" loading="lazy" class="w-full max-w-xs h-auto rounded-[2rem] shadow-lg mb-2 object-cover">
                 <figcaption class="text-center text-[11px] italic text-slate-500 font-medium">— ${post.judul}</figcaption>
             </figure>
         `;
