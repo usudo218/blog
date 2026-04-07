@@ -7,7 +7,6 @@ let filteredData = [];
 let currentPage = 1;
 const postsPerPage = 3; 
 
-// Fitur Atribusi Copy-Paste
 document.addEventListener('copy', (e) => {
     const selection = window.getSelection();
     if (selection.rangeCount === 0) return;
@@ -108,10 +107,7 @@ function tampilkanDetail(id) {
     fullContent += `<div class="prose prose-slate max-w-none text-justify text-black">${post.konten}</div>`;
 
     document.getElementById('content-body').innerHTML = fullContent;
-    
-    // MUAT KOMENTAR BERDASARKAN ID POSTINGAN
     muatKomentar(id);
-    
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -120,7 +116,6 @@ async function muatKomentar(postId) {
     container.innerHTML = '<p class="text-[10px] italic text-slate-400">Memuat rasan-rasan...</p>';
     
     try {
-        // Mengirimkan parameter type=comments agar Apps Script tahu kita meminta komentar
         const response = await fetch(`${API_URL}?type=comments&postId=${postId}`);
         const comments = await response.json();
         
@@ -132,7 +127,6 @@ async function muatKomentar(postId) {
 
         let htmlContent = "";
         comments.forEach(c => {
-            // Validasi: Hanya tampilkan jika data nama dan komentar benar-benar ada
             if (c.nama && c.komentar && c.nama !== "undefined") {
                 htmlContent += `
                     <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm mb-4">
@@ -163,7 +157,6 @@ async function kirimKomentar() {
     btn.disabled = true;
 
     try {
-        // Mengirimkan type: 'addComment' agar Apps Script tahu ini adalah data komentar baru
         await fetch(API_URL, {
             method: 'POST',
             body: JSON.stringify({ type: 'addComment', postId, nama, komentar })
