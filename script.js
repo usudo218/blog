@@ -168,3 +168,29 @@ function filterKategori(kat) {
 }
 function kembaliKeDaftar() { window.location.href = 'index.html'; }
 document.addEventListener('DOMContentLoaded', fetchData);
+function muatGiscus(id, judul) {
+    const container = document.getElementById('giscus-container');
+    if (!container) return;
+    
+    // Bersihkan komentar lama saat ganti artikel
+    container.innerHTML = '';
+
+    const script = document.createElement('script');
+    script.src = "https://giscus.app/client.js";
+    script.setAttribute('data-repo', "usudo218/blog"); // Pastikan nama repo benar
+    script.setAttribute('data-repo-id', "DI_ISI_NANTI"); // Dapatkan dari giscus.app
+    script.setAttribute('data-category', "Announcements");
+    script.setAttribute('data-category-id', "DI_ISI_NANTI"); // Dapatkan dari giscus.app
+    script.setAttribute('data-mapping', "specific");
+    script.setAttribute('data-term', judul); // Komentar dikunci berdasarkan judul artikel
+    script.setAttribute('data-strict', "0");
+    script.setAttribute('data-reactions-enabled', "1");
+    script.setAttribute('data-emit-metadata', "0");
+    script.setAttribute('data-input-position', "top");
+    script.setAttribute('data-theme', "light");
+    script.setAttribute('data-lang', "id");
+    script.crossOrigin = "anonymous";
+    script.async = true;
+
+    container.appendChild(script);
+}
