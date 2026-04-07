@@ -40,22 +40,23 @@ document.addEventListener('copy', (e) => {
     }
 });
 
+// FUNGSI UTAMA: Ambil Data dengan Caching 5 Menit (Ideal)
 async function fetchData() {
     const container = document.getElementById('blog-container');
     const cacheKey = 'blog_data_cache';
     const cacheTimeKey = 'blog_data_time';
     const currentTime = new Date().getTime();
-    const tenMinutes = 5 * 60 * 1000; 
+    const fiveMinutes = 5 * 60 * 1000; 
 
     const cachedData = localStorage.getItem(cacheKey);
     const cachedTime = localStorage.getItem(cacheTimeKey);
 
-    if (cachedData && cachedTime && (currentTime - cachedTime < tenMinutes)) {
+    if (cachedData && cachedTime && (currentTime - cachedTime < fiveMinutes)) {
         console.log("Loading dari Cache Lokal...");
         prosesData(JSON.parse(cachedData));
     } else {
         try {
-            console.log("Cache kedaluwarsa atau tidak ada, memuat data baru...");
+            console.log("Memuat data baru...");
             const response = await fetch(`${API_URL}?t=${currentTime}`);
             const rawData = await response.json();
             
@@ -64,7 +65,7 @@ async function fetchData() {
             
             prosesData(rawData);
         } catch (e) {
-            container.innerHTML = '<p class="text-center py-10 font-bold text-red-500">Gagal memuat catatan. Periksa koneksi internet Bapak.</p>';
+            container.innerHTML = '<p class="text-center py-10 font-bold text-red-500">Gagal memuat catatan.</p>';
         }
     }
 }
@@ -90,7 +91,7 @@ function renderPosts() {
     const paginatedPosts = filteredData.slice(startIndex, startIndex + postsPerPage);
 
     if (paginatedPosts.length === 0) {
-        container.innerHTML = '<p class="text-center py-10 italic text-xs font-bold">Belum ada rasan-rasan yang ditulis.</p>';
+        container.innerHTML = '<p class="text-center py-10 italic text-xs font-bold">Belum ada rasan-rasan.</p>';
         return;
     }
 
@@ -137,11 +138,16 @@ function tampilkanDetail(id) {
 
     let fullContent = "";
     if (post.gambar) {
-        // PERUBAHAN DI SINI: Menambahkan max-w-md dan mx-auto agar gambar proporsional di tengah
+        // PENGATURAN GAMBAR RESPONSIVE:
+        // w-2/3 (HP) | md:w-1/3 (Laptop) | max-w-[250px] (Batas Maksimal)
         fullContent += `
             <figure class="mb-8 flex flex-col items-center">
-                <img src="${post.gambar}" loading="lazy" class="w-full max-w-xs h-auto rounded-[2rem] shadow-lg mb-2 object-cover">
-                <figcaption class="text-center text-[11px] italic text-slate-500 font-medium">— ${post.judul}</figcaption>
+                <img src="${post.gambar}" 
+                     loading="lazy" 
+                     class="w-2/3 md:w-1/3 max-w-[250px] h-auto rounded-[1.5rem] shadow-md border border-slate-200 mb-2 object-cover">
+                <figcaption class="text-center text-[10px] italic text-slate-400 font-medium tracking-tight">
+                    — ${post.judul}
+                </figcaption>
             </figure>
         `;
     }
