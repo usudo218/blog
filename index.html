@@ -89,6 +89,23 @@
                     <article>
                         <header class="mb-8 border-b-2 border-slate-50 pb-6"></header>
                         <div id="content-body" class="text-justify"></div>
+
+                        <div class="mt-16 pt-8 border-t border-slate-100">
+                            <h4 class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-6">Komentar Pembaca</h4>
+                            
+                            <div id="list-komentar" class="space-y-6 mb-10">
+                                <p class="text-[10px] italic text-slate-400">Memuat rasan-rasan pembaca...</p>
+                            </div>
+
+                            <div class="bg-slate-50 p-6 md:p-8 rounded-[2rem] border border-slate-100 shadow-inner">
+                                <h5 class="text-[10px] font-black uppercase tracking-widest mb-4">Ikut Nimbrung</h5>
+                                <div class="space-y-4">
+                                    <input type="text" id="nama-komentar" placeholder="Nama Anda" class="w-full p-4 rounded-xl border border-slate-200 text-sm outline-none focus:ring-2 focus:ring-black transition">
+                                    <textarea id="isi-komentar" placeholder="Tulis rasan-rasan Anda di sini..." class="w-full p-4 rounded-xl border border-slate-200 text-sm outline-none focus:ring-2 focus:ring-black transition" rows="3"></textarea>
+                                    <button onclick="kirimKomentar()" id="btn-komentar" class="bg-black text-white px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg hover:scale-105 transition">Kirim Komentar</button>
+                                </div>
+                            </div>
+                        </div>
                     </article>
                 </div>
             </div>
