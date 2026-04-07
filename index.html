@@ -15,7 +15,7 @@
         
         body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
         
-        /* Optimasi Rendering Mobile: Mempercepat pemuatan di HP */
+        /* Point 1: Optimasi Rendering untuk Kecepatan HP */
         article { 
             content-visibility: auto; 
             contain-intrinsic-size: 1px 400px; 
@@ -89,6 +89,22 @@
                     <article>
                         <header class="mb-8 border-b-2 border-slate-50 pb-6"></header>
                         <div id="content-body" class="text-justify"></div>
+
+                        <div id="disqus_thread" class="mt-16 border-t pt-10"></div>
+                        <script>
+                            var disqus_config = function () {
+                                this.page.url = window.location.href;  
+                                this.page.identifier = new URLSearchParams(window.location.search).get('id'); 
+                            };
+                            (function() { 
+                                var d = document, s = d.createElement('script');
+                                // Ganti 'penulis-pemula' dengan shortname Disqus Bapak jika sudah mendaftar
+                                s.src = 'https://penulis-pemula.disqus.com/embed.js'; 
+                                s.setAttribute('data-timestamp', +new Date());
+                                (d.head || d.body).appendChild(s);
+                            })();
+                        </script>
+                        <noscript>Harap aktifkan JavaScript untuk melihat komentar.</noscript>
                     </article>
                 </div>
             </div>
@@ -106,7 +122,7 @@
                     <p class="text-base font-bold italic text-black mb-4">"Menulis untuk merawat ingatan"</p>
                     
                     <div class="text-sm text-slate-600 leading-relaxed space-y-4">
-                        <p>Seringkali kita lupa pada apa yang pernah membuat kita tertawa atau merenung. Melalui blog sederhana ini, saya mencoba mengikat makna-makna yang berceceran.</p>
+                        <p>Melalui blog sederhana ini, saya mencoba mengikat makna-makna yang berceceran agar tidak lekang oleh lupa.</p>
                         <p class="font-black text-black uppercase tracking-widest text-[10px] pt-2">Bumi Blambangan 2026</p>
                     </div>
                 </div>
