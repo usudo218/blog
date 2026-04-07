@@ -19,7 +19,6 @@ document.addEventListener('copy', (e) => {
     }
 });
 
-// FUNGSI UTAMA: Ambil Data dengan Caching 10 Menit
 async function fetchData() {
     const container = document.getElementById('blog-container');
     const cacheKey = 'blog_data_cache';
@@ -31,17 +30,13 @@ async function fetchData() {
     const cachedTime = localStorage.getItem(cacheTimeKey);
 
     if (cachedData && cachedTime && (currentTime - cachedTime < tenMinutes)) {
-        console.log("Memuat dari Cache...");
         prosesData(JSON.parse(cachedData));
     } else {
         try {
-            console.log("Mengambil data baru dari server...");
             const response = await fetch(API_URL);
             const rawData = await response.json();
-            
             localStorage.setItem(cacheKey, JSON.stringify(rawData));
             localStorage.setItem(cacheTimeKey, currentTime.toString());
-            
             prosesData(rawData);
         } catch (e) {
             container.innerHTML = '<p class="text-center py-10 font-bold text-red-500">Gagal memuat catatan.</p>';
@@ -65,7 +60,6 @@ function prosesData(rawData) {
 function renderPosts() {
     const container = document.getElementById('blog-container');
     container.innerHTML = '';
-
     const startIndex = (currentPage - 1) * postsPerPage;
     const paginatedPosts = filteredData.slice(startIndex, startIndex + postsPerPage);
 
@@ -76,16 +70,14 @@ function renderPosts() {
 
     paginatedPosts.forEach((post) => {
         let tgl = formatTanggal(post.tanggal);
-        const kategoriTampil = post.kategori || 'Umum';
-
         container.innerHTML += `
-            <article class="fade-in bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 mb-6">
-                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-black bg-slate-100 px-3 py-1 rounded-full">${kategoriTampil}</span>
+            <article class="fade-in bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 mb-6 text-justify">
+                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-black bg-slate-100 px-3 py-1 rounded-full">${post.kategori || 'Umum'}</span>
                 <h3 class="text-xl md:text-2xl font-black mt-4 leading-tight">
                     <a href="?id=${post.originalIndex}" class="hover:text-blue-700 transition">${post.judul}</a>
                 </h3>
                 <p class="text-black text-xs font-bold mt-2 uppercase tracking-widest">${tgl}</p>
-                <div class="mt-4 text-slate-600 line-clamp-3 text-sm leading-relaxed text-justify">
+                <div class="mt-4 text-slate-600 line-clamp-3 text-sm leading-relaxed">
                     ${(post.konten || '').replace(/<[^>]*>/g, '').substring(0, 150)}...
                 </div>
                 <a href="?id=${post.originalIndex}" class="inline-block mt-6 text-xs font-black uppercase tracking-widest border-b-2 border-black pb-1 hover:text-blue-700 transition">Baca Selengkapnya →</a>
@@ -103,72 +95,57 @@ function tampilkanDetail(id) {
     document.getElementById('view-detail').classList.remove('hidden');
 
     let tgl = formatTanggal(post.tanggal);
-    const metaKategori = post.kategori || 'Umum';
-    const metaTags = post.tags ? post.tags.split(',').map(t => `#${t.trim()}`).join(' ') : '-';
-    
     const headerElement = document.querySelector('#view-detail header');
     headerElement.innerHTML = `
         <div class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">
-            TOPIK : <span class="text-black">${metaKategori}</span> | TAGS : <span class="text-black">${metaTags}</span>
+            TOPIK : <span class="text-black">${post.kategori || 'Umum'}</span>
         </div>
         <h1 class="text-3xl md:text-4xl font-black text-slate-900 leading-tight tracking-tighter uppercase">${post.judul}</h1>
         <p class="text-black text-xs font-bold mt-3 uppercase tracking-[0.2em]">${tgl}</p>
     `;
 
-    let fullContent = "";
-    if (post.gambar) {
-        fullContent += `
-            <figure class="mb-8">
-                <img src="${post.gambar}" loading="lazy" class="w-full h-auto rounded-[2rem] shadow-lg mb-2">
-                <figcaption class="text-center text-[11px] italic text-slate-500 font-medium">— ${post.judul} | Karikatur : Penulis Pemula</figcaption>
-            </figure>
-        `;
-    }
-
+    let fullContent = post.gambar ? `<figure class="mb-8"><img src="${post.gambar}" class="w-full h-auto rounded-[2rem] shadow-lg mb-2"><figcaption class="text-center text-[11px] italic text-slate-500 font-medium">— ${post.judul}</figcaption></figure>` : "";
     fullContent += `<div class="prose prose-slate max-w-none text-justify text-black">${post.konten}</div>`;
-
-    if (post.youtube) {
-        let videoSrc = post.youtube.length > 15 ? `https://drive.google.com/file/d/${post.youtube}/preview` : `https://www.youtube.com/embed/${post.youtube}`;
-        fullContent += `<div class="mt-10 aspect-video rounded-[2rem] overflow-hidden shadow-xl border-4 border-white">
-            <iframe loading="lazy" class="w-full h-full" src="${videoSrc}" frameborder="0" allowfullscreen></iframe>
-        </div>`;
-    }
 
     document.getElementById('content-body').innerHTML = fullContent;
     
-    // PANGGIL MUAT KOMENTAR
+    // MUAT KOMENTAR BERDASARKAN ID POSTINGAN
     muatKomentar(id);
     
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// FUNGSI KOMENTAR SPREADSHEET
 async function muatKomentar(postId) {
     const container = document.getElementById('list-komentar');
-    container.innerHTML = '<p class="text-[10px] italic text-slate-400">Memuat rasan-rasan pembaca...</p>';
+    container.innerHTML = '<p class="text-[10px] italic text-slate-400">Memuat rasan-rasan...</p>';
     
     try {
-        // Mengambil data dari API yang sama (asumsi API mengembalikan semua data termasuk sheet komentar)
-        const response = await fetch(API_URL + "?type=comments&postId=" + postId);
+        // Mengirimkan parameter type=comments agar Apps Script tahu kita meminta komentar
+        const response = await fetch(`${API_URL}?type=comments&postId=${postId}`);
         const comments = await response.json();
         
         container.innerHTML = '';
-        if (comments.length === 0) {
-            container.innerHTML = '<p class="text-[10px] italic text-slate-400">Belum ada rasan-rasan. Jadilah yang pertama!</p>';
+        if (!Array.isArray(comments) || comments.length === 0) {
+            container.innerHTML = '<p class="text-[10px] italic text-slate-400">Belum ada rasan-rasan.</p>';
             return;
         }
 
+        let htmlContent = "";
         comments.forEach(c => {
-            container.innerHTML += `
-                <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
-                    <p class="text-[11px] font-black uppercase mb-1">${c.nama}</p>
-                    <p class="text-sm text-slate-700 leading-relaxed">${c.komentar}</p>
-                    <p class="text-[9px] text-slate-400 mt-2 uppercase font-bold">${formatTanggal(c.tanggal)}</p>
-                </div>
-            `;
+            // Validasi: Hanya tampilkan jika data nama dan komentar benar-benar ada
+            if (c.nama && c.komentar && c.nama !== "undefined") {
+                htmlContent += `
+                    <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm mb-4">
+                        <p class="text-[11px] font-black uppercase mb-1">${c.nama}</p>
+                        <p class="text-sm text-slate-700 leading-relaxed">${c.komentar}</p>
+                        <p class="text-[9px] text-slate-400 mt-2 uppercase font-bold">${formatTanggal(c.tanggal)}</p>
+                    </div>
+                `;
+            }
         });
+        container.innerHTML = htmlContent || '<p class="text-[10px] italic text-slate-400">Belum ada rasan-rasan.</p>';
     } catch (e) {
-        container.innerHTML = '<p class="text-[10px] text-red-500 italic">Gagal memuat rasan-rasan.</p>';
+        container.innerHTML = '<p class="text-[10px] italic text-slate-400">Belum ada rasan-rasan.</p>';
     }
 }
 
@@ -179,30 +156,24 @@ async function kirimKomentar() {
     const komentar = document.getElementById('isi-komentar').value;
     const btn = document.getElementById('btn-komentar');
 
-    if (!nama || !komentar) return alert("Isi nama dan komentar dulu, Pak!");
+    if (!nama || !komentar) return alert("Lengkapi nama dan komentar dulu, Pak!");
 
     const originalText = btn.innerText;
     btn.innerText = "MENGIRIM...";
     btn.disabled = true;
 
-    const payload = {
-        type: 'addComment',
-        postId: postId,
-        nama: nama,
-        komentar: komentar
-    };
-
     try {
+        // Mengirimkan type: 'addComment' agar Apps Script tahu ini adalah data komentar baru
         await fetch(API_URL, {
             method: 'POST',
-            body: JSON.stringify(payload)
+            body: JSON.stringify({ type: 'addComment', postId, nama, komentar })
         });
         alert("Rasan-rasan terkirim!");
         document.getElementById('nama-komentar').value = '';
         document.getElementById('isi-komentar').value = '';
         muatKomentar(postId);
     } catch (err) {
-        alert("Aduh, koneksi error. Coba lagi nanti.");
+        alert("Gagal mengirim rasan-rasan.");
     } finally {
         btn.innerText = originalText;
         btn.disabled = false;
