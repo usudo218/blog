@@ -22,13 +22,15 @@ document.addEventListener('copy', (e) => {
     }
 
     // 2. Buat elemen HTML untuk Atribusi (Link Biru)
+           // Gunakan baris tunggal dengan <br> agar spasi mepet (Single Spacing)
     const attributionHTML = `
-        <br><br>
-        <p>========================================</p>
-        <p>Tulisan ini telah tayang di : <a href="https://www.asalnulis.web.id">www.asalnulis.web.id</a></p>
-        <p>Baca artikel selengkapnya di : <a href="${urlLengkap}">${urlLengkap}</a></p>
-        <p><b>${namaPenulis}</b></p>
-        <p>========================================</p>
+        <div style="line-height: 1.2; margin-top: 20px;">
+            ========================================<br>
+            Tulisan ini telah tayang di : <a href="https://www.asalnulis.web.id">www.asalnulis.web.id</a><br>
+            Baca artikel selengkapnya di : <a href="${urlLengkap}">${urlLengkap}</a><br>
+            <b>${namaPenulis}</b><br>
+            ========================================
+        </div>
     `;
 
     // 3. Gabungkan konten asli dengan atribusi
