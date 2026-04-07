@@ -25,28 +25,29 @@ async function fetchData() {
     const cacheKey = 'blog_data_cache';
     const cacheTimeKey = 'blog_data_time';
     const currentTime = new Date().getTime();
-    const tenMinutes = 0 * 60 * 1000;
+    const tenMinutes = 10 * 60 * 1000; // 10 Menit dalam Milidetik
 
     const cachedData = localStorage.getItem(cacheKey);
     const cachedTime = localStorage.getItem(cacheTimeKey);
 
-    // Jika ada cache dan belum basi (kurang dari 10 menit)
+    // Gunakan cache jika masih berlaku
     if (cachedData && cachedTime && (currentTime - cachedTime < tenMinutes)) {
-        console.log("Memuat dari Cache...");
+        console.log("Loading dari Cache Lokal...");
         prosesData(JSON.parse(cachedData));
     } else {
         try {
-            console.log("Mengambil data baru dari server...");
-            const response = await fetch(API_URL);
+            console.log("Cache kedaluwarsa atau tidak ada, memuat data baru...");
+            // Menambah t= agar bypass cache browser saat fetch ke Google Script
+            const response = await fetch(`${API_URL}?t=${currentTime}`);
             const rawData = await response.json();
             
-            // Simpan ke Cache
+            // Simpan hasil baru ke cache
             localStorage.setItem(cacheKey, JSON.stringify(rawData));
             localStorage.setItem(cacheTimeKey, currentTime.toString());
             
             prosesData(rawData);
         } catch (e) {
-            container.innerHTML = '<p class="text-center py-10 font-bold text-red-500">Gagal memuat catatan.</p>';
+            container.innerHTML = '<p class="text-center py-10 font-bold text-red-500">Gagal memuat catatan. Periksa koneksi internet Bapak.</p>';
         }
     }
 }
@@ -72,7 +73,7 @@ function renderPosts() {
     const paginatedPosts = filteredData.slice(startIndex, startIndex + postsPerPage);
 
     if (paginatedPosts.length === 0) {
-        container.innerHTML = '<p class="text-center py-10 italic text-xs font-bold">Tidak ada catatan.</p>';
+        container.innerHTML = '<p class="text-center py-10 italic text-xs font-bold">Belum ada rasan-rasan yang ditulis.</p>';
         return;
     }
 
@@ -119,11 +120,10 @@ function tampilkanDetail(id) {
 
     let fullContent = "";
     if (post.gambar) {
-        // Optimasi: Menambahkan loading="lazy" agar gambar tidak menghambat teks
         fullContent += `
             <figure class="mb-8">
                 <img src="${post.gambar}" loading="lazy" class="w-full h-auto rounded-[2rem] shadow-lg mb-2">
-                <figcaption class="text-center text-[11px] italic text-slate-500 font-medium">— ${post.judul} | Karikatur : Penulis Pemula</figcaption>
+                <figcaption class="text-center text-[11px] italic text-slate-500 font-medium">— ${post.judul}</figcaption>
             </figure>
         `;
     }
@@ -153,9 +153,9 @@ function renderPagination() {
     const div = document.createElement('div');
     div.className = 'flex justify-center items-center space-x-6 mt-12 mb-10';
     div.innerHTML = `
-        <button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''} class="px-5 py-2 bg-black text-white text-[10px] font-black rounded-full uppercase tracking-widest shadow-lg">Prev</button>
-        <span class="text-[11px] font-black uppercase text-black">Page ${currentPage}/${totalPages}</span>
-        <button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''} class="px-5 py-2 bg-black text-white text-[10px] font-black rounded-full uppercase tracking-widest shadow-lg">Next</button>
+        <button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''} class="px-5 py-2 bg-black text-white text-[10px] font-black rounded-full uppercase tracking-widest">Prev</button>
+        <span class="text-[11px] font-black uppercase text-black">Halaman ${currentPage}/${totalPages}</span>
+        <button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''} class="px-5 py-2 bg-black text-white text-[10px] font-black rounded-full uppercase tracking-widest">Next</button>
     `;
     container.appendChild(div);
 }
