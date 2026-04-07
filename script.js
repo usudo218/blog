@@ -15,14 +15,11 @@ document.addEventListener('copy', (e) => {
     const urlLengkap = document.location.href;
     const namaPenulis = "Agus Tjakra";
 
-    // 1. Ambil konten yang sedang disalin oleh user
     const container = document.createElement('div');
     for (let i = 0; i < selection.rangeCount; i++) {
         container.appendChild(selection.getRangeAt(i).cloneContents());
     }
 
-    // 2. Buat elemen HTML untuk Atribusi (Link Biru)
-           // Gunakan baris tunggal dengan <br> agar spasi mepet (Single Spacing)
     const attributionHTML = `
         <div style="line-height: 1.2; margin-top: 20px;">
             ========================================<br>
@@ -33,7 +30,6 @@ document.addEventListener('copy', (e) => {
         </div>
     `;
 
-    // 3. Gabungkan konten asli dengan atribusi
     const finalHTML = container.innerHTML + attributionHTML;
     const finalPlain = selection.toString() + `\n\n========================================\nTulisan ini telah tayang di : www.asalnulis.web.id\nBaca artikel selengkapnya di : ${urlLengkap}\n${namaPenulis}\n========================================`;
 
@@ -44,29 +40,25 @@ document.addEventListener('copy', (e) => {
     }
 });
 
-// FUNGSI UTAMA: Ambil Data dengan Caching 10 Menit
 async function fetchData() {
     const container = document.getElementById('blog-container');
     const cacheKey = 'blog_data_cache';
     const cacheTimeKey = 'blog_data_time';
     const currentTime = new Date().getTime();
-    const tenMinutes = 5 * 60 * 1000; // 10 Menit dalam Milidetik
+    const tenMinutes = 5 * 60 * 1000; 
 
     const cachedData = localStorage.getItem(cacheKey);
     const cachedTime = localStorage.getItem(cacheTimeKey);
 
-    // Gunakan cache jika masih berlaku
     if (cachedData && cachedTime && (currentTime - cachedTime < tenMinutes)) {
         console.log("Loading dari Cache Lokal...");
         prosesData(JSON.parse(cachedData));
     } else {
         try {
             console.log("Cache kedaluwarsa atau tidak ada, memuat data baru...");
-            // Menambah t= agar bypass cache browser saat fetch ke Google Script
             const response = await fetch(`${API_URL}?t=${currentTime}`);
             const rawData = await response.json();
             
-            // Simpan hasil baru ke cache
             localStorage.setItem(cacheKey, JSON.stringify(rawData));
             localStorage.setItem(cacheTimeKey, currentTime.toString());
             
@@ -145,9 +137,10 @@ function tampilkanDetail(id) {
 
     let fullContent = "";
     if (post.gambar) {
+        // PERUBAHAN DI SINI: Menambahkan max-w-md dan mx-auto agar gambar proporsional di tengah
         fullContent += `
-            <figure class="mb-8">
-                <img src="${post.gambar}" loading="lazy" class="w-full h-auto rounded-[2rem] shadow-lg mb-2">
+            <figure class="mb-8 flex flex-col items-center">
+                <img src="${post.gambar}" loading="lazy" class="w-full max-w-md h-auto rounded-[2rem] shadow-lg mb-2 object-cover">
                 <figcaption class="text-center text-[11px] italic text-slate-500 font-medium">— ${post.judul}</figcaption>
             </figure>
         `;
