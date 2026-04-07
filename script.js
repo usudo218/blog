@@ -30,7 +30,6 @@ async function fetchData() {
     const cachedData = localStorage.getItem(cacheKey);
     const cachedTime = localStorage.getItem(cacheTimeKey);
 
-    // Jika ada cache dan belum basi (kurang dari 10 menit)
     if (cachedData && cachedTime && (currentTime - cachedTime < tenMinutes)) {
         console.log("Memuat dari Cache...");
         prosesData(JSON.parse(cachedData));
@@ -40,7 +39,6 @@ async function fetchData() {
             const response = await fetch(API_URL);
             const rawData = await response.json();
             
-            // Simpan ke Cache
             localStorage.setItem(cacheKey, JSON.stringify(rawData));
             localStorage.setItem(cacheTimeKey, currentTime.toString());
             
@@ -119,7 +117,6 @@ function tampilkanDetail(id) {
 
     let fullContent = "";
     if (post.gambar) {
-        // Optimasi: Menambahkan loading="lazy" agar gambar tidak menghambat teks
         fullContent += `
             <figure class="mb-8">
                 <img src="${post.gambar}" loading="lazy" class="w-full h-auto rounded-[2rem] shadow-lg mb-2">
@@ -138,7 +135,78 @@ function tampilkanDetail(id) {
     }
 
     document.getElementById('content-body').innerHTML = fullContent;
+    
+    // PANGGIL MUAT KOMENTAR
+    muatKomentar(id);
+    
     window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// FUNGSI KOMENTAR SPREADSHEET
+async function muatKomentar(postId) {
+    const container = document.getElementById('list-komentar');
+    container.innerHTML = '<p class="text-[10px] italic text-slate-400">Memuat rasan-rasan pembaca...</p>';
+    
+    try {
+        // Mengambil data dari API yang sama (asumsi API mengembalikan semua data termasuk sheet komentar)
+        const response = await fetch(API_URL + "?type=comments&postId=" + postId);
+        const comments = await response.json();
+        
+        container.innerHTML = '';
+        if (comments.length === 0) {
+            container.innerHTML = '<p class="text-[10px] italic text-slate-400">Belum ada rasan-rasan. Jadilah yang pertama!</p>';
+            return;
+        }
+
+        comments.forEach(c => {
+            container.innerHTML += `
+                <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
+                    <p class="text-[11px] font-black uppercase mb-1">${c.nama}</p>
+                    <p class="text-sm text-slate-700 leading-relaxed">${c.komentar}</p>
+                    <p class="text-[9px] text-slate-400 mt-2 uppercase font-bold">${formatTanggal(c.tanggal)}</p>
+                </div>
+            `;
+        });
+    } catch (e) {
+        container.innerHTML = '<p class="text-[10px] text-red-500 italic">Gagal memuat rasan-rasan.</p>';
+    }
+}
+
+async function kirimKomentar() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const postId = urlParams.get('id');
+    const nama = document.getElementById('nama-komentar').value;
+    const komentar = document.getElementById('isi-komentar').value;
+    const btn = document.getElementById('btn-komentar');
+
+    if (!nama || !komentar) return alert("Isi nama dan komentar dulu, Pak!");
+
+    const originalText = btn.innerText;
+    btn.innerText = "MENGIRIM...";
+    btn.disabled = true;
+
+    const payload = {
+        type: 'addComment',
+        postId: postId,
+        nama: nama,
+        komentar: komentar
+    };
+
+    try {
+        await fetch(API_URL, {
+            method: 'POST',
+            body: JSON.stringify(payload)
+        });
+        alert("Rasan-rasan terkirim!");
+        document.getElementById('nama-komentar').value = '';
+        document.getElementById('isi-komentar').value = '';
+        muatKomentar(postId);
+    } catch (err) {
+        alert("Aduh, koneksi error. Coba lagi nanti.");
+    } finally {
+        btn.innerText = originalText;
+        btn.disabled = false;
+    }
 }
 
 function formatTanggal(tglRaw) {
