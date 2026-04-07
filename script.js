@@ -25,7 +25,7 @@ async function fetchData() {
     const cacheKey = 'blog_data_cache';
     const cacheTimeKey = 'blog_data_time';
     const currentTime = new Date().getTime();
-    const tenMinutes = 0 * 60 * 1000; // 10 Menit dalam Milidetik
+    const tenMinutes = 5 * 60 * 1000; // 10 Menit dalam Milidetik
 
     const cachedData = localStorage.getItem(cacheKey);
     const cachedTime = localStorage.getItem(cacheTimeKey);
