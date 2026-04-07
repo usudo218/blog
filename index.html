@@ -15,7 +15,7 @@
         
         body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
         
-        /* Point 1: Optimasi Rendering untuk Kecepatan HP */
+        /* Optimasi Rendering untuk HP */
         article { 
             content-visibility: auto; 
             contain-intrinsic-size: 1px 400px; 
@@ -90,21 +90,17 @@
                         <header class="mb-8 border-b-2 border-slate-50 pb-6"></header>
                         <div id="content-body" class="text-justify"></div>
 
-                        <div id="disqus_thread" class="mt-16 border-t pt-10"></div>
-                        <script>
-                            var disqus_config = function () {
-                                this.page.url = window.location.href;  
-                                this.page.identifier = new URLSearchParams(window.location.search).get('id'); 
-                            };
-                            (function() { 
-                                var d = document, s = d.createElement('script');
-                                // Ganti 'penulis-pemula' dengan shortname Disqus Bapak jika sudah mendaftar
-                                s.src = 'https://penulis-pemula.disqus.com/embed.js'; 
-                                s.setAttribute('data-timestamp', +new Date());
-                                (d.head || d.body).appendChild(s);
-                            })();
-                        </script>
-                        <noscript>Harap aktifkan JavaScript untuk melihat komentar.</noscript>
+                        <div class="mt-16 border-t pt-10">
+                            <h4 class="text-xs font-black uppercase tracking-widest mb-6">Jejak Pembaca :</h4>
+                            <script src="https://utteranc.es/client.js"
+                                    repo="usudo218/blog"
+                                    issue-term="pathname"
+                                    label="komentar"
+                                    theme="github-light"
+                                    crossorigin="anonymous"
+                                    async>
+                            </script>
+                        </div>
                     </article>
                 </div>
             </div>
