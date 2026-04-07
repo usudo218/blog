@@ -144,7 +144,7 @@ function tampilkanDetail(id) {
             <figure class="mb-8 flex flex-col items-center">
                 <img src="${post.gambar}" 
                      loading="lazy" 
-                     class="w-2/3 md:w-2/3 max-w-[300px] h-auto orunded-[1.5rem] shadow-md border border-slate-200 mb-2 object-cover">
+                     class="w-full max-w-xs h-auto rounded-[1.5rem] shadow-md border border-slate-200 mb-2 object-cover">
                 <figcaption class="text-center text-[10px] italic text-slate-400 font-medium tracking-tight">
                     — ${post.judul}
                 </figcaption>
