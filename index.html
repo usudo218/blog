@@ -17,6 +17,12 @@
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
+        /* Optimasi Rendering untuk HP */
+        article { 
+            content-visibility: auto; 
+            contain-intrinsic-size: 1px 400px; 
+        }
+
         #content-body { 
             line-height: 1.8; 
             font-size: 1.125rem; 
@@ -68,6 +74,7 @@
     <main class="container mx-auto px-4 py-10 max-w-6xl flex-grow">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
             <div class="lg:col-span-2">
+                
                 <div id="view-list" class="fade-in">
                     <h2 id="section-title" class="text-2xl font-black mb-8 border-b-4 border-black inline-block text-slate-900 tracking-tight">Catatan Terbaru</h2>
                     <div id="blog-container" class="space-y-8">
@@ -79,9 +86,27 @@
                 <div id="view-detail" class="hidden fade-in bg-white p-8 md:p-12 rounded-[2.5rem] shadow-sm border border-slate-100">
                     <button onclick="kembaliKeDaftar()" class="mb-8 text-sm font-black text-black hover:underline uppercase tracking-widest">← Kembali</button>
                     <article>
-                        <header class="mb-8 border-b-2 border-slate-50 pb-6">
-                            </header>
+                        <header class="mb-8 border-b-2 border-slate-50 pb-6"></header>
                         <div id="content-body" class="text-justify"></div>
+                        
+                        <div class="mt-16 border-t pt-10">
+                            <h4 class="text-xs font-black uppercase tracking-widest mb-6 text-slate-400">Jejak Pembaca :</h4>
+                            <script src="https://giscus.app/client.js"
+                                    data-repo="usudo218/blog"
+                                    data-repo-id="R_kgDOR2XNTQ"
+                                    data-category="Announcements"
+                                    data-category-id="DIC_kwDOR2XNTc4C6Wsl"
+                                    data-mapping="pathname"
+                                    data-strict="0"
+                                    data-reactions-enabled="1"
+                                    data-emit-metadata="0"
+                                    data-input-position="bottom"
+                                    data-theme="preferred_color_scheme"
+                                    data-lang="id"
+                                    crossorigin="anonymous"
+                                    async>
+                            </script>
+                        </div>
                     </article>
                 </div>
             </div>
@@ -91,6 +116,7 @@
                     <div class="inline-block p-1 mb-6">
                         <img src="https://raw.githubusercontent.com/usudo218/blog/main/pp.png" 
                              alt="Agus Tjakra"
+                             loading="lazy"
                              class="w-40 h-40 rounded-full mx-auto border-4 border-slate-50 shadow-md object-contain bg-white">
                     </div>
                     
@@ -128,6 +154,6 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 </html>
