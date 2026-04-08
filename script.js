@@ -5,35 +5,7 @@ const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9
 let allData = [];
 let filteredData = [];
 let currentPage = 1;
-const postsPerPage = 3; // Tetap 3 postingan per halaman
-
-// Fitur Atribusi Copy-Paste
-document.addEventListener('copy', (e) => {
-    const selection = window.getSelection();
-    if (selection.rangeCount === 0) return;
-    const urlLengkap = document.location.href;
-    const namaPenulis = "Agus Tjakra";
-    const container = document.createElement('div');
-    for (let i = 0; i < selection.rangeCount; i++) {
-        container.appendChild(selection.getRangeAt(i).cloneContents());
-    }
-    const attributionHTML = `
-        <div style="line-height: 1.2; margin-top: 20px;">
-            ========================================<br>
-            Tulisan ini telah tayang di : <a href="https://www.asalnulis.web.id">www.asalnulis.web.id</a><br>
-            Baca artikel selengkapnya di : <a href="${urlLengkap}">${urlLengkap}</a><br>
-            <b>${namaPenulis}</b><br>
-            ========================================
-        </div>
-    `;
-    const finalHTML = container.innerHTML + attributionHTML;
-    const finalPlain = selection.toString() + `\n\n========================================\nTulisan ini telah tayang di : www.asalnulis.web.id\nBaca artikel selengkapnya di : ${urlLengkap}\n${namaPenulis}\n========================================`;
-    if (e.clipboardData) {
-        e.clipboardData.setData('text/html', finalHTML);
-        e.clipboardData.setData('text/plain', finalPlain);
-        e.preventDefault();
-    }
-});
+const postsPerPage = 3; // Tetap menampilkan 3 postingan per halaman
 
 // Ambil Data dengan Caching
 async function fetchData() {
@@ -42,6 +14,7 @@ async function fetchData() {
     const cacheTimeKey = 'blog_data_time';
     const currentTime = new Date().getTime();
     const fiveMinutes = 5 * 60 * 1000; 
+
     const cachedData = localStorage.getItem(cacheKey);
     const cachedTime = localStorage.getItem(cacheTimeKey);
 
@@ -64,6 +37,7 @@ function prosesData(rawData) {
     allData = rawData.map((post, index) => ({ ...post, originalIndex: index }));
     const urlParams = new URLSearchParams(window.location.search);
     const postId = urlParams.get('id');
+
     if (postId !== null) {
         tampilkanDetail(postId);
     } else {
@@ -85,25 +59,21 @@ function renderPosts() {
 
     paginatedPosts.forEach((post) => {
         let tgl = formatTanggal(post.tanggal);
-        const kategoriTampil = post.kategori || 'Umum';
         container.innerHTML += `
-            <article class="fade-in bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 mb-6">
-                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-black bg-slate-100 px-3 py-1 rounded-full">${kategoriTampil}</span>
-                <h3 class="text-xl md:text-2xl font-black mt-4 leading-tight">
-                    <a href="?id=${post.originalIndex}" class="hover:text-blue-700 transition">${post.judul}</a>
-                </h3>
+            <article class="fade-in bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 mb-6 cursor-pointer" onclick="window.location.href='?id=${post.originalIndex}'">
+                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-black bg-slate-100 px-3 py-1 rounded-full">${post.kategori || 'Umum'}</span>
+                <h3 class="text-xl md:text-2xl font-black mt-4 leading-tight">${post.judul}</h3>
                 <p class="text-black text-xs font-bold mt-2 uppercase tracking-widest">${tgl}</p>
                 <div class="mt-4 text-slate-600 line-clamp-3 text-sm leading-relaxed text-justify">
                     ${(post.konten || '').replace(/<[^>]*>/g, '').substring(0, 150)}...
                 </div>
-                <a href="?id=${post.originalIndex}" class="inline-block mt-6 text-xs font-black uppercase tracking-widest border-b-2 border-black pb-1 hover:text-blue-700 transition">Baca Selengkapnya →</a>
+                <span class="inline-block mt-6 text-xs font-black uppercase tracking-widest border-b-2 border-black pb-1">Baca Selengkapnya →</span>
             </article>
         `;
     });
     renderPagination();
 }
 
-// PERBAIKAN: Tampilkan Detail + Sinkronisasi Cusdis
 function tampilkanDetail(id) {
     const post = allData[id];
     if (!post) return;
@@ -111,27 +81,21 @@ function tampilkanDetail(id) {
     document.getElementById('view-list').classList.add('hidden');
     document.getElementById('view-detail').classList.remove('hidden');
 
-    let tgl = formatTanggal(post.tanggal);
-    const metaKategori = post.kategori || 'Umum';
-    const metaTags = post.tags ? post.tags.split(',').map(t => `#${t.trim()}`).join(' ') : '-';
-    
     const headerElement = document.querySelector('#view-detail header');
     headerElement.innerHTML = `
         <div class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">
-            TOPIK : <span class="text-black">${metaKategori}</span> | TAGS : <span class="text-black">${metaTags}</span>
+            TOPIK : <span class="text-black">${post.kategori || 'Umum'}</span>
         </div>
         <h1 class="text-3xl md:text-4xl font-black text-slate-900 leading-tight tracking-tighter uppercase">${post.judul}</h1>
-        <p class="text-black text-xs font-bold mt-3 uppercase tracking-[0.2em]">${tgl}</p>
+        <p class="text-black text-xs font-bold mt-3 uppercase tracking-[0.2em]">${formatTanggal(post.tanggal)}</p>
     `;
 
     let fullContent = "";
     if (post.gambar) {
-        fullContent += `
-            <figure class="mb-8 flex flex-col items-center">
-                <img src="${post.gambar}" loading="lazy" class="w-5/8 md:w-5/8 max-w-[350px] h-auto rounded-[1.5rem] shadow-md border border-slate-200 mb-2 object-cover">
-                <figcaption class="text-center text-[10px] italic text-slate-400 font-medium tracking-tight">— ${post.judul}</figcaption>
-            </figure>
-        `;
+        fullContent += `<figure class="mb-8 flex flex-col items-center">
+            <img src="${post.gambar}" loading="lazy" class="w-5/8 md:w-5/8 max-w-[350px] h-auto rounded-[1.5rem] shadow-md border border-slate-200 mb-2 object-cover">
+            <figcaption class="text-center text-[10px] italic text-slate-400 font-medium tracking-tight">— ${post.judul}</figcaption>
+        </figure>`;
     }
     fullContent += `<div class="prose prose-slate max-w-none text-justify text-black">${post.konten}</div>`;
 
@@ -145,18 +109,13 @@ function tampilkanDetail(id) {
     document.getElementById('content-body').innerHTML = fullContent;
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // LOGIKA DINAMIS CUSDIS
+    // UPDATE CUSDIS AGAR UNIK PER POSTINGAN
     const thread = document.getElementById('cusdis_thread');
     if (thread) {
-        // Gunakan originalIndex agar komentar tetap terikat pada artikel yang sama meskipun urutan tampilan dibalik
-        thread.setAttribute('data-page-id', id); 
+        thread.setAttribute('data-page-id', id); // Menggunakan originalIndex sebagai pembeda utama
         thread.setAttribute('data-page-url', window.location.origin + window.location.pathname + "?id=" + id);
         thread.setAttribute('data-page-title', post.judul);
-        
-        // Memuat ulang frame komentar untuk artikel yang dipilih
-        if (window.CUSDIS) {
-            window.CUSDIS.initial();
-        }
+        if (window.CUSDIS) window.CUSDIS.initial();
     }
 }
 
@@ -180,10 +139,5 @@ function renderPagination() {
 }
 
 function changePage(page) { currentPage = page; renderPosts(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
-function filterKategori(kat) { 
-    currentPage = 1; 
-    filteredData = kat === 'Semua' ? [...allData].reverse() : allData.filter(p => (p.kategori || "").toLowerCase() === kat.toLowerCase()).reverse();
-    renderPosts(); 
-}
 function kembaliKeDaftar() { window.location.href = 'index.html'; }
 document.addEventListener('DOMContentLoaded', fetchData);
