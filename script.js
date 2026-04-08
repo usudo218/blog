@@ -52,9 +52,10 @@ async function renderPosts() {
     
     let commentCounts = {};
     try {
-        // Ambil jumlah rasan-rasan per ID
-        const res = await fetch(`${KOMENTAR_URL}?countAll=true&t=${new Date().getTime()}`);
+        // Tambahkan timestamp agar data selalu segar (bukan cache)
+        const res = await fetch(`${KOMENTAR_URL}?countAll=true&nocache=${new Date().getTime()}`);
         commentCounts = await res.json();
+        console.log("Data Jumlah Komentar dari Server:", commentCounts); // Cek di F12
     } catch (e) { console.log("Gagal hitung komentar"); }
 
     const startIndex = (currentPage - 1) * postsPerPage;
@@ -62,15 +63,20 @@ async function renderPosts() {
 
     paginatedPosts.forEach((post) => {
         let tgl = formatTanggal(post.tanggal);
-        // idKunci adalah urutan baris di Spreadsheet Artikel Utama
-        const idKunci = post.originalIndex.toString().trim();
+        
+        // PAKSA JADI STRING DAN BERSIHKAN SPASI
+        const idKunci = String(post.originalIndex).trim();
         const jmlKomen = commentCounts[idKunci] || 0;
 
         container.innerHTML += `
             <article class="fade-in bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 mb-6">
                 <div class="flex justify-between items-center mb-4">
-                    <span class="text-[10px] font-black uppercase tracking-[0.2em] text-black bg-slate-100 px-3 py-1 rounded-full">${post.kategori || 'Umum'}</span>
-                    <span class="text-[9px] font-bold uppercase tracking-widest text-slate-400">Komentar: ${jmlKomen}</span>
+                    <span class="text-[10px] font-black uppercase tracking-[0.2em] text-black bg-slate-100 px-3 py-1 rounded-full">
+                        ${post.kategori || 'Umum'}
+                    </span>
+                    <span class="text-[9px] font-bold uppercase tracking-widest text-slate-400">
+                        Komentar: ${jmlKomen}
+                    </span>
                 </div>
                 <h3 class="text-xl md:text-2xl font-black leading-tight uppercase tracking-tighter">
                     <a href="?id=${post.originalIndex}" class="hover:text-blue-700 transition">${post.judul}</a>
