@@ -1,194 +1,98 @@
-const ORIGINAL_DOMAIN = "www.asalnulis.web.id";
-const AUTHOR_NAME = "Agus Tjakra"; 
 const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec";
+let allPosts = [];
 
-let allData = [];
-let filteredData = [];
-let currentPage = 1;
-const postsPerPage = 3; 
-
-// Fitur Atribusi Copy-Paste agar otomatis jadi link biru di Word
-document.addEventListener('copy', (e) => {
-    const selection = window.getSelection();
-    if (selection.rangeCount === 0) return;
-
-    const urlLengkap = document.location.href;
-    const namaPenulis = "Agus Tjakra";
-
-    const container = document.createElement('div');
-    for (let i = 0; i < selection.rangeCount; i++) {
-        container.appendChild(selection.getRangeAt(i).cloneContents());
-    }
-
-    const attributionHTML = `
-        <div style="line-height: 1.2; margin-top: 20px;">
-            ========================================<br>
-            Tulisan ini telah tayang di : <a href="https://www.asalnulis.web.id">www.asalnulis.web.id</a><br>
-            Baca artikel selengkapnya di : <a href="${urlLengkap}">${urlLengkap}</a><br>
-            <b>${namaPenulis}</b><br>
-            ========================================
-        </div>
-    `;
-
-    const finalHTML = container.innerHTML + attributionHTML;
-    const finalPlain = selection.toString() + `\n\n========================================\nTulisan ini telah tayang di : www.asalnulis.web.id\nBaca artikel selengkapnya di : ${urlLengkap}\n${namaPenulis}\n========================================`;
-
-    if (e.clipboardData) {
-        e.clipboardData.setData('text/html', finalHTML);
-        e.clipboardData.setData('text/plain', finalPlain);
-        e.preventDefault();
-    }
-});
-
-// FUNGSI UTAMA: Ambil Data dengan Caching 5 Menit (Ideal)
 async function fetchData() {
     const container = document.getElementById('blog-container');
-    const cacheKey = 'blog_data_cache';
-    const cacheTimeKey = 'blog_data_time';
-    const currentTime = new Date().getTime();
-    const fiveMinutes = 5 * 60 * 1000; 
-
-    const cachedData = localStorage.getItem(cacheKey);
-    const cachedTime = localStorage.getItem(cacheTimeKey);
-
-    if (cachedData && cachedTime && (currentTime - cachedTime < fiveMinutes)) {
-        console.log("Loading dari Cache Lokal...");
-        prosesData(JSON.parse(cachedData));
-    } else {
-        try {
-            console.log("Memuat data baru...");
-            const response = await fetch(`${API_URL}?t=${currentTime}`);
-            const rawData = await response.json();
-            
-            localStorage.setItem(cacheKey, JSON.stringify(rawData));
-            localStorage.setItem(cacheTimeKey, currentTime.toString());
-            
-            prosesData(rawData);
-        } catch (e) {
-            container.innerHTML = '<p class="text-center py-10 font-bold text-red-500">Gagal memuat catatan.</p>';
-        }
+    try {
+        const response = await fetch(API_URL);
+        allPosts = await response.json();
+        // Urutkan dari yang terbaru (asumsi baris terakhir di spreadsheet adalah terbaru)
+        displayPosts(allPosts.reverse());
+        
+        // Cek jika ada ID di URL untuk langsung buka detail
+        const urlParams = new URLSearchParams(window.location.search);
+        const postId = urlParams.get('id');
+        if (postId !== null) tampilkanDetail(parseInt(postId));
+        
+    } catch (error) {
+        container.innerHTML = '<p class="text-center py-20 font-bold text-red-500">Gagal memuat catatan. Silakan refresh kembali.</p>';
     }
 }
 
-function prosesData(rawData) {
-    allData = rawData.map((post, index) => ({ ...post, originalIndex: index }));
-    const urlParams = new URLSearchParams(window.location.search);
-    const postId = urlParams.get('id');
-
-    if (postId !== null) {
-        tampilkanDetail(postId);
-    } else {
-        filteredData = [...allData].reverse();
-        renderPosts();
-    }
-}
-
-function renderPosts() {
+function displayPosts(posts) {
     const container = document.getElementById('blog-container');
     container.innerHTML = '';
 
-    const startIndex = (currentPage - 1) * postsPerPage;
-    const paginatedPosts = filteredData.slice(startIndex, startIndex + postsPerPage);
-
-    if (paginatedPosts.length === 0) {
-        container.innerHTML = '<p class="text-center py-10 italic text-xs font-bold">Belum ada rasan-rasan.</p>';
-        return;
-    }
-
-    paginatedPosts.forEach((post) => {
-        let tgl = formatTanggal(post.tanggal);
-        const kategoriTampil = post.kategori || 'Umum';
-
-        container.innerHTML += `
-            <article class="fade-in bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 mb-6">
-                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-black bg-slate-100 px-3 py-1 rounded-full">${kategoriTampil}</span>
-                <h3 class="text-xl md:text-2xl font-black mt-4 leading-tight">
-                    <a href="?id=${post.originalIndex}" class="hover:text-blue-700 transition">${post.judul}</a>
-                </h3>
-                <p class="text-black text-xs font-bold mt-2 uppercase tracking-widest">${tgl}</p>
-                <div class="mt-4 text-slate-600 line-clamp-3 text-sm leading-relaxed text-justify">
-                    ${(post.konten || '').replace(/<[^>]*>/g, '').substring(0, 150)}...
+    posts.forEach((post, index) => {
+        // Gunakan index asli dari data (karena sudah di-reverse, kita cari index aslinya)
+        const originalIndex = allPosts.length - 1 - index;
+        
+        const card = `
+            <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 group cursor-pointer" onclick="tampilkanDetail(${originalIndex})">
+                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-hover:text-black transition">${post.kategori || 'Catatan'}</span>
+                <h3 class="text-2xl font-black mt-2 mb-4 group-hover:translate-x-2 transition-transform duration-300">${post.judul}</h3>
+                <p class="text-slate-500 text-sm mb-6 line-clamp-3">${post.konten.replace(/<[^>]*>/g, '')}</p>
+                <div class="flex justify-between items-center border-t border-slate-50 pt-6">
+                    <span class="text-xs font-bold text-slate-400 italic">${post.tanggal}</span>
+                    <span class="text-xs font-black uppercase tracking-widest group-hover:underline">Baca Selengkapnya →</span>
                 </div>
-                <a href="?id=${post.originalIndex}" class="inline-block mt-6 text-xs font-black uppercase tracking-widest border-b-2 border-black pb-1 hover:text-blue-700 transition">Baca Selengkapnya →</a>
-            </article>
+            </div>
         `;
+        container.innerHTML += card;
     });
-    renderPagination();
 }
 
 function tampilkanDetail(id) {
-    const post = allData[id];
+    const post = allPosts[id];
     if (!post) return;
 
     document.getElementById('view-list').classList.add('hidden');
-    document.getElementById('view-detail').classList.remove('hidden');
+    const detailView = document.getElementById('view-detail');
+    detailView.classList.remove('hidden');
 
-    let tgl = formatTanggal(post.tanggal);
-    const metaKategori = post.kategori || 'Umum';
-    const metaTags = post.tags ? post.tags.split(',').map(t => `#${t.trim()}`).join(' ') : '-';
+    // Update Header & Konten
+    const header = detailView.querySelector('header');
+    header.innerHTML = `
+        <span class="text-xs font-black uppercase tracking-[0.3em] text-slate-400">${post.kategori}</span>
+        <h2 class="text-4xl font-black mt-4 mb-4 tracking-tighter leading-tight">${post.judul}</h2>
+        <p class="text-sm font-bold italic text-slate-400">Diterbitkan pada ${post.tanggal}</p>
+    `;
+
+    document.getElementById('content-body').innerHTML = post.konten;
     
-    const headerElement = document.querySelector('#view-detail header');
-    headerElement.innerHTML = `
-        <div class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">
-            TOPIK : <span class="text-black">${metaKategori}</span> | TAGS : <span class="text-black">${metaTags}</span>
-        </div>
-        <h1 class="text-3xl md:text-4xl font-black text-slate-900 leading-tight tracking-tighter uppercase">${post.judul}</h1>
-        <p class="text-black text-xs font-bold mt-3 uppercase tracking-[0.2em]">${tgl}</p>
-    `;
+    // Scroll ke atas
+    window.scrollTo(0, 0);
 
-    let fullContent = "";
-    if (post.gambar) {
-        // PENGATURAN GAMBAR RESPONSIVE:
-        // w-2/3 (HP) | md:w-1/3 (Laptop) | max-w-[250px] (Batas Maksimal)
-        fullContent += `
-            <figure class="mb-8 flex flex-col items-center">
-                <img src="${post.gambar}" 
-                     loading="lazy" 
-                     class="w-5/8 md:w-5/8 max-w-[350px] h-auto rounded-[1.5rem] shadow-md border border-slate-200 mb-2 object-cover">
-                <figcaption class="text-center text-[10px] italic text-slate-400 font-medium tracking-tight">
-                    — ${post.judul}
-                </figcaption>
-            </figure>
-        `;
+    // LOGIKA UNTUK CUSDIS AGAR UNIK PER POSTINGAN
+    const thread = document.getElementById('cusdis_thread');
+    if (thread) {
+        thread.setAttribute('data-page-id', id); // Gunakan ID unik dari index spreadsheet
+        thread.setAttribute('data-page-url', window.location.origin + window.location.pathname + "?id=" + id);
+        thread.setAttribute('data-page-title', post.judul);
+        
+        // Memuat ulang kolom komentar Cusdis untuk artikel ini
+        if (window.CUSDIS) {
+            window.CUSDIS.initial();
+        }
     }
-
-    fullContent += `<div class="prose prose-slate max-w-none text-justify text-black">${post.konten}</div>`;
-
-    if (post.youtube) {
-        let videoSrc = post.youtube.length > 15 ? `https://drive.google.com/file/d/${post.youtube}/preview` : `https://www.youtube.com/embed/${post.youtube}`;
-        fullContent += `<div class="mt-10 aspect-video rounded-[2rem] overflow-hidden shadow-xl border-4 border-white">
-            <iframe loading="lazy" class="w-full h-full" src="${videoSrc}" frameborder="0" allowfullscreen></iframe>
-        </div>`;
-    }
-
-    document.getElementById('content-body').innerHTML = fullContent;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Update URL tanpa reload
+    const newUrl = window.location.pathname + '?id=' + id;
+    window.history.pushState({id: id}, '', newUrl);
 }
 
-function formatTanggal(tglRaw) {
-    if (!tglRaw) return "";
-    return new Date(tglRaw).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+function kembaliKeDaftar() {
+    document.getElementById('view-list').classList.remove('hidden');
+    document.getElementById('view-detail').classList.add('hidden');
+    window.history.pushState({}, '', window.location.pathname);
 }
 
-function renderPagination() {
-    const totalPages = Math.ceil(filteredData.length / postsPerPage);
-    if (totalPages <= 1) return;
-    const container = document.getElementById('blog-container');
-    const div = document.createElement('div');
-    div.className = 'flex justify-center items-center space-x-6 mt-12 mb-10';
-    div.innerHTML = `
-        <button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''} class="px-5 py-2 bg-black text-white text-[10px] font-black rounded-full uppercase tracking-widest">Prev</button>
-        <span class="text-[11px] font-black uppercase text-black">Halaman ${currentPage}/${totalPages}</span>
-        <button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''} class="px-5 py-2 bg-black text-white text-[10px] font-black rounded-full uppercase tracking-widest">Next</button>
-    `;
-    container.appendChild(div);
+function filterKategori(kat) {
+    const filtered = kat === 'Semua' ? allPosts : allPosts.filter(p => p.kategori === kat);
+    displayPosts(filtered);
+    document.getElementById('section-title').innerText = kat;
+    kembaliKeDaftar();
 }
 
-function changePage(page) { currentPage = page; renderPosts(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
-function filterKategori(kat) { 
-    currentPage = 1; 
-    filteredData = kat === 'Semua' ? [...allData].reverse() : allData.filter(p => (p.kategori || "").toLowerCase() === kat.toLowerCase()).reverse();
-    renderPosts(); 
-}
-function kembaliKeDaftar() { window.location.href = 'index.html'; }
+// Jalankan saat halaman siap
 document.addEventListener('DOMContentLoaded', fetchData);
