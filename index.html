@@ -1,95 +1,40 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Penulis Pemula | Merawat Ingatan</title>
-    <meta name="description" content="Blog Penulis Pemula - Wadah rasan-rasan dan catatan harian untuk merawat ingatan dari Bumi Blambangan.">
-    <meta name="author" content="Agus Tjakra | Penulis Pemula">
-    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/usudo218/blog/main/pp.png">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .fade-in { animation: fadeIn 0.5s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        article { content-visibility: auto; contain-intrinsic-size: 1px 400px; }
-        #content-body { line-height: 1.8; font-size: 1.125rem; color: #334155; }
-        #content-body p { margin-bottom: 1.5rem; }
-        #content-body blockquote { margin: 2rem 0; padding: 1.5rem 2rem; border-left: 6px solid #1a1a1a; background-color: #f8fafc; font-style: italic; color: #475569; border-radius: 0 1rem 1rem 0; }
-        #content-body img { max-width: 100%; height: auto; border-radius: 1.5rem; margin: 2rem 0; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); }
-        .footer-text { color: #ffffff; font-size: 10px; font-weight: 800; letter-spacing: 0.3em; text-transform: uppercase; }
-        .skeleton { background: #e2e8f0; border-radius: 2rem; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
-        /* CSS Tambahan untuk Area Komentar */
-        #cusdis_thread iframe { width: 100% !important; min-height: 450px; border: none; }
-    </style>
-</head>
-<body class="bg-slate-50 font-sans text-slate-900 flex flex-col min-h-screen">
+<div class="mt-16 border-t-4 border-black pt-10">
+    <div class="flex justify-between items-center mb-8">
+        <h4 class="text-xs font-black uppercase tracking-widest text-slate-400">Jejak Pembaca :</h4>
+        <button onclick="toggleCommentForm()" id="btn-tulis" class="bg-black text-white text-[10px] font-black px-6 py-2 rounded-full hover:scale-105 transition uppercase tracking-widest shadow-lg">
+            Tulis Rasan-rasan
+        </button>
+    </div>
 
-    <nav class="bg-black text-white shadow-lg sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 class="text-xl md:text-2xl font-black tracking-tight">PENULIS PEMULA</h1>
-            <div class="flex space-x-6 text-xs font-bold tracking-widest uppercase">
-                <a href="index.html" class="border-b-2 border-white pb-1">Blog</a>
-                <a href="daftar-isi.html">Daftar Isi</a>
-                <a href="about.html">About</a>
-                <a href="admin.html">Login</a>
-            </div>
+    <div id="wrapper-form-komen" class="hidden mb-10 p-6 bg-slate-100 rounded-[2rem] border-2 border-dashed border-slate-300 fade-in">
+        <div id="cusdis_thread"
+            data-host="https://cusdis.com"
+            data-app-id="f85158e4-21d5-4759-94e5-77a9647fa4c5"
+            data-page-id="" 
+            data-page-url=""
+            data-page-title="">
         </div>
-    </nav>
+    </div>
 
-    <main class="container mx-auto px-4 py-10 max-w-6xl flex-grow">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
-            <div class="lg:col-span-2">
-                <div id="view-list" class="fade-in">
-                    <h2 id="section-title" class="text-2xl font-black mb-8 border-b-4 border-black inline-block text-slate-900 tracking-tight uppercase">Catatan Terbaru</h2>
-                    <div id="blog-container" class="space-y-8">
-                        <div class="skeleton h-64 w-full"></div>
-                    </div>
-                </div>
+    <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+</div>
 
-                <div id="view-detail" class="hidden fade-in bg-white p-8 md:p-12 rounded-[2.5rem] shadow-sm border border-slate-100">
-                    <button onclick="kembaliKeDaftar()" class="mb-8 text-sm font-black text-black hover:underline uppercase tracking-widest">← Kembali</button>
-                    <article>
-                        <header class="mb-8 border-b-2 border-slate-50 pb-6"></header>
-                        <div id="content-body" class="text-justify"></div>
-                        
-                        <div class="mt-16 border-t-4 border-black pt-10">
-                            <h4 class="text-xs font-black uppercase tracking-widest mb-8 text-slate-400">Ruang Rasan-rasan :</h4>
-                            <div id="cusdis_thread"
-                                data-host="https://cusdis.com"
-                                data-app-id="f85158e4-21d5-4759-94e5-77a9647fa4c5"
-                                data-page-id="" 
-                                data-page-url=""
-                                data-page-title="">
-                            </div>
-                            <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
-                        </div>
-                    </article>
-                </div>
-            </div>
-
-            <aside class="space-y-8">
-                <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100 text-center">
-                    <img src="https://raw.githubusercontent.com/usudo218/blog/main/pp.png" loading="lazy" class="w-40 h-40 rounded-full mx-auto border-4 border-slate-50 shadow-md object-contain bg-white mb-6">
-                    <h4 class="font-black text-xl text-slate-900 uppercase tracking-tight mb-2">Penulis Pemula</h4>
-                    <p class="text-base font-bold italic text-black mb-4">"Menulis untuk merawat ingatan"</p>
-                    <div class="text-sm text-slate-600 leading-relaxed space-y-4">
-                        <p>Melalui blog sederhana ini, saya mencoba mengikat makna-makna yang berceceran agar jejak tak lekang oleh lupa.</p>
-                        <p class="font-black text-black uppercase tracking-widest text-[10px] pt-2">Bumi Blambangan 2026</p>
-                    </div>
-                </div>
-            </aside>
-        </div>
-    </main>
-
-    <footer class="bg-black w-full py-8 mt-24">
-        <div class="container mx-auto px-4">
-            <p class="text-center footer-text">&copy; 2026 Penulis Pemula - Merawat Ingatan</p>
-        </div>
-    </footer>
-
-    <script src="script.js" defer></script>
-</body>
-</html>
+<script>
+    // Fungsi untuk Buka-Tutup Form Komentar
+    function toggleCommentForm() {
+        const wrapper = document.getElementById('wrapper-form-komen');
+        const btn = document.getElementById('btn-tulis');
+        
+        if (wrapper.classList.contains('hidden')) {
+            wrapper.classList.remove('hidden');
+            btn.innerText = 'Tutup Form';
+            btn.classList.replace('bg-black', 'bg-red-500');
+            // Scroll otomatis ke form agar pengguna tahu form sudah buka
+            wrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+            wrapper.classList.add('hidden');
+            btn.innerText = 'Tulis Rasan-rasan';
+            btn.classList.replace('bg-red-500', 'bg-black');
+        }
+    }
+</script>
