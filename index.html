@@ -4,31 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Penulis Pemula | Merawat Ingatan</title>
+    
+    <meta name="description" content="Blog Penulis Pemula - Wadah rasan-rasan dan catatan harian untuk merawat ingatan dari Bumi Blambangan.">
+    <meta name="author" content="Agus Tjakra | Penulis Pemula">
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/usudo218/blog/main/pp.png">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        
         body { font-family: 'Inter', sans-serif; }
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Mengatur agar area Cusdis tidak memakan tempat berlebih */
-        #cusdis_wrapper {
-            max-height: 400px; /* Batasi tinggi awal agar komentar tidak tenggelam */
-            overflow-y: auto;
-            transition: max-height 0.5s ease;
-            border-radius: 1.5rem;
+        #content-body { 
+            line-height: 1.8; 
+            font-size: 1.125rem; 
+            color: #334155; 
         }
-        #cusdis_wrapper.expand {
-            max-height: 2000px; /* Melebar saat ingin menulis */
+        #content-body p { margin-bottom: 1.5rem; }
+        
+        #content-body blockquote {
+            margin: 2rem 0;
+            padding: 1.5rem 2rem;
+            border-left: 6px solid #1a1a1a; 
+            background-color: #f8fafc;
+            font-style: italic;
+            color: #475569;
+            border-radius: 0 1rem 1rem 0;
         }
+
+        #content-body img { 
+            max-width: 100%; height: auto; border-radius: 1.5rem; 
+            margin: 2rem 0; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); 
+        }
+
+        .footer-text {
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+        }
+
+        .skeleton { background: #e2e8f0; border-radius: 2rem; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
     </style>
 </head>
 <body class="bg-slate-50 font-sans text-slate-900 flex flex-col min-h-screen">
 
     <nav class="bg-black text-white shadow-lg sticky top-0 z-50">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 class="text-xl md:text-2xl font-black tracking-tight uppercase">Penulis Pemula</h1>
+            <h1 class="text-xl md:text-2xl font-black tracking-tight ">PENULIS PEMULA</h1>
             <div class="flex space-x-6 text-xs font-bold tracking-widest uppercase">
                 <a href="index.html" class="border-b-2 border-white pb-1">Blog</a>
                 <a href="daftar-isi.html">Daftar Isi</a>
@@ -42,69 +69,65 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
             <div class="lg:col-span-2">
                 <div id="view-list" class="fade-in">
-                    <h2 id="section-title" class="text-2xl font-black mb-8 border-b-4 border-black inline-block uppercase tracking-tight">Catatan Terbaru</h2>
+                    <h2 id="section-title" class="text-2xl font-black mb-8 border-b-4 border-black inline-block text-slate-900 tracking-tight">Catatan Terbaru</h2>
                     <div id="blog-container" class="space-y-8">
-                        <div class="skeleton h-64 w-full bg-slate-200 animate-pulse rounded-[2rem]"></div>
+                        <div class="skeleton h-64 w-full"></div>
+                        <div class="skeleton h-64 w-full"></div>
                     </div>
                 </div>
 
                 <div id="view-detail" class="hidden fade-in bg-white p-8 md:p-12 rounded-[2.5rem] shadow-sm border border-slate-100">
                     <button onclick="kembaliKeDaftar()" class="mb-8 text-sm font-black text-black hover:underline uppercase tracking-widest">← Kembali</button>
                     <article>
-                        <header class="mb-8 border-b-2 border-slate-50 pb-6"></header>
+                        <header class="mb-8 border-b-2 border-slate-50 pb-6">
+                            </header>
                         <div id="content-body" class="text-justify"></div>
-                        
-                        <div class="mt-16 border-t-4 border-black pt-10">
-                            <div class="flex justify-between items-center mb-6">
-                                <h4 class="text-xs font-black uppercase tracking-widest text-slate-400">Jejak Pembaca :</h4>
-                                <button onclick="expandComments()" id="btn-tulis" class="bg-black text-white text-[10px] font-black px-5 py-2 rounded-full hover:scale-105 transition uppercase tracking-widest">
-                                    Ikut Merasan ↓
-                                </button>
-                            </div>
-
-                            <div id="cusdis_wrapper" class="bg-slate-50 p-4 border border-slate-100">
-                                <div id="cusdis_thread"
-                                    data-host="https://cusdis.com"
-                                    data-app-id="f85158e4-21d5-4759-94e5-77a9647fa4c5"
-                                    data-page-id="" 
-                                    data-page-url=""
-                                    data-page-title="">
-                                </div>
-                            </div>
-                            <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
-                        </div>
                     </article>
                 </div>
             </div>
 
             <aside class="space-y-8">
                 <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100 text-center">
-                    <img src="https://raw.githubusercontent.com/usudo218/blog/main/pp.png" class="w-40 h-40 rounded-full mx-auto shadow-md mb-6 bg-white object-contain">
-                    <h4 class="font-black text-xl uppercase">Penulis Pemula</h4>
-                    <p class="text-sm italic text-slate-500">"Menulis untuk merawat ingatan"</p>
+                    <div class="inline-block p-1 mb-6">
+                        <img src="https://raw.githubusercontent.com/usudo218/blog/main/pp.png" 
+                             alt="Agus Tjakra"
+                             class="w-40 h-40 rounded-full mx-auto border-4 border-slate-50 shadow-md object-contain bg-white">
+                    </div>
+                    
+                    <h4 class="font-black text-xl text-slate-900 uppercase tracking-tight mb-2">Penulis Pemula</h4>
+                    <p class="text-base font-bold italic text-black mb-4">"Menulis untuk merawat ingatan"</p>
+                    
+                    <div class="text-sm text-slate-600 leading-relaxed space-y-4">
+                        <p>Seringkali kita lupa pada apa yang pernah membuat kita tertawa atau merenung.<br/> 
+                        Melalui blog sederhana ini, saya mencoba mengikat makna-makna yang berceceran,<br/> 
+                        mengubah detak waktu menjadi barisan kata,<br/>
+                        agar jejak yang tertinggal tak lekang oleh lupa.</p>
+                        
+                        <p class="font-black text-black uppercase tracking-widest text-[10px] pt-2">Bumi Blambangan 2026</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100">
+                    <h4 class="text-sm font-black uppercase tracking-[0.2em] text-black mb-6 border-b-2 border-slate-100 pb-2">Topik Utama</h4>
+                    <div class="flex flex-wrap gap-3">
+                        <button onclick="filterKategori('Semua')" class="bg-black text-white px-5 py-2.5 rounded-full text-xs font-black uppercase shadow-md hover:scale-105 transition">Semua</button>
+                        <button onclick="filterKategori('Asal Nulis')" class="bg-slate-100 text-black px-5 py-2.5 rounded-full text-xs font-black uppercase hover:bg-black hover:text-white transition">Asal Nulis</button>
+                        <button onclick="filterKategori('Rasan-rasan')" class="bg-slate-100 text-black px-5 py-2.5 rounded-full text-xs font-black uppercase hover:bg-black hover:text-white transition">Rasan-Rasan</button>
+                        <button onclick="filterKategori('Fiksiana')" class="bg-slate-100 text-black px-5 py-2.5 rounded-full text-xs font-black uppercase hover:bg-black hover:text-white transition">Fiksiana</button>
+                    </div>
                 </div>
             </aside>
         </div>
     </main>
 
     <footer class="bg-black w-full py-8 mt-24">
-        <p class="text-center text-[10px] font-black text-white uppercase tracking-[0.3em]">&copy; 2026 Penulis Pemula</p>
+        <div class="container mx-auto px-4">
+            <p class="text-center footer-text">
+                &copy; 2026 Penulis Pemula - Merawat Ingatan
+            </p>
+        </div>
     </footer>
 
-    <script src="script.js" defer></script>
-    <script>
-        function expandComments() {
-            const wrapper = document.getElementById('cusdis_wrapper');
-            const btn = document.getElementById('btn-tulis');
-            
-            wrapper.classList.toggle('expand');
-            if (wrapper.classList.contains('expand')) {
-                btn.innerText = 'Tutup Form ↑';
-                wrapper.scrollTo({ top: 0, behavior: 'smooth' });
-            } else {
-                btn.innerText = 'Ikut Merasan ↓';
-            }
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
