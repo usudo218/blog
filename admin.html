@@ -15,6 +15,11 @@
         .btn-tool { background: white; border: 1px solid #000; padding: 5px 12px; border-radius: 6px; font-size: 13px; font-weight: 800; cursor: pointer; white-space: nowrap; }
         .btn-tool:hover { background: #000; color: #fff; }
         textarea { border-radius: 0 0 12px 12px !important; line-height: 1.6; }
+        /* Style Tabel Edit */
+        .table-container { overflow-x: auto; background: white; border-radius: 1.5rem; border: 1px solid #e2e8f0; margin-top: 2rem; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #f8fafc; text-align: left; padding: 1rem; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: #64748b; border-bottom: 2px solid #e2e8f0; }
+        td { padding: 1rem; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
     </style>
 </head>
 <body class="bg-slate-50 min-h-screen">
@@ -29,7 +34,7 @@
         </div>
     </div>
 
-    <div id="admin-panel" class="hidden max-w-4xl mx-auto p-6 md:py-12 fade-in">
+    <div id="admin-panel" class="hidden max-w-5xl mx-auto p-6 md:py-12 fade-in">
         <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
             <div>
                 <h1 class="text-3xl font-black tracking-tighter uppercase">Dashboard Penulis</h1>
@@ -42,6 +47,7 @@
         </div>
 
         <form id="blogForm" class="space-y-6 bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200">
+            <h2 class="text-sm font-black uppercase tracking-widest border-b pb-2 mb-4">Tulis Catatan Baru</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label class="block text-[10px] font-black uppercase tracking-widest mb-2">Judul Catatan</label>
@@ -62,7 +68,7 @@
                     <button type="button" class="btn-tool" onclick="insertTag('p')">PARAGRAF</button>
                     <button type="button" class="btn-tool" onclick="insertTag('br')">BARIS BARU</button>
                 </div>
-                <textarea id="konten" rows="12" required class="w-full p-6 border-2 border-black rounded-b-2xl focus:ring-4 focus:ring-slate-50 outline-none transition font-medium text-lg"></textarea>
+                <textarea id="konten" rows="8" required class="w-full p-6 border-2 border-black rounded-b-2xl focus:ring-4 focus:ring-slate-50 outline-none transition font-medium text-lg"></textarea>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -85,19 +91,41 @@
             </div>
 
             <input type="hidden" id="tags" value="blog">
-
             <button type="submit" id="submitBtn" class="w-full bg-black text-white py-5 rounded-2xl font-black text-sm uppercase tracking-[0.3em] hover:scale-[1.02] transition shadow-2xl">Terbitkan Catatan</button>
         </form>
+
+        <div class="mt-12">
+            <h2 class="text-sm font-black uppercase tracking-widest border-b pb-2 mb-4">Kelola Catatan (Edit di Spreadsheet)</h2>
+            <div class="table-container shadow-sm">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Judul</th>
+                            <th>Tanggal</th>
+                            <th>Kategori</th>
+                            <th class="text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <ul id="list-artikel-edit" class="divide-y divide-slate-100">
+                        </ul>
+                    <tbody id="table-body">
+                        <tr>
+                            <td colspan="4" class="text-center py-10 text-slate-400 animate-pulse uppercase font-bold tracking-widest text-xs">Memuat daftar catatan...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     <script>
-        // Ganti URL ini dengan hasil Deployment terbaru dari Apps Script Bapak
         const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec";
+        // Ganti ID Spreadsheet ini dengan milik Bapak
+        const SPREADSHEET_ID = "1IqS_6G5Tf88D_3l3j5K-nUv9O4Zq8H7W"; 
 
         function login() {
             const pass = document.getElementById('passInput').value;
             if (pass.length > 0) {
-                // Menyimpan status login dan password sementara di browser
                 sessionStorage.setItem("adminAuth", "true");
                 sessionStorage.setItem("adminPass", pass);
                 bukaPanelAdmin();
@@ -106,15 +134,47 @@
             }
         }
 
-        function bukaPanelAdmin() {
+        async function bukaPanelAdmin() {
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('admin-panel').style.display = 'block';
             
-            // Mengisi tanggal otomatis jika belum ada
             if(!document.getElementById('tanggal').value) {
                 const now = new Date();
                 const tgl = String(now.getDate()).padStart(2, '0') + '/' + String(now.getMonth() + 1).padStart(2, '0') + '/' + now.getFullYear();
                 document.getElementById('tanggal').value = tgl;
+            }
+            
+            muatDaftarArtikel();
+        }
+
+        // FUNGSI BARU: Mengambil daftar artikel untuk menu Edit
+        async function muatDaftarArtikel() {
+            const tbody = document.getElementById('table-body');
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                
+                tbody.innerHTML = '';
+                // Looping data (dibalik agar yang terbaru di atas)
+                // Index di spreadsheet adalah i + 2 (karena header baris 1)
+                data.reverse().forEach((item, index) => {
+                    // Kita hitung baris aslinya: Total Data - index + 1
+                    const barisSpreadsheet = data.length - index + 1;
+                    const editUrl = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/edit#gid=0&range=A${barisSpreadsheet}`;
+
+                    tbody.innerHTML += `
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="font-bold text-slate-900">${item.judul}</td>
+                            <td class="text-slate-500">${item.tanggal}</td>
+                            <td><span class="text-[9px] bg-slate-100 px-2 py-1 rounded-full font-black uppercase tracking-widest">${item.kategori || 'UMUM'}</span></td>
+                            <td class="text-center">
+                                <a href="${editUrl}" target="_blank" class="inline-block bg-black text-white text-[10px] font-black px-4 py-2 rounded-full hover:scale-105 transition uppercase tracking-widest">Edit Baris</a>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch (e) {
+                tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-red-500 font-bold">Gagal memuat daftar.</td></tr>';
             }
         }
 
@@ -139,7 +199,6 @@
             btn.disabled = true;
             
             const payload = {
-                // Password dikirimkan ke server untuk divalidasi dengan Script Properties
                 password: sessionStorage.getItem("adminPass"),
                 judul: document.getElementById('judul').value,
                 tanggal: document.getElementById('tanggal').value,
@@ -155,17 +214,15 @@
                 const txt = await response.text();
                 
                 if (txt.includes("Error")) {
-                    alert(txt); // Akan muncul error jika password salah di sisi server
+                    alert(txt);
                     btn.innerText = "Terbitkan Catatan";
                     btn.disabled = false;
-                    // Jika password salah total, paksa logout
                     if(txt.includes("Password Salah")) logout();
                 } else {
-                    // Berhasil: Bersihkan cache agar postingan langsung muncul di index.html
                     localStorage.removeItem('blog_data_cache');
                     localStorage.removeItem('blog_data_time');
                     alert("Hasil: " + txt);
-                    window.location.href = "index.html"; 
+                    location.reload(); 
                 }
             } catch (err) {
                 alert("Koneksi Error!");
@@ -179,7 +236,6 @@
             location.reload(); 
         }
 
-        // Cek jika sudah pernah login sebelumnya dalam sesi ini
         if (sessionStorage.getItem("adminAuth") === "true") bukaPanelAdmin();
     </script>
 </body>
