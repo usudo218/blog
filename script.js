@@ -3,7 +3,7 @@ const AUTHOR_NAME = "Agus Tjakra";
 const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec";
 
 // PENTING: Ganti dengan URL Web App Apps Script Komentar Bapak yang baru
-const KOMENTAR_URL = "https://script.google.com/macros/s/AKfycbyTny_iQdhW5SVOx9BiTLbUrwANCEBVDZFQ9-JO7LS3yO6hNx9yORjbrvam7g5ZrtjA/exec"; 
+const KOMENTAR_URL = "https://script.google.com/macros/s/AKfycbxAJM--cz6jTStMy_5z7i3Wa8ibZV4QayaPxAi3QaMsRQaHoZg6_7edptBYQwFNVoYr/exec"; 
 
 let allData = [];
 let filteredData = [];
