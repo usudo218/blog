@@ -93,14 +93,16 @@
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec";
 
+        // PERBAIKAN: Login sekarang langsung membuka panel tanpa cek "123"
+        // Validasi asli terjadi saat menekan tombol "Terbitkan Catatan" ke Apps Script
         function login() {
             const pass = document.getElementById('passInput').value;
-            if (pass === "123") { // Sesuaikan password Bapak di sini
+            if (pass.length > 0) {
                 sessionStorage.setItem("adminAuth", "true");
                 sessionStorage.setItem("adminPass", pass);
                 bukaPanelAdmin();
             } else {
-                alert("Password Salah, Pak!");
+                alert("Masukkan password dulu, Pak!");
             }
         }
 
@@ -108,7 +110,6 @@
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('admin-panel').style.display = 'block';
             
-            // Set tanggal otomatis jika kosong
             if(!document.getElementById('tanggal').value) {
                 const now = new Date();
                 const tgl = String(now.getDate()).padStart(2, '0') + '/' + String(now.getMonth() + 1).padStart(2, '0') + '/' + now.getFullYear();
@@ -137,6 +138,7 @@
             btn.disabled = true;
             
             const payload = {
+                // Password diambil dari sessionStorage hasil ketikan di layar login tadi
                 password: sessionStorage.getItem("adminPass"),
                 judul: document.getElementById('judul').value,
                 tanggal: document.getElementById('tanggal').value,
@@ -151,12 +153,18 @@
                 const response = await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) });
                 const txt = await response.text();
                 
-                // Hapus cache agar postingan baru langsung muncul
-                localStorage.removeItem('blog_data_cache');
-                localStorage.removeItem('blog_data_time');
-                
-                alert("Hasil: " + txt);
-                window.location.href = "index.html"; 
+                // Jika server mengirimkan pesan error karena password tidak cocok di Script Properties
+                if (txt.includes("Error")) {
+                    alert(txt);
+                    btn.innerText = "Terbitkan Catatan";
+                    btn.disabled = false;
+                    if(txt.includes("Password Salah")) logout();
+                } else {
+                    localStorage.removeItem('blog_data_cache');
+                    localStorage.removeItem('blog_data_time');
+                    alert("Hasil: " + txt);
+                    window.location.href = "index.html"; 
+                }
             } catch (err) {
                 alert("Koneksi Error!");
                 btn.innerText = "Terbitkan Catatan";
