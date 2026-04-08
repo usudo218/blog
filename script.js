@@ -1,7 +1,8 @@
 const ORIGINAL_DOMAIN = "www.asalnulis.web.id";
 const AUTHOR_NAME = "Agus Tjakra"; 
 const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec";
-// PASTIKAN URL DI BAWAH INI ADALAH URL WEB APP KOMENTAR TERBARU (SUDAH DI-DEPLOY ULANG)
+
+// MASUKKAN URL WEB APP KOMENTAR TERBARU BAPAK
 const KOMENTAR_URL = "https://script.google.com/macros/s/AKfycbxAJM--cz6jTStMy_5z7i3Wa8ibZV4QayaPxAi3QaMsRQaHoZg6_7edptBYQwFNVoYr/exec"; 
 
 let allData = [];
@@ -30,7 +31,6 @@ async function fetchData() {
     try {
         const response = await fetch(`${API_URL}?t=${currentTime}`);
         const rawData = await response.json();
-        // Simpan index asli dari spreadsheet SEBELUM di-reverse
         allData = rawData.map((post, index) => ({ ...post, originalIndex: index }));
         
         const urlParams = new URLSearchParams(window.location.search);
@@ -52,31 +52,25 @@ async function renderPosts() {
     
     let commentCounts = {};
     try {
-        // Tambahkan timestamp agar data selalu segar (bukan cache)
-        const res = await fetch(`${KOMENTAR_URL}?countAll=true&nocache=${new Date().getTime()}`);
+        // Ambil data dengan timestamp agar tidak kena cache browser
+        const res = await fetch(`${KOMENTAR_URL}?countAll=true&t=${new Date().getTime()}`);
         commentCounts = await res.json();
-        console.log("Data Jumlah Komentar dari Server:", commentCounts); // Cek di F12
-    } catch (e) { console.log("Gagal hitung komentar"); }
+    } catch (e) { console.log("Gagal muat jumlah komentar"); }
 
     const startIndex = (currentPage - 1) * postsPerPage;
     const paginatedPosts = filteredData.slice(startIndex, startIndex + postsPerPage);
 
     paginatedPosts.forEach((post) => {
         let tgl = formatTanggal(post.tanggal);
-        
-        // PAKSA JADI STRING DAN BERSIHKAN SPASI
+        // ID Kunci harus string bersih agar cocok dengan data dari Apps Script
         const idKunci = String(post.originalIndex).trim();
         const jmlKomen = commentCounts[idKunci] || 0;
 
         container.innerHTML += `
             <article class="fade-in bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 mb-6">
                 <div class="flex justify-between items-center mb-4">
-                    <span class="text-[10px] font-black uppercase tracking-[0.2em] text-black bg-slate-100 px-3 py-1 rounded-full">
-                        ${post.kategori || 'Umum'}
-                    </span>
-                    <span class="text-[9px] font-bold uppercase tracking-widest text-slate-400">
-                        Komentar: ${jmlKomen}
-                    </span>
+                    <span class="text-[10px] font-black uppercase tracking-[0.2em] text-black bg-slate-100 px-3 py-1 rounded-full">${post.kategori || 'Umum'}</span>
+                    <span class="text-[9px] font-bold uppercase tracking-widest text-slate-400">Komentar: ${jmlKomen}</span>
                 </div>
                 <h3 class="text-xl md:text-2xl font-black leading-tight uppercase tracking-tighter">
                     <a href="?id=${post.originalIndex}" class="hover:text-blue-700 transition">${post.judul}</a>
@@ -108,7 +102,7 @@ async function muatKomentar(postId) {
     const listContainer = document.getElementById('list-komentar');
     listContainer.innerHTML = '<p class="text-xs italic text-slate-400">Memuat rasan-rasan...</p>';
     try {
-        const response = await fetch(`${KOMENTAR_URL}?id=${postId.toString().trim()}&t=${new Date().getTime()}`);
+        const response = await fetch(`${KOMENTAR_URL}?id=${String(postId).trim()}&t=${new Date().getTime()}`);
         const komentar = await response.json();
         listContainer.innerHTML = komentar.length === 0 ? '<p class="text-xs italic text-slate-400">Belum ada rasan-rasan.</p>' : komentar.map(k => `<div class="bg-slate-50 p-5 rounded-2xl border border-slate-100 fade-in"><div class="flex justify-between items-center mb-2"><span class="font-black text-[11px] uppercase tracking-wider">${k.nama}</span><span class="text-[9px] font-bold text-slate-400 uppercase">${k.tanggal}</span></div><p class="text-sm text-slate-700 leading-relaxed">${k.komentar}</p></div>`).join('');
     } catch (e) { listContainer.innerHTML = '<p class="text-xs text-red-400">Gagal ambil rasan-rasan.</p>'; }
@@ -121,10 +115,10 @@ async function kirimKomentar() {
     const email = document.getElementById('email-komen').value;
     const komentar = document.getElementById('isi-komen').value;
     const btn = document.getElementById('btn-kirim-komen');
-    if (!nama.trim() || !komentar.trim()) return alert("Nama dan isi rasan-rasan tidak boleh kosong.");
+    if (!nama.trim() || !komentar.trim()) return alert("Nama dan isi rasan-rasan harus diisi.");
     btn.disabled = true; btn.innerText = "MENGIRIM...";
     try {
-        await fetch(KOMENTAR_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: id.toString().trim(), nama, email, komentar }) });
+        await fetch(KOMENTAR_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: String(id).trim(), nama, email, komentar }) });
         document.getElementById('nama-komen').value = ''; document.getElementById('email-komen').value = ''; document.getElementById('isi-komen').value = '';
         setTimeout(() => { muatKomentar(id); btn.innerText = "KIRIM PESAN"; btn.disabled = false; renderPosts(); }, 2000);
     } catch (e) { alert("Gagal kirim."); btn.disabled = false; }
