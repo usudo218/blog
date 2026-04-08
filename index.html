@@ -17,42 +17,12 @@
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Optimasi Rendering untuk HP */
-        article { 
-            content-visibility: auto; 
-            contain-intrinsic-size: 1px 400px; 
-        }
-
-        #content-body { 
-            line-height: 1.8; 
-            font-size: 1.125rem; 
-            color: #334155; 
-        }
+        article { content-visibility: auto; contain-intrinsic-size: 1px 400px; }
+        #content-body { line-height: 1.8; font-size: 1.125rem; color: #334155; }
         #content-body p { margin-bottom: 1.5rem; }
-        
-        #content-body blockquote {
-            margin: 2rem 0;
-            padding: 1.5rem 2rem;
-            border-left: 6px solid #1a1a1a; 
-            background-color: #f8fafc;
-            font-style: italic;
-            color: #475569;
-            border-radius: 0 1rem 1rem 0;
-        }
-
-        #content-body img { 
-            max-width: 100%; height: auto; border-radius: 1.5rem; 
-            margin: 2rem 0; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); 
-        }
-
-        .footer-text {
-            color: #ffffff;
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-        }
-
+        #content-body blockquote { margin: 2rem 0; padding: 1.5rem 2rem; border-left: 6px solid #1a1a1a; background-color: #f8fafc; font-style: italic; color: #475569; border-radius: 0 1rem 1rem 0; }
+        #content-body img { max-width: 100%; height: auto; border-radius: 1.5rem; margin: 2rem 0; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); }
+        .footer-text { color: #ffffff; font-size: 10px; font-weight: 800; letter-spacing: 0.3em; text-transform: uppercase; }
         .skeleton { background: #e2e8f0; border-radius: 2rem; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
     </style>
@@ -74,11 +44,9 @@
     <main class="container mx-auto px-4 py-10 max-w-6xl flex-grow">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
             <div class="lg:col-span-2">
-                
                 <div id="view-list" class="fade-in">
                     <h2 id="section-title" class="text-2xl font-black mb-8 border-b-4 border-black inline-block text-slate-900 tracking-tight">Catatan Terbaru</h2>
                     <div id="blog-container" class="space-y-8">
-                        <div class="skeleton h-64 w-full"></div>
                         <div class="skeleton h-64 w-full"></div>
                     </div>
                 </div>
@@ -91,21 +59,14 @@
                         
                         <div class="mt-16 border-t pt-10">
                             <h4 class="text-xs font-black uppercase tracking-widest mb-6 text-slate-400">Jejak Pembaca :</h4>
-                            <script src="https://giscus.app/client.js"
-                                    data-repo="usudo218/blog"
-                                    data-repo-id="R_kgDOR2XNTQ"
-                                    data-category="Announcements"
-                                    data-category-id="DIC_kwDOR2XNTc4C6Wsl"
-                                    data-mapping="pathname"
-                                    data-strict="0"
-                                    data-reactions-enabled="1"
-                                    data-emit-metadata="0"
-                                    data-input-position="bottom"
-                                    data-theme="preferred_color_scheme"
-                                    data-lang="id"
-                                    crossorigin="anonymous"
-                                    async>
-                            </script>
+                            <div id="cusdis_thread"
+                                data-host="https://cusdis.com"
+                                data-app-id="f85158e4-21d5-4759-94e5-77a9647fa4c5"
+                                data-page-id="" 
+                                data-page-url=""
+                                data-page-title="">
+                            </div>
+                            <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
                         </div>
                     </article>
                 </div>
@@ -113,33 +74,20 @@
 
             <aside class="space-y-8">
                 <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100 text-center">
-                    <div class="inline-block p-1 mb-6">
-                        <img src="https://raw.githubusercontent.com/usudo218/blog/main/pp.png" 
-                             alt="Agus Tjakra"
-                             loading="lazy"
-                             class="w-40 h-40 rounded-full mx-auto border-4 border-slate-50 shadow-md object-contain bg-white">
-                    </div>
-                    
-                    <h4 class="font-black text-xl text-slate-900 uppercase tracking-tight mb-2">Penulis Pemula</h4>
+                    <img src="https://raw.githubusercontent.com/usudo218/blog/main/pp.png" loading="lazy" class="w-40 h-40 rounded-full mx-auto border-4 border-slate-50 shadow-md object-contain bg-white mb-6">
+                    <h4 class="font-black text-xl text-slate-900 uppercase mb-2">Penulis Pemula</h4>
                     <p class="text-base font-bold italic text-black mb-4">"Menulis untuk merawat ingatan"</p>
-                    
                     <div class="text-sm text-slate-600 leading-relaxed space-y-4">
-                        <p>Seringkali kita lupa pada apa yang pernah membuat kita tertawa atau merenung.<br/> 
-                        Melalui blog sederhana ini, saya mencoba mengikat makna-makna yang berceceran,<br/> 
-                        mengubah detak waktu menjadi barisan kata,<br/>
-                        agar jejak yang tertinggal tak lekang oleh lupa.</p>
-                        
+                        <p>Melalui blog sederhana ini, saya mencoba mengikat makna-makna yang berceceran agar jejak tak lekang oleh lupa.</p>
                         <p class="font-black text-black uppercase tracking-widest text-[10px] pt-2">Bumi Blambangan 2026</p>
                     </div>
                 </div>
-
                 <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100">
                     <h4 class="text-sm font-black uppercase tracking-[0.2em] text-black mb-6 border-b-2 border-slate-100 pb-2">Topik Utama</h4>
                     <div class="flex flex-wrap gap-3">
-                        <button onclick="filterKategori('Semua')" class="bg-black text-white px-5 py-2.5 rounded-full text-xs font-black uppercase shadow-md hover:scale-105 transition">Semua</button>
+                        <button onclick="filterKategori('Semua')" class="bg-black text-white px-5 py-2.5 rounded-full text-xs font-black uppercase shadow-md transition">Semua</button>
                         <button onclick="filterKategori('Asal Nulis')" class="bg-slate-100 text-black px-5 py-2.5 rounded-full text-xs font-black uppercase hover:bg-black hover:text-white transition">Asal Nulis</button>
                         <button onclick="filterKategori('Rasan-rasan')" class="bg-slate-100 text-black px-5 py-2.5 rounded-full text-xs font-black uppercase hover:bg-black hover:text-white transition">Rasan-Rasan</button>
-                        <button onclick="filterKategori('Fiksiana')" class="bg-slate-100 text-black px-5 py-2.5 rounded-full text-xs font-black uppercase hover:bg-black hover:text-white transition">Fiksiana</button>
                     </div>
                 </div>
             </aside>
@@ -148,9 +96,7 @@
 
     <footer class="bg-black w-full py-8 mt-24">
         <div class="container mx-auto px-4">
-            <p class="text-center footer-text">
-                &copy; 2026 Penulis Pemula - Merawat Ingatan
-            </p>
+            <p class="text-center footer-text">&copy; 2026 Penulis Pemula - Merawat Ingatan</p>
         </div>
     </footer>
 
