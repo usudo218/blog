@@ -11,12 +11,17 @@
         body { font-family: 'Inter', sans-serif; }
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        article { content-visibility: auto; contain-intrinsic-size: 1px 400px; }
-        #content-body { line-height: 1.8; font-size: 1.125rem; color: #334155; }
         
-        /* CSS Tambahan untuk Merapikan Iframe Komentar */
-        #cusdis_thread { min-height: 200px; }
-        #wrapper-form-komen { transition: all 0.5s ease; }
+        /* Mengatur agar area Cusdis tidak memakan tempat berlebih */
+        #cusdis_wrapper {
+            max-height: 400px; /* Batasi tinggi awal agar komentar tidak tenggelam */
+            overflow-y: auto;
+            transition: max-height 0.5s ease;
+            border-radius: 1.5rem;
+        }
+        #cusdis_wrapper.expand {
+            max-height: 2000px; /* Melebar saat ingin menulis */
+        }
     </style>
 </head>
 <body class="bg-slate-50 font-sans text-slate-900 flex flex-col min-h-screen">
@@ -37,7 +42,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
             <div class="lg:col-span-2">
                 <div id="view-list" class="fade-in">
-                    <h2 id="section-title" class="text-2xl font-black mb-8 border-b-4 border-black inline-block uppercase">Catatan Terbaru</h2>
+                    <h2 id="section-title" class="text-2xl font-black mb-8 border-b-4 border-black inline-block uppercase tracking-tight">Catatan Terbaru</h2>
                     <div id="blog-container" class="space-y-8">
                         <div class="skeleton h-64 w-full bg-slate-200 animate-pulse rounded-[2rem]"></div>
                     </div>
@@ -50,14 +55,14 @@
                         <div id="content-body" class="text-justify"></div>
                         
                         <div class="mt-16 border-t-4 border-black pt-10">
-                            <div class="flex justify-between items-center mb-8">
+                            <div class="flex justify-between items-center mb-6">
                                 <h4 class="text-xs font-black uppercase tracking-widest text-slate-400">Jejak Pembaca :</h4>
-                                <button onclick="toggleCommentForm()" id="btn-tulis" class="bg-black text-white text-[10px] font-black px-6 py-2 rounded-full hover:scale-105 transition uppercase tracking-widest shadow-lg">
-                                    Tulis Komentar
+                                <button onclick="expandComments()" id="btn-tulis" class="bg-black text-white text-[10px] font-black px-5 py-2 rounded-full hover:scale-105 transition uppercase tracking-widest">
+                                    Ikut Merasan ↓
                                 </button>
                             </div>
 
-                            <div id="wrapper-form-komen" class="hidden mb-10 p-4 md:p-8 bg-slate-50 rounded-[2rem] border-2 border-dashed border-slate-200">
+                            <div id="cusdis_wrapper" class="bg-slate-50 p-4 border border-slate-100">
                                 <div id="cusdis_thread"
                                     data-host="https://cusdis.com"
                                     data-app-id="f85158e4-21d5-4759-94e5-77a9647fa4c5"
@@ -76,7 +81,7 @@
                 <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100 text-center">
                     <img src="https://raw.githubusercontent.com/usudo218/blog/main/pp.png" class="w-40 h-40 rounded-full mx-auto shadow-md mb-6 bg-white object-contain">
                     <h4 class="font-black text-xl uppercase">Penulis Pemula</h4>
-                    <p class="text-sm italic text-slate-500 mt-2">"Menulis untuk merawat ingatan"</p>
+                    <p class="text-sm italic text-slate-500">"Menulis untuk merawat ingatan"</p>
                 </div>
             </aside>
         </div>
@@ -88,18 +93,16 @@
 
     <script src="script.js" defer></script>
     <script>
-        function toggleCommentForm() {
-            const wrapper = document.getElementById('wrapper-form-komen');
+        function expandComments() {
+            const wrapper = document.getElementById('cusdis_wrapper');
             const btn = document.getElementById('btn-tulis');
             
-            if (wrapper.classList.contains('hidden')) {
-                wrapper.classList.remove('hidden');
-                btn.innerText = 'Tutup Form';
-                btn.classList.replace('bg-black', 'bg-red-500');
+            wrapper.classList.toggle('expand');
+            if (wrapper.classList.contains('expand')) {
+                btn.innerText = 'Tutup Form ↑';
+                wrapper.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
-                wrapper.classList.add('hidden');
-                btn.innerText = 'Tulis Komentar';
-                btn.classList.replace('bg-red-500', 'bg-black');
+                btn.innerText = 'Ikut Merasan ↓';
             }
         }
     </script>
