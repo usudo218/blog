@@ -2,7 +2,7 @@ const ORIGINAL_DOMAIN = "www.asalnulis.web.id";
 const AUTHOR_NAME = "Agus Tjakra"; 
 const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec";
 
-// MASUKKAN URL APPS SCRIPT KOMENTAR BAPAK DI SINI
+// PENTING: Ganti dengan URL Web App Apps Script Komentar Bapak yang baru
 const KOMENTAR_URL = "https://script.google.com/macros/s/AKfycbxAJM--cz6jTStMy_5z7i3Wa8ibZV4QayaPxAi3QaMsRQaHoZg6_7edptBYQwFNVoYr/exec"; 
 
 let allData = [];
@@ -37,7 +37,6 @@ document.addEventListener('copy', (e) => {
     }
 });
 
-// Ambil Data Utama dengan Caching
 async function fetchData() {
     const container = document.getElementById('blog-container');
     const currentTime = new Date().getTime();
@@ -62,14 +61,15 @@ function prosesData(rawData) {
     }
 }
 
-// Render Postingan dengan Hitung Komentar
+// FUNGSI TAMPILKAN DAFTAR ARTIKEL (DENGAN HITUNG KOMENTAR)
 async function renderPosts() {
     const container = document.getElementById('blog-container');
     container.innerHTML = '';
     
     let commentCounts = {};
     try {
-        const res = await fetch(`${KOMENTAR_URL}?countAll=true`);
+        // Ambil data jumlah rasan-rasan per ID secara massal
+        const res = await fetch(`${KOMENTAR_URL}?countAll=true&t=${new Date().getTime()}`);
         commentCounts = await res.json();
     } catch (e) { console.log("Gagal memuat jumlah komentar"); }
 
@@ -78,7 +78,9 @@ async function renderPosts() {
 
     paginatedPosts.forEach((post) => {
         let tgl = formatTanggal(post.tanggal);
-        const jmlKomen = commentCounts[post.originalIndex.toString()] || 0;
+        // Memastikan ID dicocokkan sebagai string tanpa spasi
+        const idKunci = post.originalIndex.toString().trim();
+        const jmlKomen = commentCounts[idKunci] || 0;
 
         container.innerHTML += `
             <article class="fade-in bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 mb-6">
@@ -122,12 +124,12 @@ function tampilkanDetail(id) {
     muatKomentar(id);
 }
 
-// Logika Muat & Kirim Komentar
+// FUNGSI MUAT KOMENTAR DI DETAIL ARTIKEL
 async function muatKomentar(postId) {
     const listContainer = document.getElementById('list-komentar');
     listContainer.innerHTML = '<p class="text-xs italic text-slate-400">Memuat rasan-rasan...</p>';
     try {
-        const response = await fetch(`${KOMENTAR_URL}?id=${postId}`);
+        const response = await fetch(`${KOMENTAR_URL}?id=${postId.toString().trim()}&t=${new Date().getTime()}`);
         const komentar = await response.json();
         if (komentar.length === 0) {
             listContainer.innerHTML = '<p class="text-xs italic text-slate-400">Belum ada rasan-rasan di sini.</p>';
@@ -163,15 +165,19 @@ async function kirimKomentar() {
             method: 'POST',
             mode: 'no-cors', 
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id, nama, email, komentar })
+            body: JSON.stringify({ id: id.toString().trim(), nama, email, komentar })
         });
+        
         document.getElementById('nama-komen').value = '';
         document.getElementById('email-komen').value = '';
         document.getElementById('isi-komen').value = '';
+        
         setTimeout(() => {
             muatKomentar(id);
             btn.innerText = "KIRIM PESAN";
             btn.disabled = false;
+            // Force refresh data depan agar hitungan update
+            renderPosts(); 
         }, 2000);
     } catch (e) {
         alert("Gagal mengirim pesan.");
