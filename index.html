@@ -47,8 +47,16 @@
             text-transform: uppercase;
         }
 
-        .skeleton { background: #e2e8f0; border-radius: 2rem; animation: pulse 1.5s infinite; }
+        .skeleton { background: #e2e8f0; border-radius: 1rem; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
+        /* Custom style untuk teks yang terpotong di thumbnail */
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
     </style>
 </head>
 <body class="bg-slate-50 font-sans text-slate-900 flex flex-col min-h-screen">
@@ -70,17 +78,18 @@
             <div class="lg:col-span-2">
                 <div id="view-list" class="fade-in">
                     <h2 id="section-title" class="text-2xl font-black mb-8 border-b-4 border-black inline-block text-slate-900 tracking-tight">Catatan Terbaru</h2>
-                    <div id="blog-container" class="space-y-8">
-                        <div class="skeleton h-64 w-full"></div>
-                        <div class="skeleton h-64 w-full"></div>
+                    
+                    <div id="blog-container" class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4">
+                        <div class="skeleton aspect-square w-full"></div>
+                        <div class="skeleton aspect-square w-full"></div>
+                        <div class="skeleton aspect-square w-full"></div>
                     </div>
                 </div>
 
                 <div id="view-detail" class="hidden fade-in bg-white p-8 md:p-12 rounded-[2.5rem] shadow-sm border border-slate-100">
                     <button onclick="kembaliKeDaftar()" class="mb-8 text-sm font-black text-black hover:underline uppercase tracking-widest">← Kembali</button>
                     <article>
-                        <header class="mb-8 border-b-2 border-slate-50 pb-6">
-                            </header>
+                        <header class="mb-8 border-b-2 border-slate-50 pb-6"></header>
                         <div id="content-body" class="text-justify"></div>
                     </article>
                 </div>
