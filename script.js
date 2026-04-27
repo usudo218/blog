@@ -1,6 +1,6 @@
 const ORIGINAL_DOMAIN = "www.asalnulis.web.id";
 const AUTHOR_NAME = "Agus Tjakra"; 
-const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9zgAu2otLLjafqXPQ2z8hZWol5T5hUTcFtXAOC6CEq0PtWA/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbwswRmG9bu9WWPPewrgNE2aHzNh9KMK0OJyCdI8rn8utEsz-0adBZXzni3Zldm42Dl2Bg/exec";
 
 let allData = [];
 let filteredData = [];
