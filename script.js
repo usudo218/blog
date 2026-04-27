@@ -5,7 +5,22 @@ const API_URL = "https://script.google.com/macros/s/AKfycbxtNsPf6THGZWi3VBJS06c9
 let allData = [];
 let filteredData = [];
 let currentPage = 1;
-const postsPerPage = 9; // Diubah jadi 9 agar tampilan 3x3 grid lebih cantik
+
+// Logika dinamis: 8 post untuk layar kecil (2 kolom), 9 post untuk layar besar (3 kolom)
+function getPostsPerPage() {
+    return window.innerWidth < 1024 ? 8 : 9;
+}
+
+let postsPerPage = getPostsPerPage();
+
+// Update jumlah post jika layar di-resize (misal: rotasi HP)
+window.addEventListener('resize', () => {
+    const newLimit = getPostsPerPage();
+    if (newLimit !== postsPerPage) {
+        postsPerPage = newLimit;
+        renderPosts();
+    }
+});
 
 // Fitur Atribusi Copy-Paste
 document.addEventListener('copy', (e) => {
@@ -13,8 +28,6 @@ document.addEventListener('copy', (e) => {
     if (selection.rangeCount === 0) return;
 
     const urlLengkap = document.location.href;
-    const namaPenulis = "Agus Tjakra";
-
     const container = document.createElement('div');
     for (let i = 0; i < selection.rangeCount; i++) {
         container.appendChild(selection.getRangeAt(i).cloneContents());
@@ -23,15 +36,15 @@ document.addEventListener('copy', (e) => {
     const attributionHTML = `
         <div style="line-height: 1.2; margin-top: 20px;">
             ========================================<br>
-            Tulisan ini telah tayang di : <a href="https://www.asalnulis.web.id">www.asalnulis.web.id</a><br>
+            Tulisan ini telah tayang di : <a href="https://${ORIGINAL_DOMAIN}">${ORIGINAL_DOMAIN}</a><br>
             Baca artikel selengkapnya di : <a href="${urlLengkap}">${urlLengkap}</a><br>
-            <b>${namaPenulis}</b><br>
+            <b>${AUTHOR_NAME}</b><br>
             ========================================
         </div>
     `;
 
     const finalHTML = container.innerHTML + attributionHTML;
-    const finalPlain = selection.toString() + `\n\n========================================\nTulisan ini telah tayang di : www.asalnulis.web.id\nBaca artikel selengkapnya di : ${urlLengkap}\n${namaPenulis}\n========================================`;
+    const finalPlain = selection.toString() + `\n\n========================================\nTulisan ini telah tayang di : ${ORIGINAL_DOMAIN}\nBaca artikel selengkapnya di : ${urlLengkap}\n${AUTHOR_NAME}\n========================================`;
 
     if (e.clipboardData) {
         e.clipboardData.setData('text/html', finalHTML);
@@ -40,7 +53,7 @@ document.addEventListener('copy', (e) => {
     }
 });
 
-// Ambil Data
+// Fetch Data
 async function fetchData() {
     const container = document.getElementById('blog-container');
     const cacheKey = 'blog_data_cache';
@@ -61,7 +74,7 @@ async function fetchData() {
             localStorage.setItem(cacheTimeKey, currentTime.toString());
             prosesData(rawData);
         } catch (e) {
-            container.innerHTML = '<p class="text-center py-10 font-bold text-red-500">Gagal memuat catatan.</p>';
+            container.innerHTML = '<p class="col-span-full text-center py-10 font-bold text-red-500">Gagal memuat catatan.</p>';
         }
     }
 }
@@ -79,7 +92,7 @@ function prosesData(rawData) {
     }
 }
 
-// FUNGSI RENDER VERSI INSTAGRAM GRID
+// Render Post dengan Tampilan Grid Instagram
 function renderPosts() {
     const container = document.getElementById('blog-container');
     container.innerHTML = '';
@@ -93,7 +106,6 @@ function renderPosts() {
     }
 
     paginatedPosts.forEach((post) => {
-        // Gunakan gambar dari data, jika kosong pakai placeholder estetik
         const thumbUrl = post.gambar || `https://via.placeholder.com/500x500/f1f5f9/64748b?text=${encodeURIComponent(post.judul)}`;
         
         container.innerHTML += `
@@ -114,7 +126,6 @@ function renderPosts() {
         `;
     });
     
-    // Pagination ditambahkan di luar grid (setelah container selesai dirender)
     renderPagination();
 }
 
@@ -168,11 +179,13 @@ function formatTanggal(tglRaw) {
 
 function renderPagination() {
     const totalPages = Math.ceil(filteredData.length / postsPerPage);
-    if (totalPages <= 1) return;
+    if (totalPages <= 1) {
+        const oldPagination = document.getElementById('pagination-nav');
+        if (oldPagination) oldPagination.remove();
+        return;
+    }
     
     const viewList = document.getElementById('view-list');
-    
-    // Cek jika pagination sudah ada, hapus dulu agar tidak double
     const oldPagination = document.getElementById('pagination-nav');
     if (oldPagination) oldPagination.remove();
 
@@ -180,9 +193,9 @@ function renderPagination() {
     nav.id = 'pagination-nav';
     nav.className = 'flex justify-center items-center space-x-6 mt-12 mb-10';
     nav.innerHTML = `
-        <button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''} class="px-5 py-2 bg-black text-white text-[10px] font-black rounded-full uppercase tracking-widest disabled:opacity-20">Prev</button>
+        <button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''} class="px-5 py-2 bg-black text-white text-[10px] font-black rounded-full uppercase tracking-widest disabled:opacity-20 transition hover:bg-slate-800">Prev</button>
         <span class="text-[11px] font-black uppercase text-black">Halaman ${currentPage}/${totalPages}</span>
-        <button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''} class="px-5 py-2 bg-black text-white text-[10px] font-black rounded-full uppercase tracking-widest disabled:opacity-20">Next</button>
+        <button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''} class="px-5 py-2 bg-black text-white text-[10px] font-black rounded-full uppercase tracking-widest disabled:opacity-20 transition hover:bg-slate-800">Next</button>
     `;
     viewList.appendChild(nav);
 }
