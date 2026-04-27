@@ -50,7 +50,6 @@
         .skeleton { background: #e2e8f0; border-radius: 1rem; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 
-        /* Custom style untuk teks yang terpotong di thumbnail */
         .line-clamp-2 {
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -77,9 +76,10 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
             <div class="lg:col-span-2">
                 <div id="view-list" class="fade-in">
-                    <h2 id="section-title" class="text-2xl font-black mb-8 border-b-4 border-black inline-block text-slate-900 tracking-tight">Catatan Terbaru</h2>
+                    <h2 id="section-title" class="text-2xl font-black mb-8 border-b-4 border-black inline-block text-slate-900 tracking-tight text-uppercase">Catatan Terbaru</h2>
                     
-                    <div id="blog-container" class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4">
+                    <div id="blog-container" class="grid grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4">
+                        <div class="skeleton aspect-square w-full"></div>
                         <div class="skeleton aspect-square w-full"></div>
                         <div class="skeleton aspect-square w-full"></div>
                         <div class="skeleton aspect-square w-full"></div>
