@@ -74,18 +74,56 @@
 
     <main class="container mx-auto px-4 py-10 max-w-6xl flex-grow">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+            
+            <!-- KOLOM KIRI: DAFTAR BERITA -->
             <div class="lg:col-span-2">
                 <div id="view-list" class="fade-in">
-                    <h2 id="section-title" class="text-2xl font-black mb-8 border-b-4 border-black inline-block text-slate-900 tracking-tight text-uppercase">Catatan Terbaru</h2>
+                    <h2 id="section-title" class="text-2xl font-black mb-8 border-b-4 border-black inline-block text-slate-900 tracking-tight uppercase">Berita:</h2>
                     
-                    <div id="blog-container" class="grid grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4">
-                        <div class="skeleton aspect-square w-full"></div>
-                        <div class="skeleton aspect-square w-full"></div>
-                        <div class="skeleton aspect-square w-full"></div>
-                        <div class="skeleton aspect-square w-full"></div>
+                    <div id="blog-container" class="space-y-8">
+                        
+                        <!-- FEATURED POST (KARTU UTAMA/BESAR) -->
+                        <div class="relative group cursor-pointer overflow-hidden rounded-[2rem] shadow-lg aspect-[16/10] md:aspect-[21/9]">
+                            <img src="https://via.placeholder.com/1200x600" alt="Featured" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-6 md:p-10">
+                                <span class="bg-white text-black text-[10px] font-black px-3 py-1 rounded-md w-fit mb-4 uppercase tracking-widest">Ketikers</span>
+                                <p class="text-slate-300 text-xs font-bold mb-2 uppercase">27 Februari 2026</p>
+                                <h3 class="text-white text-xl md:text-3xl font-black leading-tight tracking-tight">Tingkatkan Nilai Ekonomi Produk, Siswa Double Track SMAN 1 Muncar Bikin Hampers Ramadan</h3>
+                            </div>
+                        </div>
+
+                        <!-- GRID POSTS (DUA KOLOM DI BAWAHNYA) -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            
+                            <!-- Kartu Berita 1 -->
+                            <div class="group cursor-pointer">
+                                <div class="overflow-hidden rounded-2xl aspect-[4/3] mb-4 shadow-sm border border-slate-100">
+                                    <img src="https://via.placeholder.com/600x400" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                </div>
+                                <div class="flex justify-between items-center text-[10px] font-black uppercase tracking-widest mb-3">
+                                    <span class="text-slate-400">13 Jul 2025</span>
+                                    <span class="text-blue-600">Fiqih Arfani</span>
+                                </div>
+                                <h4 class="text-lg font-black leading-snug text-slate-900 group-hover:text-blue-600 transition-colors">Khofifah Sat Set Perintahkan Angkat Bangkai Kapal, Apa Kata Nelayan Muncar?</h4>
+                            </div>
+
+                            <!-- Kartu Berita 2 -->
+                            <div class="group cursor-pointer">
+                                <div class="overflow-hidden rounded-2xl aspect-[4/3] mb-4 shadow-sm border border-slate-100">
+                                    <img src="https://via.placeholder.com/600x400" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                </div>
+                                <div class="flex justify-between items-center text-[10px] font-black uppercase tracking-widest mb-3">
+                                    <span class="text-slate-400">21 Jun 2025</span>
+                                    <span class="text-blue-600">Agus Suyatno</span>
+                                </div>
+                                <h4 class="text-lg font-black leading-snug text-slate-900 group-hover:text-blue-600 transition-colors">Cerita Cindy Aisyah, Alumni Double Track SMAN 1 Muncar Banyuwangi Raup Jutaan Rupiah</h4>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
 
+                <!-- VIEW DETAIL (Hidden by default) -->
                 <div id="view-detail" class="hidden fade-in bg-white p-8 md:p-12 rounded-[2.5rem] shadow-sm border border-slate-100">
                     <button onclick="kembaliKeDaftar()" class="mb-8 text-sm font-black text-black hover:underline uppercase tracking-widest">← Kembali</button>
                     <article>
@@ -95,6 +133,7 @@
                 </div>
             </div>
 
+            <!-- ASIDE / SIDEBAR -->
             <aside class="space-y-8">
                 <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100 text-center">
                     <div class="inline-block p-1 mb-6">
@@ -107,11 +146,7 @@
                     <p class="text-base font-bold italic text-black mb-4">"Menulis untuk merawat ingatan"</p>
                     
                     <div class="text-sm text-slate-600 leading-relaxed space-y-4">
-                        <p>Seringkali kita lupa pada apa yang pernah membuat kita tertawa atau merenung.<br/> 
-                        Melalui blog sederhana ini, saya mencoba mengikat makna-makna yang berceceran,<br/> 
-                        mengubah detak waktu menjadi barisan kata,<br/>
-                        agar jejak yang tertinggal tak lekang oleh lupa.</p>
-                        
+                        <p>Seringkali kita lupa pada apa yang pernah membuat kita tertawa atau merenung. Melalui blog sederhana ini, saya mencoba mengikat makna-makna yang berceceran.</p>
                         <p class="font-black text-black uppercase tracking-widest text-[10px] pt-2">Bumi Blambangan 2026</p>
                     </div>
                 </div>
