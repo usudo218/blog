@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asal Nulis — Ruang Gagasan & Karya Pemikiran</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .font-serif-custom { font-family: 'Playfair Display', serif; }
+    </style>
+</head>
+<body class="bg-neutral-950 text-neutral-200 antialiased selection:bg-amber-500/30 selection:text-amber-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Ambient Gradient Background -->
+    <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div class="absolute -top-40 -left-40 w-96 h-96 bg-amber-600/10 rounded-full blur-3xl"></div>
+        <div class="absolute top-1/2 -right-40 w-96 h-96 bg-amber-900/10 rounded-full blur-3xl"></div>
+    </div>
+
+    <!-- Header / Navigation -->
+    <header class="max-w-5xl mx-auto w-full px-6 py-8 flex justify-between items-center border-b border-neutral-800/60">
+        <a href="#" class="text-xl font-bold tracking-tight text-neutral-100 hover:opacity-80 transition-opacity">
+            asalnulis<span class="text-amber-500">.web.id</span>
+        </a>
+        <nav class="flex gap-6 text-sm font-medium text-neutral-400">
+            <a href="#about" class="hover:text-amber-400 transition-colors">Tentang</a>
+            <a href="#tulisan" class="hover:text-amber-400 transition-colors">Tulisan</a>
+            <a href="#kontak" class="hover:text-amber-400 transition-colors">Kontak</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto w-full px-6 py-16 space-y-20 flex-grow">
+        
+        <!-- Hero Section -->
+        <section class="max-w-2xl space-y-6">
+            <span class="inline-flex items-center px-3 py-1 text-xs font-medium text-amber-400 bg-amber-500/10 rounded-full border border-amber-500/20">
+                Ruang Eksplorasi Ide
+            </span>
+            <h1 class="text-4xl md:text-5xl font-serif-custom font-semibold text-neutral-100 leading-tight">
+                Menyederhanakan gagasan rumit lewat rangkaian kata.
+            </h1>
+            <p class="text-neutral-400 text-lg leading-relaxed">
+                Tempat berbagi catatan, opini mendalam, dan dokumentasi pemikiran mengenai teknologi, desain, serta refleksi kehidupan sehari-hari.
+            </p>
+            <div class="pt-2 flex gap-4">
+                <a href="#tulisan" class="px-6 py-3 bg-amber-500 text-neutral-950 font-semibold rounded-lg hover:bg-amber-400 transition-colors">
+                    Baca Tulisan Terbaru
+                </a>
+                <a href="#about" class="px-6 py-3 border border-neutral-700 text-neutral-300 font-medium rounded-lg hover:bg-neutral-900 transition-colors">
+                    Tentang Saya
+                </a>
+            </div>
+        </section>
+
+        <!-- Featured Articles -->
+        <section id="tulisan" class="space-y-8 pt-6">
+            <div class="flex justify-between items-end border-b border-neutral-800 pb-4">
+                <h2 class="text-2xl font-serif-custom text-neutral-100">Tulisan Pilihan</h2>
+                <span class="text-sm text-neutral-500">Arsip Publikasi</span>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Article Card 1 -->
+                <article class="p-6 bg-neutral-900/50 rounded-xl border border-neutral-800 hover:border-neutral-700 transition-all hover:-translate-y-1 group">
+                    <div class="flex justify-between items-center text-xs text-neutral-500 mb-3">
+                        <span>Opini & Esai</span>
+                        <span>5 min read</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-neutral-200 group-hover:text-amber-400 transition-colors mb-2">
+                        Seni Menulis Cepat Tanpa Kehilangan Esensi
+                    </h3>
+                    <p class="text-neutral-400 text-sm line-clamp-3 mb-4">
+                        Bagaimana menuangkan gagasan dengan lugas dan jujur di tengah gempuran informasi berkecepatan tinggi.
+                    </p>
+                    <a href="#" class="text-xs font-semibold text-amber-500 group-hover:underline inline-flex items-center gap-1">
+                        Baca Selengkapnya &rarr;
+                    </a>
+                </article>
+
+                <!-- Article Card 2 -->
+                <article class="p-6 bg-neutral-900/50 rounded-xl border border-neutral-800 hover:border-neutral-700 transition-all hover:-translate-y-1 group">
+                    <div class="flex justify-between items-center text-xs text-neutral-500 mb-3">
+                        <span>Teknologi</span>
+                        <span>8 min read</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-neutral-200 group-hover:text-amber-400 transition-colors mb-2">
+                        Navigasi Era Digital: Fokus di Tengah Kebisingan
+                    </h3>
+                    <p class="text-neutral-400 text-sm line-clamp-3 mb-4">
+                        Catatan dan strategi praktis menjaga ritme kerja serta kedamaian pikiran saat mengelola proyek kreatif.
+                    </p>
+                    <a href="#" class="text-xs font-semibold text-amber-500 group-hover:underline inline-flex items-center gap-1">
+                        Baca Selengkapnya &rarr;
+                    </a>
+                </article>
+            </div>
+        </section>
+
+        <!-- About Section Minimalist -->
+        <section id="about" class="p-8 bg-neutral-900/30 rounded-2xl border border-neutral-800/80 flex flex-col md:flex-row items-center gap-8">
+            <div class="w-20 h-20 rounded-full bg-neutral-800 border-2 border-amber-500/50 flex-shrink-0 flex items-center justify-center text-2xl font-bold text-amber-400">
+                AN
+            </div>
+            <div class="space-y-2 text-center md:text-left">
+                <h3 class="text-lg font-semibold text-neutral-100">Di Balik asalnulis.web.id</h3>
+                <p class="text-neutral-400 text-sm leading-relaxed max-w-xl">
+                    Situs ini adalah jurnal pribadi terorganisir tempat saya menyaring gagasan, pengalaman teknis, dan proyek tulisan agar tetap rapi serta bermanfaat bagi pembaca.
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer id="kontak" class="border-t border-neutral-800/60 bg-neutral-950/80">
+        <div class="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-neutral-500">
+            <p>&copy; 2026 asalnulis.web.id. Hak cipta dilindungi.</p>
+            <div class="flex gap-6">
+                <a href="#" class="hover:text-neutral-300 transition-colors">GitHub</a>
+                <a href="#" class="hover:text-neutral-300 transition-colors">X (Twitter)</a>
+                <a href="#" class="hover:text-neutral-300 transition-colors">Email</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
