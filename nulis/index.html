@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cerita Baik & Kisah Inspiratif - Program Double Track SMAN 1 Muncar</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#0052D4',
+                            navy: '#0F172A',
+                            amber: '#D97706',
+                            rose: '#E11D48',
+                            emerald: '#059669',
+                            purple: '#9333EA'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="font-sans text-slate-800 bg-slate-50 antialiased selection:bg-blue-500 selection:text-white">
+
+    <!-- Header / Navbar -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-header border-b border-slate-200/80 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo Official -->
+                <a href="index.html" class="flex items-center space-x-3 group py-1">
+                    <img src="images/logo-doubletrack.png" alt="Logo SMA Double Track" class="h-12 w-auto object-contain group-hover:scale-105 transition duration-300">
+                    <div class="border-l border-slate-300 pl-3">
+                        <span class="text-base font-extrabold text-slate-900 tracking-tight block leading-none">SMAN 1 MUNCAR</span>
+                        <span class="text-[10px] font-bold text-blue-600 tracking-widest uppercase block mt-1">Kab. Banyuwangi</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden lg:flex items-center space-x-7 text-sm font-semibold text-slate-600">
+                    <a href="index.html#beranda" class="hover:text-blue-600 transition">Beranda</a>
+                    <a href="index.html#tentang" class="hover:text-blue-600 transition">Tentang</a>
+                    <a href="index.html#keahlian" class="hover:text-blue-600 transition">Bidang Keterampilan</a>
+                    <a href="index.html#katalog" class="hover:text-blue-600 transition">Katalog Karya</a>
+                    <a href="cerita-baik.html" class="text-blue-600 font-extrabold border-b-2 border-blue-600 pb-1">Cerita Baik</a>
+                    <a href="index.html#alur" class="hover:text-blue-600 transition">Alur Program</a>
+                    <a href="index.html#faq" class="hover:text-blue-600 transition">FAQ</a>
+                </nav>
+
+                <!-- CTA Button -->
+                <div class="hidden lg:flex items-center space-x-4">
+                    <a href="https://wa.me/6282143393357?text=Halo%20Admin,%20saya%20ingin%20bertanya%20mengenai%20Program%20Double%20Track" target="_blank" class="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-xl text-sm shadow-md flex items-center gap-2 hover:opacity-90 transition">
+                        <i class="fa-brands fa-whatsapp text-base"></i>
+                        <span>Hubungi Kami</span>
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="menu-btn" class="lg:hidden text-slate-700 p-2">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-2 shadow-xl">
+            <a href="index.html" class="block px-4 py-2 rounded-xl text-slate-700 font-semibold">Beranda</a>
+            <a href="cerita-baik.html" class="block px-4 py-2 rounded-xl bg-blue-50 text-blue-600 font-bold">Cerita Baik</a>
+            <a href="index.html#katalog" class="block px-4 py-2 rounded-xl text-slate-700 font-semibold">Katalog Karya</a>
+            <a href="https://wa.me/6282143393357" target="_blank" class="block text-center px-4 py-3 bg-blue-600 text-white font-bold rounded-xl text-sm shadow-md mt-4">Hubungi Pengelola</a>
+        </div>
+    </header>
+
+    <!-- Banner Header Section -->
+    <section class="pt-32 pb-16 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <span class="px-3.5 py-1.5 bg-blue-500/20 text-blue-300 text-xs font-extrabold rounded-lg uppercase tracking-wider">Publikasi & Kumpulan Artikel</span>
+            <h1 class="text-3xl sm:text-5xl font-extrabold mt-3">Cerita Baik Double Track</h1>
+            <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto mt-3">
+                Rangkaian kisah inspiratif para alumni, karya wirausaha mandiri, dan kegiatan bermakna dari Program Double Track SMAN 1 Muncar.
+            </p>
+        </div>
+    </section>
+
+    <!-- Container Artikel -->
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Loading Indicator -->
+            <div id="loading" class="text-center py-12">
+                <i class="fa-solid fa-spinner fa-spin text-4xl text-blue-600 mb-3"></i>
+                <p class="text-sm font-semibold text-slate-600">Memuat artikel terbaru...</p>
+            </div>
+
+            <!-- Grid Kartu Artikel -->
+            <div id="articles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        </div>
+    </section>
+
+    <!-- Container Dynamic Modal Pop-up -->
+    <div id="modals-container"></div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs space-y-3">
+            <p class="font-bold text-white text-sm">Program Double Track SMAN 1 Muncar Banyuwangi</p>
+            <p>Jl. Raya Tapan No.1, Tapanrejo, Kec. Muncar, Kabupaten Banyuwangi, Jawa Timur 68472.</p>
+            <p>&copy; 2026 SMAN 1 Muncar. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Script Pemanggil Artikel Otomatis dari GitHub API -->
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) modal.classList.toggle('hidden');
+        }
+
+        // Fungsi Pemformat Otomatis Paragraf & Kotak Kutipan (Quote Box Tanpa Double Petik)
+        function formatParagraphs(text) {
+            if (!text) return '';
+            if (text.includes('<p>') || text.includes('<blockquote')) return text;
+
+            return text.split(/\n\s*\n/).map(p => {
+                const trimmed = p.trim();
+                if (!trimmed) return '';
+
+                // Deteksi jika diawali bintang (*), tanda petik ("), atau simbol >
+                if (trimmed.startsWith('*') || trimmed.startsWith('"') || trimmed.startsWith('>')) {
+                    // Bersihkan simbol awalan & akhiran (*, ", >) agar tidak terjadi double tanda petik
+                    const cleanQuote = trimmed
+                        .replace(/^[\*">]+\s*/, '')
+                        .replace(/[\*"]+$/, '');
+
+                    return `
+                        <blockquote class="p-4 my-4 bg-purple-50 border-l-4 border-purple-600 text-purple-900 italic font-medium rounded-r-2xl shadow-sm">
+                            "${cleanQuote}"
+                        </blockquote>
+                    `;
+                }
+
+                // Paragraf biasa
+                return `<p class="mb-4 leading-relaxed text-justify">${trimmed}</p>`;
+            }).join('');
+        }
+
+        // 7 ARTIKEL LAMA LENGKAP 100% NASKAH ASLI (TANPA DIPOTONG)
+        const staticArticles = [
+            {
+                id: 'static-1',
+                title: "Ridho, Alumni Double Track yang Mengubah Pisang Menjadi Peluang Emas",
+                category: "Wirausaha Kuliner",
+                author: "Agus Suyatno, S.Kom",
+                image: "images/cerita-ridho-pisang.jpg",
+                excerpt: "MUNCAR – Semangat berwirausaha dan keberanian memulai dari nol menjadi kunci keberhasilan Mohammad Ridho As'ari, alumni Program Double Track SMAN 1 Muncar, dalam membangun usaha kuliner Kedai Mr-A.",
+                content: `<p class="mb-4 leading-relaxed text-justify"><strong>MUNCAR</strong> – Semangat berwirausaha dan keberanian memulai dari nol menjadi kunci keberhasilan Mohammad Ridho As'ari, alumni Program Double Track SMAN 1 Muncar, dalam membangun usaha kuliner yang kini semakin dikenal masyarakat. Melalui kedai sederhana bernama <strong>Mr-A</strong>, Ridho membuktikan bahwa kreativitas dan kerja keras mampu mengubah peluang sederhana menjadi usaha yang menghasilkan.</p>
+                <p class="mb-4 leading-relaxed text-justify">Setelah lulus dari Program Double Track SMAN 1 Muncar, Ridho memiliki tekad kuat untuk mandiri secara finansial. Berbekal keterampilan dan pengetahuan yang diperoleh selama mengikuti program tersebut, ia mulai mencari peluang usaha yang sesuai dengan minat dan kebutuhan pasar. Pilihannya jatuh pada bidang kuliner, sektor yang menurutnya memiliki prospek menjanjikan dan dekat dengan kehidupan masyarakat.</p>
+                <p class="mb-4 leading-relaxed text-justify">Sebelum memulai usaha, Ridho melakukan pengamatan terhadap tren kuliner yang sedang diminati. Dari hasil pengamatannya, ia melihat bahwa jajanan ringan dengan cita rasa unik memiliki peluang besar untuk berkembang. Dengan modal yang terbatas, ia kemudian membuka sebuah kedai kecil di pinggir jalan dan menamainya Mr-A.</p>
+                <p class="mb-4 leading-relaxed text-justify">Perjalanan membangun usaha tentu tidak selalu mudah. Pada awalnya, Ridho harus berjuang dengan segala keterbatasan yang dimiliki. Namun, kondisi tersebut tidak menyurutkan semangatnya. Ia terus bereksperimen menciptakan produk yang berbeda dari pesaing dengan memadukan cita rasa tradisional dan sentuhan modern.</p>
+                <p class="mb-4 leading-relaxed text-justify">Inovasi tersebut akhirnya menjadi kekuatan utama Kedai Mr-A. Menu andalan seperti <strong>pisang aroma, sosis kriuk, dan pisang gendut</strong> berhasil menarik perhatian pelanggan, khususnya kalangan anak muda. Tidak hanya menyediakan makanan ringan, Ridho juga menghadirkan berbagai minuman kekinian seperti Pisang Susu Keju (PSK), cokelat, matcha, taro, dan cookies and cream. Salah satu ciri khas yang membuat usahanya berbeda adalah penggunaan pisang kriuk sebagai topping minuman yang memberikan sensasi rasa unik bagi para pelanggan.</p>
+                <p class="mb-4 leading-relaxed text-justify">Menurut Ridho, inspirasi pengembangan menu berasal dari tren yang sedang berkembang dan masukan dari teman-teman maupun pelanggan. Baginya, mendengarkan kebutuhan konsumen merupakan salah satu cara terbaik untuk menjaga kualitas dan keberlangsungan usaha. Ia juga aktif memanfaatkan media sosial sebagai sarana promosi serta membangun komunikasi yang baik dengan pelanggan.</p>
+                <p class="mb-4 leading-relaxed text-justify">Kerja keras tersebut membuahkan hasil yang membanggakan. Dalam waktu relatif singkat, Kedai Mr-A mulai dikenal masyarakat sekitar. Kelezatan menu, harga yang terjangkau, dan pelayanan yang ramah membuat pelanggan terus berdatangan. Usaha yang dirintis dari modal sederhana itu kini mampu menghasilkan <strong>omzet sekitar Rp1,5 juta hingga Rp2 juta per bulan</strong>.</p>
+                <p class="mb-4 leading-relaxed text-justify">Meski telah meraih hasil yang menggembirakan, Ridho tidak ingin berpuas diri. Ia terus berupaya mengembangkan usahanya dengan menghadirkan varian menu baru dan mempertimbangkan pembukaan cabang di lokasi yang lebih strategis. Ke depan, ia juga berencana menambah pilihan makanan berat dan dessert agar Kedai Mr-A dapat menjadi tempat yang nyaman bagi masyarakat untuk berkumpul dan menikmati sajian yang berkualitas.</p>
+                <blockquote class="p-4 bg-amber-50 border-l-4 border-amber-500 text-amber-900 italic font-medium rounded-r-xl my-4">
+                    "Jangan menunggu sempurna untuk memulai. Mulailah dengan apa yang kita punya hari ini, lalu perbaiki setiap langkahnya. Kerja keras, konsistensi, dan keberanian mencoba akan membawa kita lebih dekat pada mimpi," — Mohammad Ridho As'ari.
+                </blockquote>
+                <p class="mb-4 leading-relaxed text-justify">Kisah Mohammad Ridho As'ari menjadi bukti bahwa peluang besar dapat lahir dari hal-hal sederhana. Dengan kreativitas, inovasi, dan semangat pantang menyerah, seorang pemuda mampu mengubah pisang yang biasa ditemui sehari-hari menjadi produk bernilai ekonomi yang membuka jalan menuju kemandirian. Semangat inilah yang patut menjadi inspirasi bagi generasi muda untuk berani berkarya, menciptakan peluang, dan mewujudkan impian mereka menjadi kenyataan.</p>
+                <p class="bg-slate-100 p-3 rounded-xl font-medium text-slate-700">📍 <strong>Alamat Kedai:</strong> Bagi masyarakat yang ingin menikmati menu Kedai Mr-A, dapat langsung mengunjungi lokasi usaha di Jalan Sumberayu Muncar, depan Balai Desa Kedungrejo. Informasi dan aktivitas terbaru kedai juga dapat diikuti melalui akun Instagram Kedai Mr-A.</p>`
+            },
+            {
+                id: 'static-2',
+                title: "Berbekal Keterampilan Tata Rias Double Track, Cindy Aisyah Raih Rp3,5 Juta Dalam Sepekan",
+                category: "Tata Rias & MUA",
+                author: "Agus Suyatno, S.Kom",
+                image: "images/cerita-cindy-mua.jpg",
+                excerpt: "BANYUWANGI - Di tengah anggapan bahwa kesuksesan harus diraih melalui pekerjaan formal, Cindy Aisyah justru membuktikan hal sebaliknya melalui jasa tata rias perpisahan sekolah.",
+                content: `<p class="mb-4 leading-relaxed text-justify"><strong>BANYUWANGI</strong> - Di tengah anggapan bahwa kesuksesan harus diraih melalui pekerjaan formal setelah lulus sekolah, Cindy Aisyah justru membuktikan hal sebaliknya. Berbekal keterampilan tata rias yang diperoleh dari Program Double Track di SMAN 1 Muncar, Banyuwangi, perempuan muda ini berhasil membangun usaha sendiri dan meraih penghasilan hingga sekitar <strong>Rp3,5 juta dalam sepekan</strong>. Kisahnya menjadi bukti bahwa keterampilan, kerja keras, dan kemauan belajar mampu membuka jalan menuju kemandirian sejak usia muda.</p>
+                <p class="mb-4 leading-relaxed text-justify">Cindy merupakan salah satu lulusan Program Double Track, program yang dikembangkan Dinas Pendidikan Jawa Timur bersama Institut Teknologi Sepuluh Nopember (ITS) untuk membekali siswa dengan keterampilan praktis yang dapat langsung diterapkan dalam dunia usaha maupun kerja. Melalui program tersebut, ia tidak hanya belajar teknik merias wajah, tetapi juga memahami pemilihan kosmetik yang aman, cara berkomunikasi dengan klien, hingga pengelolaan bisnis sederhana. Bagi Cindy, ilmu yang diperoleh di bangku sekolah menjadi fondasi penting dalam membangun usahanya saat ini.</p>
+                <p class="mb-4 leading-relaxed text-justify"><em>"Pelajaran tentang manajemen waktu dan keuangan juga sangat membantu saya dalam mengelola bisnis ini,"</em> ungkap Cindy. Kemampuan yang dimilikinya tidak datang secara instan. Dengan ketekunan berlatih dan keberanian untuk memulai, Cindy perlahan mengembangkan jasa tata rias yang banyak melayani kegiatan perpisahan sekolah dasar. Dari satu pelanggan ke pelanggan lainnya, kualitas hasil riasannya mulai dikenal masyarakat.</p>
+                <p class="mb-4 leading-relaxed text-justify">Keunggulan Cindy bukan hanya terletak pada keterampilan merias, tetapi juga pada cara ia melayani pelanggan. Saat menghadapi anak-anak yang menjadi klien utamanya, ia dikenal ramah, sabar, dan telaten. Pendekatan tersebut membuat anak-anak merasa nyaman, sementara para orang tua merasa tenang mempercayakan penampilan putra-putrinya.</p>
+                <p class="mb-4 leading-relaxed text-justify">Menurut Cindy, memahami kebutuhan pelanggan adalah kunci utama keberhasilan dalam bisnis jasa. <em>"Kuncinya adalah memahami keinginan anak-anak dan orang tua. Orang tua ingin anak-anaknya tampil cantik tanpa terlihat berlebihan,"</em> katanya. Prinsip tersebut terus ia pegang dalam setiap pekerjaan. Cindy memastikan produk yang digunakan aman untuk kulit sensitif anak dan menghasilkan tampilan yang natural sesuai usia. Komitmennya menjaga kualitas layanan membuat banyak pelanggan puas dan merekomendasikan jasanya kepada orang lain.</p>
+                <p class="mb-4 leading-relaxed text-justify">Keberhasilannya turut menjadi kebanggaan bagi SMAN 1 Muncar. Kepala sekolah menyampaikan bahwa pihak sekolah berkomitmen mencetak lulusan yang tidak hanya unggul secara akademik, tetapi juga memiliki keterampilan yang relevan dengan kebutuhan masyarakat dan dunia kerja. Cindy menjadi contoh nyata bagaimana pendidikan keterampilan dapat melahirkan generasi muda yang produktif dan mandiri.</p>
+                <p class="mb-4 leading-relaxed text-justify">Lebih dari sekadar cerita tentang tata rias dan penghasilan jutaan rupiah, perjalanan Cindy adalah kisah tentang keberanian memanfaatkan peluang. Saat banyak anak muda masih mencari arah setelah lulus sekolah, ia memilih mengembangkan kemampuan yang dimiliki dan menjadikannya sumber penghasilan yang menjanjikan.</p>
+                <blockquote class="p-4 bg-purple-50 border-l-4 border-purple-600 text-purple-900 italic font-medium rounded-r-xl my-4">
+                    Kisah Cindy memberikan pesan kuat bahwa setiap keterampilan memiliki nilai apabila diasah dengan sungguh-sungguh. Tidak ada usaha yang terlalu kecil untuk dimulai, dan tidak ada mimpi yang terlalu besar untuk diperjuangkan. Kesuksesan sering kali lahir dari keberanian mengambil langkah pertama, kemudian menjalaninya dengan konsistensi dan dedikasi.
+                </blockquote>
+                <p class="mb-4 leading-relaxed text-justify">Cindy Aisyah membuktikan bahwa masa depan tidak hanya ditentukan oleh tempat seseorang belajar, tetapi juga oleh kemauan untuk terus berkembang. Dari sebuah ruang pelatihan di sekolah, ia berhasil melangkah menuju dunia usaha dan menginspirasi banyak generasi muda untuk berani berkarya, mandiri, serta menciptakan peluang dari keterampilan yang dimiliki. Sebab pada akhirnya, keahlian yang diasah dengan tekun bukan hanya menghasilkan karya, tetapi juga mampu mengubah kehidupan ✨.</p>`
+            },
+            {
+                id: 'static-3',
+                title: "Dari Hobi Jadi Peluang: Siswi SMAN 1 Muncar Belajar Nail Art, Siapkan Masa Depan Sejak Bangku Sekolah",
+                category: "Pelatihan Vokasi",
+                author: "Agus Suyatno, S.Kom",
+                image: "images/cerita-nail-art.jpg",
+                excerpt: "BANYUWANGI - Siapa bilang masa SMA hanya soal belajar di kelas? Di SMAN 1 Muncar, para siswi membekali diri dengan keterampilan hias kuku kreatif bersama praktisi DUDI.",
+                content: `<p class="mb-4 leading-relaxed text-justify"><strong>BANYUWANGI</strong> - Siapa bilang masa SMA hanya soal belajar di kelas dan mengerjakan tugas? Di SMAN 1 Muncar, para siswi justru memanfaatkan masa sekolah untuk membekali diri dengan keterampilan yang bisa menjadi peluang karier di masa depan. Salah satunya melalui pelatihan <em>nail art</em> atau seni menghias kuku yang digelar dalam Program Double Track Tata Rias Pengantin Berhijab.</p>
+                <p class="mb-4 leading-relaxed text-justify">Bagi sebagian orang, <em>nail art</em> mungkin identik dengan tren kecantikan semata. Namun bagi para siswi SMAN 1 Muncar, keterampilan ini memiliki makna yang lebih besar. Selain melatih kreativitas, <em>nail art</em> juga membuka peluang usaha di industri kecantikan yang terus berkembang. Dalam pelatihan yang berlangsung selama 2,5 jam tersebut, para peserta mendapatkan pengalaman belajar langsung bersama <strong>Afifa Henna & Nail Art</strong> yang dipandu oleh praktisi kecantikan, <strong>Afifah Irsha</strong>. Mereka belajar mulai dari teknik dasar perawatan kuku, memilih kombinasi warna yang tepat, hingga membuat berbagai desain <em>nail art</em> yang menarik dan bernilai jual.</p>
+                <p class="mb-4 leading-relaxed text-justify">Suasana pelatihan berlangsung seru dan penuh antusiasme. Para siswi tampak fokus mengikuti setiap tahapan yang diajarkan. Sesekali mereka bertanya dan mencoba berbagai teknik baru yang sebelumnya belum pernah dipelajari. Bagi mereka, ini bukan hanya soal mempercantik kuku, tetapi juga tentang menambah keterampilan yang bisa menjadi bekal masa depan.</p>
+                <p class="mb-4 leading-relaxed text-justify">Salah satu peserta, <strong>Keysa Arum Sari</strong>, mengaku senang mendapat kesempatan mengikuti pelatihan tersebut. <em>"Saya sangat senang bisa mengikuti pelatihan ini. Selain menambah pengetahuan, saya juga jadi lebih percaya diri untuk merawat kuku sendiri dan bahkan mungkin bisa membuka usaha kecil-kecilan nanti,"</em> ujar Keysa. Pernyataan Keysa menggambarkan bagaimana sebuah pelatihan sederhana dapat membangun kepercayaan diri sekaligus menumbuhkan semangat berwirausaha. Dari ruang kelas, para siswa mulai belajar melihat peluang yang mungkin bisa mereka kembangkan di masa depan.</p>
+                <p class="mb-4 leading-relaxed text-justify">Trainer Tata Rias SMAN 1 Muncar, <strong>Tri Asiyah</strong>, menjelaskan bahwa kegiatan ini merupakan bagian dari upaya sekolah untuk membekali siswa dengan kemampuan yang relevan dengan kebutuhan dunia kerja saat ini. <em>"Kami ingin siswa kami selain pintar secara akademik, juga dibekali keahlian khusus yang dapat berguna di masa depan,"</em> jelasnya.</p>
+                <p class="mb-4 leading-relaxed text-justify">Sementara itu, Afifah Irsha sebagai perwakilan dunia usaha dan dunia industri (DUDI) melihat potensi besar yang dimiliki para siswa. Menurutnya, generasi muda saat ini memiliki peluang yang luas untuk berkembang di industri kecantikan asalkan mendapatkan pendampingan dan kemauan untuk terus belajar.</p>
+                <blockquote class="p-4 bg-blue-50 border-l-4 border-blue-600 text-blue-900 italic font-semibold rounded-r-xl my-4">
+                    "Potensi anak-anak muda ini sangat besar. Dengan bimbingan yang tepat, mereka bisa menjadi beautypreneur sukses." — Afifah Irsha.
+                </blockquote>
+                <p class="mb-4 leading-relaxed text-justify">Kalimat tersebut menjadi salah satu pesan paling menarik dari kegiatan ini. Di tengah perkembangan industri kecantikan yang semakin pesat, keterampilan seperti <em>nail art</em> bukan lagi sekadar hobi, melainkan bisa menjadi profesi yang menjanjikan. Kepala SMAN 1 Muncar, <strong>Heriyanto Nurcahyo</strong>, juga mengapresiasi kolaborasi antara sekolah dan dunia industri dalam Program Double Track. Menurutnya, kegiatan seperti ini tidak hanya mengajarkan keterampilan teknis, tetapi juga membangun rasa percaya diri serta jiwa kewirausahaan para siswa. <em>"Pelatihan nail art ini tidak hanya memberikan keterampilan teknis, tetapi juga menumbuhkan rasa percaya diri dan jiwa kewirausahaan pada siswa-siswi kami,"</em> ujarnya.</p>
+                <p class="mb-4 leading-relaxed text-justify">Kisah para siswi SMAN 1 Muncar ini menunjukkan bahwa masa sekolah adalah waktu yang tepat untuk mengeksplorasi potensi diri. Tidak semua keterampilan harus dipelajari setelah lulus. Justru semakin dini seseorang mengenal minat dan bakatnya, semakin besar peluang untuk berkembang di masa depan. Melalui pelatihan <em>nail art</em>, para siswi belajar tentang ketelitian, kreativitas, pelayanan, hingga peluang usaha. Mereka memahami bahwa sebuah keterampilan kecil bisa menjadi jalan menuju karier yang besar ketika ditekuni dengan serius.</p>
+                <p class="mb-4 leading-relaxed text-justify">Pesan tersebut mengingatkan bahwa kesuksesan tidak selalu dimulai dari sesuatu yang besar. Kadang, langkah awalnya justru dimulai dari keberanian mencoba hal baru, belajar keterampilan baru, dan terus mengasah kemampuan diri. Karena pada akhirnya, masa depan tidak hanya ditentukan oleh nilai rapor, tetapi juga oleh kemampuan, kreativitas, dan keberanian untuk memanfaatkan setiap peluang yang ada. Dan bagi para siswi SMAN 1 Muncar, perjalanan menuju masa depan itu mungkin saja dimulai dari sepasang tangan yang sedang belajar menghias kuku hari ini.</p>`
+            },
+            {
+                id: 'static-4',
+                title: "Dari Iseng Bikin Kado untuk Ayah, Amelia Sukses Raup Jutaan Rupiah dari Bisnis Bucket Kreatif",
+                category: "Kreativitas Produk",
+                author: "Agus Suyatno, S.Kom",
+                image: "images/cerita-amelia-bucket.jpg",
+                excerpt: "BANYUWANGI - Siapa sangka, sebuah hadiah ulang tahun untuk ayah bisa menjadi awal lahirnya usaha bucket kreatif bernilai jutaan rupiah yang dikembangkan oleh Amelia.",
+                content: `<p class="mb-4 leading-relaxed text-justify"><strong>BANYUWANGI</strong> - Siapa sangka, sebuah hadiah ulang tahun untuk ayah bisa menjadi awal lahirnya usaha yang menghasilkan jutaan rupiah? Itulah kisah inspiratif yang dialami <strong>Amelia Tri Lestari</strong>, alumni Program Double Track SMAN 1 Muncar Banyuwangi yang berhasil mengubah hobi dan kreativitasnya menjadi bisnis bucket yang diminati banyak pelanggan.</p>
+                <p class="mb-4 leading-relaxed text-justify">Perjalanan Amelia berawal dari momen sederhana. Saat ingin memberikan kejutan ulang tahun kepada sang ayah, <strong>Kasiyanto</strong>, ia mencoba membuat bucket hadiah dengan tangannya sendiri. Hasilnya ternyata menarik perhatian orang-orang di sekitarnya. Beberapa tetangga yang melihat kreasi tersebut mulai tertarik dan memesan bucket serupa untuk berbagai keperluan. Dari situ Amelia mulai melihat peluang yang sebelumnya tidak pernah ia bayangkan.</p>
+                <p class="mb-4 leading-relaxed text-justify">Berbekal modal dari uang saku Lebaran, Amelia memberanikan diri mengembangkan usaha kecil-kecilan itu. Ia terus belajar, bereksperimen dengan desain baru, dan mengikuti tren yang disukai anak muda. Hasilnya, berbagai produk bucket buatannya mulai dikenal dan diminati pelanggan. Dari bucket bunga bernuansa pastel, bucket berisi aneka camilan, minuman favorit, hingga bucket bertema karakter dan produk perawatan kulit, semuanya dibuat dengan sentuhan kreatif yang khas.</p>
+                <p class="mb-4 leading-relaxed text-justify">Ketekunan itu membuahkan hasil. Kini, Amelia mampu meraih keuntungan sekitar <strong>Rp1,5 juta hingga Rp2,5 juta per bulan</strong> dari usaha yang awalnya hanya berangkat dari sebuah ide sederhana. Kualitas produk yang baik serta desain yang menarik membuat pelanggan merasa puas. Salah satu pelanggan, Dewi, mengaku sering memesan bucket buatan Amelia karena tampilannya berbeda dari yang lain. <em>"Bucket buatan Amelia itu unik dan harganya terjangkau. Saya sering pesan untuk hadiah ulang tahun teman. Pokoknya puas banget!"</em> ujar Dewi.</p>
+                <p class="mb-4 leading-relaxed text-justify">Tak hanya mengandalkan promosi dari mulut ke mulut, Amelia juga aktif memanfaatkan media sosial untuk memperkenalkan produknya. Melalui Instagram, berbagai hasil karyanya dipajang dan berhasil menarik perhatian pelanggan dari berbagai kalangan. <em>"Saya menemukan akun Instagram Amelia secara tidak sengaja. Desain bucketnya itu kekinian banget dan kualitasnya bagus. Saya sering pesan untuk dekorasi acara-acara kecil,"</em> kata Siska, salah satu pelanggan setianya.</p>
+                <p class="mb-4 leading-relaxed text-justify">Di balik kesuksesan tersebut, Amelia tidak melupakan peran keluarga dan pendidikan yang telah membentuknya. Dukungan orang tua menjadi motivasi besar untuk terus berkembang. Sementara itu, Program Double Track yang ia ikuti di SMAN 1 Muncar memberinya bekal keterampilan dan kepercayaan diri untuk mulai berwirausaha. Trainer Double Track SMAN 1 Muncar, <strong>Tri Asiyah</strong>, menilai Amelia sebagai sosok yang mampu mengubah ilmu yang dipelajari menjadi peluang usaha nyata. Keberhasilannya menjadi salah satu contoh bagaimana pendidikan keterampilan dapat membantu generasi muda membangun masa depan sejak dini.</p>
+                <blockquote class="p-4 bg-rose-50 border-l-4 border-rose-600 text-rose-900 italic font-semibold rounded-r-xl my-4">
+                    "Jangan takut memulai dari hal kecil. Terkadang, ide sederhana yang dikerjakan dengan penuh semangat bisa menjadi jalan menuju kesuksesan yang besar."
+                </blockquote>
+                <p class="mb-4 leading-relaxed text-justify">Kisah Amelia mengingatkan kita bahwa tidak semua peluang datang dalam bentuk yang besar dan megah. Kadang, peluang itu hadir lewat hobi, kreativitas, atau bahkan sebuah keisengan yang ditekuni dengan serius. Yang membedakan hanyalah keberanian untuk memulai dan konsistensi untuk terus berkembang. Dari sebuah bucket yang dibuat sebagai hadiah ulang tahun untuk ayah tercinta, Amelia berhasil membangun usaha yang menghasilkan dan menginspirasi banyak orang. Ia membuktikan bahwa usia muda bukan halangan untuk berkarya, dan keterampilan yang diasah dengan tekun bisa menjadi pintu menuju kemandirian. Karena pada akhirnya, kesuksesan bukan selalu tentang siapa yang memiliki modal paling besar, tetapi siapa yang berani mengambil langkah pertama dan tidak berhenti belajar di setiap prosesnya.</p>`
+            },
+            {
+                id: 'static-5',
+                title: "Dari Dapur Rumah ke Kantin Sekolah, Felisa Buktikan Dimsum Bisa Jadi Jalan Meraih Mimpi",
+                category: "Tata Boga Kuliner",
+                author: "Agus Suyatno, S.Kom",
+                image: "images/cerita-felisa-dimsum.jpg",
+                excerpt: "BANYUWANGI - Bagi sebagian siswa, waktu istirahat adalah saat membeli makanan. Namun bagi Felisa, waktu istirahat adalah kesempatan untuk berjualan dimsum olahan mandiri.",
+                content: `<p class="mb-4 leading-relaxed text-justify"><strong>BANYUWANGI</strong> - Bagi sebagian siswa, waktu istirahat adalah saat untuk membeli makanan di kantin. Namun bagi <strong>Felisa</strong>, waktu istirahat justru menjadi kesempatan untuk belajar berwirausaha. Berbekal keterampilan memasak yang diperoleh dari Program Double Track Tata Boga SMAN 1 Muncar, gadis muda ini sukses mengubah hobinya menjadi usaha kuliner yang menghasilkan hingga hampir satu juta rupiah setiap bulan.</p>
+                <p class="mb-4 leading-relaxed text-justify">Perjalanan Felisa dimulai dari dapur sederhana di rumah. Setiap pagi, sebelum aktivitas sekolah dimulai, ia sudah sibuk menyiapkan dimsum buatannya. Dengan penuh ketelitian, ia memilih bahan-bahan terbaik dan mengolahnya menjadi makanan yang lezat. Hasilnya, dimsum racikannya memiliki cita rasa yang khas dan berbeda dari yang lain. Ketika jam istirahat tiba, lapak kecilnya di kantin sekolah selalu ramai. Tak hanya siswa yang menjadi pelanggan setia, para guru pun kerap mampir untuk mencicipi dimsum buatannya. Dari sinilah Felisa belajar bahwa kualitas dan konsistensi adalah kunci untuk menjaga kepercayaan pelanggan.</p>
+                <p class="mb-4 leading-relaxed text-justify">Kesuksesan kecil yang diraihnya hari ini tentu tidak datang begitu saja. Melalui Program Double Track Tata Boga, Felisa mendapatkan banyak bekal penting, mulai dari teknik mengolah makanan, memilih bahan baku yang tepat, hingga memahami dasar-dasar kewirausahaan seperti pemasaran dan manajemen keuangan. Semua ilmu tersebut langsung ia praktikkan dalam usaha yang dijalankannya sehari-hari. Berkat kegigihan dan semangatnya, Felisa kini mampu meraih <strong>omzet sekitar Rp900 ribu hingga Rp1 juta per bulan</strong>. Jumlah tersebut mungkin terlihat sederhana, tetapi memiliki arti yang sangat besar bagi dirinya dan keluarga. Dari hasil usahanya, Felisa bisa membantu memenuhi kebutuhan sehari-hari dan meringankan beban orang tua.</p>
+                <p class="mb-4 leading-relaxed text-justify"><em>"Saya sangat bersyukur bisa membantu orang tua. Dulu, mereka sering kesulitan memenuhi kebutuhan sehari-hari, tapi sekarang sudah jauh lebih baik,"</em> ujar Felisa dengan penuh rasa syukur. Bagi Felisa, kalimat itu bukan sekadar ungkapan rasa terima kasih. Itu adalah bukti bahwa kerja keras dan ketekunan mampu menghadirkan perubahan nyata. Dari usaha yang dimulai dengan skala kecil, ia berhasil memberikan kontribusi bagi keluarganya sekaligus membangun kepercayaan diri sebagai wirausaha muda.</p>
+                <p class="mb-4 leading-relaxed text-justify">Sang ibu, <strong>Rina</strong>, mengaku bangga melihat perkembangan putrinya. Ia tidak pernah menyangka bahwa kegemaran memasak yang selama ini ditekuninya mampu berkembang menjadi usaha yang menjanjikan. <em>"Felisa anak yang mandiri dan pekerja keras. Saya tidak menyangka bahwa hobi membuat kue bisa menjadi sumber penghasilan yang cukup menjanjikan. Saya sangat bersyukur atas keberhasilannya,"</em> ujar Rina. Keberhasilan Felisa juga mendapat apresiasi dari pihak sekolah. SMAN 1 Muncar menilai kisah Felisa sebagai salah satu bukti nyata bahwa Program Double Track mampu melahirkan generasi muda yang kreatif, produktif, dan siap menghadapi dunia kerja maupun dunia usaha.</p>
+                <p class="mb-4 leading-relaxed text-justify">Ada banyak pelajaran yang bisa dipetik dari perjalanan Felisa. Ia mengajarkan bahwa kesuksesan tidak selalu dimulai dari tempat yang besar. Kadang, langkah pertama justru lahir dari ruang yang sederhana, seperti dapur rumah atau kantin sekolah. Felisa tidak menunggu modal besar. Ia tidak menunggu kesempatan sempurna. Ia memulai dengan apa yang dimiliki, memanfaatkan keterampilan yang dipelajari di sekolah, lalu menjalankannya dengan penuh kesungguhan. Ketika banyak anak seusianya masih mencari pengalaman, Felisa sudah belajar memahami pelanggan, mengelola keuangan, dan membangun usaha sendiri.</p>
+                <blockquote class="p-4 bg-emerald-50 border-l-4 border-emerald-600 text-emerald-900 italic font-semibold rounded-r-xl my-4">
+                    "Jangan pernah meremehkan kemampuan yang kamu miliki. Jika ditekuni dengan serius, keterampilan sederhana pun bisa menjadi jalan untuk meraih impian dan membantu orang-orang yang kita cintai."
+                </blockquote>
+                <p class="mb-4 leading-relaxed text-justify">Perjalanan Felisa membuktikan bahwa mimpi besar tidak harus dimulai dari sesuatu yang besar. Dengan kemauan belajar, keberanian mencoba, dan konsistensi untuk terus berkembang, peluang bisa datang dari mana saja, bahkan dari satu kotak dimsum yang dijual di kantin sekolah.</p>`
+            },
+            {
+                id: 'static-6',
+                title: "Saat Generasi Z Belajar Tradisi: Kisah Siswi SMAN 1 Muncar Menjaga Warisan Jawa Lewat Seni Mewiru Kain Jarit",
+                category: "Pelestarian Budaya",
+                author: "Agus Suyatno, S.Kom",
+                image: "images/cerita-mewiru-jarit.jpg",
+                excerpt: "BANYUWANGI - Di tengah tren digital dan konten viral, sekelompok siswi SMAN 1 Muncar justru antusias belajar mewiru kain jarit, tradisi pelipatan kain adat Jawa.",
+                content: `<p class="mb-4 leading-relaxed text-justify"><strong>BANYUWANGI</strong> - Di tengah tren digital, media sosial, dan berbagai budaya modern yang begitu dekat dengan kehidupan remaja, sekelompok siswi SMAN 1 Muncar justru memilih cara berbeda untuk mengisi waktu belajar mereka. Bukan membuat konten viral atau mengikuti tren terbaru, mereka dengan antusias belajar mewiru kain jarit, sebuah keterampilan tradisional Jawa yang kini mulai jarang dikenal oleh generasi muda. Melalui Program Double Track Tata Rias Pengantin Berhijab, para siswi diajak mengenal lebih dekat salah satu bagian penting dalam budaya Jawa.</p>
+                <p class="mb-4 leading-relaxed text-justify">Bagi sebagian orang, mewiru mungkin terdengar sederhana. Namun di balik lipatan-lipatan kain jarit yang tampak rapi dan indah, tersimpan nilai budaya, filosofi, serta pelajaran hidup yang tak lekang oleh waktu. Mewiru adalah teknik melipat bagian tepi kain jarit secara vertikal hingga membentuk pola tertentu. Teknik ini banyak digunakan dalam busana adat Jawa, khususnya pada kain batik dan lurik. Dalam pelatihan tersebut, para siswa mempelajari teknik mewiru gaya Solo dan Yogyakarta yang membutuhkan ketelitian dan kesabaran tinggi.</p>
+                <p class="mb-4 leading-relaxed text-justify">Suasana pelatihan berlangsung hangat dan penuh semangat. Di hadapan selembar kain batik, para siswi tampak serius mengikuti arahan trainer. Mereka belajar menentukan bagian kain yang akan dilipat, mengatur ukuran setiap lipatan, hingga memastikan hasil akhirnya terlihat rapi dan simetris. Meski terlihat mudah, ternyata mewiru membutuhkan ketelatenan yang tidak sedikit.</p>
+                <p class="mb-4 leading-relaxed text-justify">Salah satu peserta yang merasakan pengalaman tersebut adalah <strong>Wiji Amelia Putri</strong>, Ketua Kelompok Usaha Siswa (KUS) Beauty Lock. Ia mengaku sempat kesulitan saat pertama kali mencoba teknik mewiru. Namun setelah beberapa kali latihan, ia mulai menikmati prosesnya. <em>"Awalnya, saya merasa agak kesulitan. Tapi, setelah mencoba beberapa kali, saya mulai menemukan kesenangannya. Rasanya seperti sedang bercerita melalui lipatan kain. Saya ingin sekali membuatkan kain jarit hasil wiruan saya untuk ibu,"</em> ujar Amelia. Bagi Amelia, pengalaman ini lebih dari sekadar belajar keterampilan baru. Ia merasa setiap lipatan kain memiliki cerita tersendiri. Bahkan, muncul keinginannya untuk mempersembahkan hasil karyanya kepada sang ibu sebagai bentuk kasih sayang sekaligus penghormatan terhadap budaya yang diwariskan turun-temurun.</p>
+                <p class="mb-4 leading-relaxed text-justify">Pelatihan ini juga mendapat dukungan penuh dari para guru. Salah satunya datang dari <strong>Parwati</strong>, guru SMAN 1 Muncar yang rela meminjamkan kain jarit warisan keluarganya untuk digunakan dalam kegiatan tersebut. <em>"Sebagai orang Jawa, saya sangat terikat dengan tradisi mewiru. Kain jarit yang saya pinjamkan ini adalah warisan dari nenek saya,"</em> tutur Parwati. Baginya, melestarikan budaya tidak cukup hanya dengan bercerita. Generasi muda perlu diberi kesempatan untuk merasakan langsung prosesnya agar tumbuh rasa cinta terhadap warisan leluhur. Karena itulah, ia merasa bangga melihat para siswa begitu antusias mempelajari keterampilan yang selama ini identik dengan generasi terdahulu.</p>
+                <p class="mb-4 leading-relaxed text-justify">Di balik kegiatan sederhana tersebut, sebenarnya ada tujuan yang lebih besar. Program Double Track tidak hanya membekali siswa dengan keterampilan praktis yang relevan dengan dunia kerja, tetapi juga mengajarkan pentingnya menjaga identitas budaya di tengah perkembangan zaman. Melalui kegiatan mewiru, para siswa belajar tentang ketelitian, kesabaran, konsistensi, dan rasa hormat terhadap tradisi.</p>
+                <p class="mb-4 leading-relaxed text-justify">Ada hal menarik yang bisa dipetik dari kegiatan ini. Mewiru mengajarkan bahwa sesuatu yang indah membutuhkan proses. Setiap lipatan harus dibuat dengan hati-hati. Jika tergesa-gesa, hasilnya tidak akan rapi. Filosofi itu ternyata sangat relevan dengan kehidupan sehari-hari. Tidak ada kesuksesan yang datang secara instan. Semua membutuhkan proses, latihan, dan kesabaran, sama seperti saat menyusun lipatan-lipatan pada kain jarit. Para siswa belajar bahwa hasil terbaik lahir dari ketekunan dan kesungguhan dalam menjalani setiap tahapan.</p>
+                <blockquote class="p-4 bg-amber-50 border-l-4 border-amber-600 text-amber-900 italic font-semibold rounded-r-xl my-4">
+                    "Sebagai orang Jawa, saya sangat terikat dengan tradisi mewiru." — Parwati.
+                </blockquote>
+                <p class="mb-4 leading-relaxed text-justify">Kalimat sederhana tersebut mengingatkan bahwa budaya bukan sekadar peninggalan masa lalu, melainkan identitas yang harus dijaga agar tetap hidup di tengah perubahan zaman. Kisah para siswi SMAN 1 Muncar membuktikan bahwa menjadi modern tidak berarti melupakan akar budaya sendiri. Justru generasi muda yang memahami sejarah dan tradisinya akan memiliki identitas yang lebih kuat dalam menghadapi masa depan. Di tengah dunia yang bergerak semakin cepat, mereka memilih berhenti sejenak untuk belajar dari warisan leluhur. Dari selembar kain jarit, mereka belajar tentang kesabaran. Dari setiap lipatan, mereka belajar tentang ketelitian. Dan dari proses melestarikan budaya, mereka belajar tentang pentingnya menjaga jati diri.</p>
+                <p class="mb-4 leading-relaxed text-justify">Karena pada akhirnya, masa depan yang kuat tidak hanya dibangun oleh teknologi dan ilmu pengetahuan, tetapi juga oleh mereka yang memahami dan menghargai warisan budayanya. Seperti lipatan-lipatan jarit yang tersusun rapi, masa depan yang baik pun dibangun dari proses yang sabar, teliti, dan penuh makna.</p>`
+            },
+            {
+                id: 'static-7',
+                title: "Berburu Berkah Ramadan: Belajar Kewirausahaan Lewat Kreasi Hampers Murah Mewah",
+                category: "Kewirausahaan Ramadan",
+                author: "Agus Suyatno, S.Kom",
+                image: "images/cerita-hampers-ramadan.jpg",
+                excerpt: "BANYUWANGI - Ramadan menjadi ruang belajar berharga bagi siswa SMA Double Track SMAN 1 Muncar. Lewat Festival Ramadan, mereka ditantang mengolah modal Rp50 ribu menjadi hampers bernilai jual Rp70 ribu.",
+                content: `<p class="mb-4 leading-relaxed text-justify"><strong>BANYUWANGI</strong> - Ramadan selalu punya cerita tersendiri. Bagi sebagian orang, momen ini identik dengan berburu hampers untuk keluarga, sahabat, atau rekan kerja. Namun bagi siswa Program SMA Double Track SMAN 1 Muncar, Ramadan tahun ini menjadi ruang belajar yang berbeda. Mereka tidak hanya menjadi pembeli, tetapi justru belajar menjadi pencipta produk yang memiliki nilai jual.</p>
+                <p class="mb-4 leading-relaxed text-justify">Di ruang praktik sekolah, suasana tampak lebih hidup dari biasanya. Beberapa siswa sibuk menyusun isi hampers, sebagian lainnya memotong pita dekorasi, sementara yang lain berdiskusi menentukan tata letak produk agar terlihat menarik. Sesekali terdengar canda ringan di sela pekerjaan. Meski santai, setiap siswa memahami bahwa mereka sedang mengerjakan sesuatu yang lebih besar dari sekadar tugas sekolah.</p>
+                <p class="mb-4 leading-relaxed text-justify">Melalui Festival Ramadan, para siswa ditantang membuat hampers dengan <strong>modal produksi hanya Rp50 ribu</strong>. Tantangannya bukan sekadar menghasilkan produk yang bagus, tetapi bagaimana membuatnya tetap terlihat eksklusif dan layak dijual dengan <strong>harga Rp70 ribu</strong>. Bagi sebagian orang, selisih keuntungan tersebut mungkin terlihat sederhana. Namun bagi para siswa, proses di baliknya menghadirkan pelajaran yang sangat berharga. Mereka belajar menghitung biaya produksi, memilih bahan yang tepat, menentukan harga jual, hingga memahami bagaimana sebuah produk dapat memiliki nilai lebih ketika dikemas dengan kreatif.</p>
+                <p class="mb-4 leading-relaxed text-justify">Yang menarik, keterbatasan modal justru melahirkan banyak ide segar. Besek bambu yang sederhana diubah menjadi kemasan elegan. Pita dekoratif yang murah disusun sedemikian rupa sehingga memberi kesan premium. Semua dilakukan dengan satu tujuan: membuat produk tampil menarik tanpa membuat biaya membengkak.</p>
+                <p class="mb-4 leading-relaxed text-justify">Trainer Program Double Track, <strong>Fepti Arum Sari</strong>, melihat proses itu sebagai pembelajaran kewirausahaan yang sangat nyata.</p>
+                <blockquote class="p-4 bg-emerald-50 border-l-4 border-emerald-600 text-emerald-900 italic font-semibold rounded-r-xl my-4">
+                    "Kunci dari proyek ini adalah bagaimana siswa bisa menekan biaya produksi tanpa membuat barang terlihat murahan, sehingga penggunaan material seperti besek bambu dan pita dekoratif menjadi solusi estetika yang sangat hemat biaya," — Fepti Arum Sari.
+                </blockquote>
+                <p class="mb-4 leading-relaxed text-justify">Pernyataan tersebut menjadi gambaran bagaimana kreativitas sebenarnya bekerja. Bukan tentang seberapa besar modal yang dimiliki, melainkan bagaimana memaksimalkan apa yang ada untuk menghasilkan sesuatu yang bernilai lebih.</p>
+                <p class="mb-4 leading-relaxed text-justify">Kepala SMAN 1 Muncar, <strong>Rina Kartika</strong>, menyebut proyek hampers Ramadan ini sebagai simulasi nyata dunia kerja. Menurutnya, siswa perlu merasakan langsung bagaimana proses bisnis berjalan, mulai dari merancang produk hingga menghitung keuntungan.</p>
+                <blockquote class="p-4 bg-blue-50 border-l-4 border-blue-600 text-blue-900 italic font-semibold rounded-r-xl my-4">
+                    "Kami ingin menanamkan jiwa kewirausahaan yang tangguh kepada anak-anak, di mana mereka tidak hanya belajar teori di kelas tetapi langsung praktik mengelola modal kecil menjadi keuntungan yang nyata tanpa mengurangi kualitas produk," — Rina Kartika.
+                </blockquote>
+                <p class="mb-4 leading-relaxed text-justify">Pendekatan seperti ini membuat pembelajaran terasa lebih dekat dengan kehidupan nyata. Para siswa tidak hanya menerima teori tentang kewirausahaan, tetapi benar-benar mempraktikkan cara berpikir seorang pelaku usaha. Mereka belajar bahwa sebuah peluang sering kali lahir dari kemampuan melihat kebutuhan pasar dan keberanian untuk mencoba.</p>
+                <p class="mb-4 leading-relaxed text-justify">Menjelang Hari Raya, kebutuhan hampers memang meningkat. Momentum itu dibaca dengan baik oleh para siswa. Mereka memahami bahwa produk yang relevan dengan kebutuhan masyarakat memiliki peluang lebih besar untuk diterima pasar. Dari sinilah mereka mulai belajar membaca tren dan memahami perilaku konsumen secara sederhana.</p>
+                <p class="mb-4 leading-relaxed text-justify">Meski proyek ini berlangsung dalam lingkungan sekolah, manfaatnya jauh lebih luas. Siswa belajar bekerja sama dalam tim, mengelola waktu produksi, menyelesaikan masalah saat proses pembuatan, hingga melatih kepercayaan diri saat menawarkan produk kepada calon pembeli. Keterampilan seperti ini menjadi bekal penting ketika mereka memasuki dunia kerja maupun membangun usaha sendiri di masa depan.</p>
+                <p class="mb-4 leading-relaxed text-justify">Yang paling berharga, para siswa mulai menyadari bahwa sukses tidak selalu dimulai dengan modal besar. Kadang, langkah pertama hanya membutuhkan keberanian untuk mencoba dan kemauan untuk belajar. Dari sebuah hampers Ramadan, mereka belajar tentang kreativitas. Dari modal Rp50 ribu, mereka belajar tentang nilai ekonomi. Dan dari proses yang mereka jalani bersama, mereka belajar tentang masa depan.</p>
+                <p class="mb-4 leading-relaxed text-justify">Inilah kekuatan Program SMA Double Track. Program ini bukan hanya mengajarkan keterampilan teknis, tetapi juga menumbuhkan pola pikir mandiri, kreatif, dan berani mengambil peluang. Dari ruang praktik sekolah, siswa belajar bahwa masa depan tidak harus ditunggu, melainkan bisa mulai dibangun hari ini. Dengan keterampilan, pengalaman, dan semangat berwirausaha yang terus diasah, Program SMA Double Track menjadi jembatan yang menghubungkan siswa menuju kemandirian, dunia kerja, bahkan lahirnya wirausaha muda yang siap menciptakan peluang bagi dirinya dan lingkungan sekitarnya.</p>`
+            }
+        ];
+
+        async function fetchArticles() {
+            const grid = document.getElementById('articles-grid');
+            const modals = document.getElementById('modals-container');
+            const loading = document.getElementById('loading');
+            
+            let allArticles = [...staticArticles];
+
+            try {
+                // Fetch dynamic articles from GitHub API
+                const repo = 'dtsman1muncar/web';
+                const response = await fetch(`https://api.github.com/repos/${repo}/contents/content/cerita`);
+                
+                if (response.ok) {
+                    const files = await response.json();
+                    for (let file of files) {
+                        if (file.name.endsWith('.json')) {
+                            const resData = await fetch(file.download_url);
+                            if (resData.ok) {
+                                const articleData = await resData.json();
+                                articleData.id = 'dyn-' + file.name.replace('.json', '');
+                                allArticles.unshift(articleData); // Tampilkan artikel baru di urutan paling atas
+                            }
+                        }
+                    }
+                }
+            } catch (err) {
+                console.log("Menggunakan artikel default statis.", err);
+            } finally {
+                loading.classList.add('hidden');
+                grid.innerHTML = '';
+                modals.innerHTML = '';
+
+                allArticles.forEach(art => {
+                    const artImg = art.image || art.thumbnail || 'images/gambardepan.jpg';
+                    const artContent = formatParagraphs(art.content || art.body || art.excerpt);
+
+                    // Render Card
+                    grid.innerHTML += `
+                        <article class="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition group flex flex-col justify-between">
+                            <div>
+                                <div class="relative h-56 overflow-hidden">
+                                    <img src="${artImg}" alt="${art.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                    <span class="absolute top-3 left-3 bg-blue-600 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase">${art.category || 'Berita DT'}</span>
+                                </div>
+                                <div class="p-6 space-y-3">
+                                    <div class="flex items-center justify-between text-xs text-slate-400">
+                                        <span><i class="fa-regular fa-user text-blue-500 mr-1"></i> ${art.author || 'Agus Suyatno, S.Kom'}</span>
+                                        <span><i class="fa-regular fa-building text-emerald-500 mr-1"></i> SMAN 1 Muncar</span>
+                                    </div>
+                                    <h3 class="font-bold text-slate-900 text-lg group-hover:text-blue-600 transition leading-snug">
+                                        ${art.title}
+                                    </h3>
+                                    <p class="text-xs text-slate-600 leading-relaxed line-clamp-3">
+                                        ${art.excerpt || ''}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="p-6 pt-0">
+                                <button onclick="toggleModal('modal-${art.id}')" class="text-xs font-bold text-blue-600 flex items-center gap-1 group-hover:gap-2 transition cursor-pointer">
+                                    Baca Kisah Lengkap <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </article>
+                    `;
+
+                    // Render Dynamic Modal Pop-up (Tampilan Rapi & Berparagraf)
+                    modals.innerHTML += `
+                        <div id="modal-${art.id}" class="fixed inset-0 z-50 hidden bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+                            <div class="bg-white max-w-3xl w-full rounded-3xl p-6 sm:p-8 space-y-4 max-h-[90vh] overflow-y-auto relative shadow-2xl my-auto">
+                                <button onclick="toggleModal('modal-${art.id}')" class="absolute top-6 right-6 text-slate-400 hover:text-slate-700 text-xl font-bold p-2 z-10">✕</button>
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">${art.category || 'Berita DT'}</span>
+                                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 leading-snug">${art.title}</h2>
+                                <p class="text-xs text-slate-400 border-b border-slate-100 pb-3">Oleh: ${art.author || 'Agus Suyatno, S.Kom'} | SMAN 1 Muncar</p>
+                                <img src="${artImg}" alt="${art.title}" class="w-full h-64 sm:h-80 object-cover rounded-2xl shadow-sm">
+                                <div class="text-xs sm:text-sm text-slate-600 leading-relaxed pt-2">
+                                    ${artContent}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        fetchArticles();
+    </script>
+</body>
+</html>
